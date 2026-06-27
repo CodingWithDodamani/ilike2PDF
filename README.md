@@ -81,12 +81,26 @@ curl http://localhost:3000       # smoke test
 - **OCR** for scanned/image-only PDFs is not included (PDF→Text extracts embedded text only).
 - No multi-language UI (English only at launch).
 
+## Branding & Identity
+SnapPDF utilizes a custom-designed **Flat Minimalist Aperture** brand logo. The icon represents a PDF document sheet integrated with a camera lens aperture to highlight the "instant snap" capability of client-side offline processing. 
+
+Brand assets are generated programmatically using:
+```bash
+npm run generate-assets
+```
+This reads the approved flat logo file (`/public/snappdf_logo_flat_1782547779742.png`) and regenerates:
+- Web Tab Favicon (`favicon.svg`) with embedded base64 source vector.
+- PWA App Icons (`icon-192.png`, `icon-512.png`, `icon-512-maskable.png`).
+- Apple touch icons (`apple-touch-icon.png`).
+- OpenGraph preview cards (`og-image.png`) composited onto the dark mesh layout.
+
 ## Recommended Next Steps
-1. Add a Tesseract.js-based OCR tool for image-only PDFs (lazy-loaded to keep bundle small).
+1. Add a Tesseract.js-based OCR tool for image-only PDFs (lazy-loaded to keep bundle size small).
 2. Replace chroma-key Remove Background with a WASM ML model (e.g. MODNet) behind an opt-in download.
-3. Add a `sitemap.xml` generator and per-route meta tags for SEO.
-4. Add E2E smoke tests (Playwright) per tool category.
-5. Wire a real GitHub repository URL into the footer/contact links.
+3. Add E2E smoke tests (Playwright) per tool category.
+
+## GitHub Repository
+- **Remote**: [CodingWithDodamani/SnapPDF](https://github.com/CodingWithDodamani/SnapPDF.git)
 
 ## Last Updated
 June 2026
