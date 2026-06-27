@@ -1,5 +1,5 @@
-import { useMemo, useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import {
@@ -9,62 +9,11 @@ import {
 } from 'lucide-react'
 import { CATEGORY_META, popularTools, toolsByCategory } from '@/lib/tools'
 import { ToolCard } from '@/components/ToolCard'
-import { Dropzone } from '@/components/Dropzone'
-import { detectBestTools } from '@/lib/router'
-import { useToast } from '@/components/Toaster'
 
 const HOSTNAME = 'https://snappdf.pages.dev'
 
-function AnimatedCounter({ target, suffix = '', duration = 1.5 }: { target: number; suffix?: string; duration?: number }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const started = useRef(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !started.current) {
-        started.current = true
-        const start = performance.now()
-        const step = (now: number) => {
-          const p = Math.min((now - start) / (duration * 1000), 1)
-          const eased = 1 - Math.pow(1 - p, 3)
-          setCount(Math.round(eased * target))
-          if (p < 1) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
-      }
-    }, { threshold: 0.5 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [target, duration])
-
-  return <span ref={ref} className="tabular-nums">{count}{suffix}</span>
-}
-
 export default function Home() {
-  const navigate = useNavigate()
-  const toast = useToast()
-  const [routing, setRouting] = useState(false)
   const popular = useMemo(() => popularTools(), [])
-
-  const onQuickFile = async (files: File[]) => {
-    setRouting(true)
-    try {
-      const suggestions = await detectBestTools(files[0])
-      if (suggestions.length) {
-        toast.info(`Detected ${suggestions[0].reason}. Opening ${suggestions[0].tool.name}.`)
-        navigate(`/tool/${suggestions[0].tool.slug}`, { state: { droppedFile: files[0] } })
-      } else {
-        toast.error('Could not detect a suitable tool for this file.')
-      }
-    } catch {
-      toast.error('Failed to analyze file.')
-    } finally {
-      setRouting(false)
-    }
-  }
 
   const description = 'Merge, split, compress and convert PDFs & images, generate QR codes — 40+ free, private, browser-based tools. No uploads, no tracking, works offline.'
 
@@ -115,60 +64,40 @@ export default function Home() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="text-ink-700 dark:text-ink-200">40+ premium tools · 100% in your browser</span>
+              <span className="text-ink-700 dark:text-ink-200">No sign-up · No subscription · No catch</span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
               className="font-display text-[clamp(1.5rem,5vw,3.25rem)] leading-[1.05] sm:text-5xl lg:text-[3.25rem] font-extrabold tracking-tightest text-balance"
             >
-              Every document tool,
+              All the PDF essentials.
               <br className="hidden sm:block" />
-              <span className="gradient-text">beautifully private.</span>
+              <span className="gradient-text">One place. Zero cost.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               className="max-w-xl mx-auto lg:mx-0 mt-4 text-base leading-relaxed text-ink-600 dark:text-ink-300"
             >
-              Merge, split, compress and convert PDFs &amp; images, generate QR codes and more —
-              crafted to run entirely on your device. Nothing is ever uploaded.
+              Merge, split, compress, convert, sign — right in your browser. No sign-up. No subscription. No catch. Just free tools that actually work.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-7"
             >
-              <a href="#tools" className="btn-primary btn-lg">Explore all tools <ArrowRight className="h-5 w-5" /></a>
+              <a href="#tools" className="btn-primary btn-lg">Explore tools <ArrowRight className="h-5 w-5" /></a>
               <Link to="/tool/merge-pdf" className="btn-secondary btn-lg">Merge a PDF</Link>
             </motion.div>
 
-            {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-8 mt-7"
-            >
-              {[
-                { n: 40, s: '+', label: 'Tools' },
-                { n: 100, s: '%', label: 'Private' },
-                { n: 0, s: '', label: 'Uploads' },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center lg:text-left">
-                  <p className="font-display text-2xl sm:text-3xl font-extrabold gradient-text">
-                    <AnimatedCounter target={stat.n} suffix={stat.s} />
-                  </p>
-                  <p className="text-xs font-medium text-ink-500 dark:text-ink-400 mt-0.5">{stat.label}</p>
-                </div>
-              ))}
-            </motion.div>
-
             <motion.ul
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 mt-5 text-sm font-medium text-ink-500 dark:text-ink-400"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 mt-6 text-sm font-medium text-ink-500 dark:text-ink-400"
             >
-              <li className="inline-flex items-center gap-1.5"><Shield className="h-4 w-4 text-emerald-500" /> No uploads</li>
-              <li className="inline-flex items-center gap-1.5"><WifiOff className="h-4 w-4 text-brand-500" /> Works offline</li>
-              <li className="inline-flex items-center gap-1.5"><Lock className="h-4 w-4 text-accent-500" /> No sign-up</li>
+              <li className="inline-flex items-center gap-1.5 list-none"><Shield className="h-4 w-4 text-emerald-500" /> No uploads</li>
+              <li className="inline-flex items-center gap-1.5 list-none"><WifiOff className="h-4 w-4 text-brand-500" /> Works offline</li>
+              <li className="inline-flex items-center gap-1.5 list-none"><Lock className="h-4 w-4 text-accent-500" /> No sign-up</li>
             </motion.ul>
           </div>
 
@@ -178,24 +107,6 @@ export default function Home() {
             className="relative hidden lg:block"
           >
             <HeroArt />
-          </motion.div>
-        </div>
-
-        {/* Quick-action zone */}
-        <div className="relative section pb-4 sm:pb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            className="max-w-3xl mx-auto gradient-ring"
-          >
-            <div className="card !rounded-3xl p-2.5 shadow-glow">
-              <Dropzone
-                accept={['*/*']}
-                onFiles={onQuickFile}
-                compact
-                label={routing ? 'Analyzing file…' : 'Drop any file — we’ll suggest the perfect tool'}
-                hint="PDFs, images & more · detected instantly, on your device"
-              />
-            </div>
           </motion.div>
         </div>
       </section>
