@@ -57,7 +57,7 @@ export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact
         className={cn(
           'group w-full rounded-3xl border-2 border-dashed transition-all duration-200 text-center cursor-pointer',
           'border-ink-300 dark:border-ink-700 hover:border-brand-400 dark:hover:border-brand-500',
-          compact ? 'p-6' : 'p-10 sm:p-14',
+          compact ? 'p-6' : 'p-6 sm:p-8',
           dragging && 'dropzone-active'
         )}
         aria-describedby={`${id}-hint`}
@@ -65,15 +65,15 @@ export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact
         <div className="flex flex-col items-center gap-3">
           <div className={cn(
             'grid place-items-center rounded-2xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-brand-500 transition-transform group-hover:scale-110',
-            compact ? 'h-12 w-12' : 'h-16 w-16'
+            compact ? 'h-12 w-12' : 'h-12 w-12'
           )}>
-            {icon ?? <UploadCloud className={compact ? 'h-6 w-6' : 'h-8 w-8'} />}
+            {icon ?? <UploadCloud className={            compact ? 'h-6 w-6' : 'h-6 w-6'} />}
           </div>
           <div>
-            <p className={cn('font-semibold text-ink-800 dark:text-ink-100', compact ? 'text-base' : 'text-lg')}>
+            <p className={cn('font-semibold text-ink-800 dark:text-ink-100', compact ? 'text-sm' : 'text-sm')}>
               {label ?? 'Drop files here or click to browse'}
             </p>
-            <p id={`${id}-hint`} className="text-sm text-ink-500 dark:text-ink-400 mt-1">
+            <p id={`${id}-hint`} className="text-xs text-ink-500 dark:text-ink-400 mt-0.5">
               {hint ?? (multiple ? 'You can select multiple files' : 'Select a file')}
             </p>
           </div>

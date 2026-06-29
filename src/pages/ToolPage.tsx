@@ -6,7 +6,7 @@ import { TOOL_COMPONENTS } from '@/tools/registry'
 import { ToolShell } from '@/components/ToolShell'
 import { Spinner } from '@/components/ui'
 
-const HOSTNAME = 'https://snappdf.pages.dev'
+const HOSTNAME = 'https://ilikepdf.pages.dev'
 
 export default function ToolPage() {
   const { slug } = useParams()
@@ -14,8 +14,8 @@ export default function ToolPage() {
   const Comp = slug ? TOOL_COMPONENTS[slug] : undefined
 
   useEffect(() => {
-    if (tool) document.title = `${tool.name} — SnapPDF`
-    return () => { document.title = 'SnapPDF — Private Document Tools' }
+    if (tool) document.title = `${tool.name} — iLikePDF`
+    return () => { document.title = 'iLikePDF — Private Document Tools' }
   }, [tool])
 
   if (!tool || !Comp) return <Navigate to="/404" replace />
@@ -26,18 +26,18 @@ export default function ToolPage() {
   return (
     <>
       <Helmet>
-        <title>{tool.name} — SnapPDF</title>
+        <title>{tool.name} — iLikePDF</title>
         <meta name="description" content={description} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={url} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${tool.name} — SnapPDF`} />
+        <meta property="og:title" content={`${tool.name} — iLikePDF`} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={url} />
-        <meta property="og:site_name" content="SnapPDF" />
+        <meta property="og:site_name" content="iLikePDF" />
         <meta property="og:image" content={`${HOSTNAME}/og-image.png`} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${tool.name} — SnapPDF`} />
+        <meta name="twitter:title" content={`${tool.name} — iLikePDF`} />
         <meta name="twitter:description" content={description} />
       </Helmet>
       <ToolShell tool={tool}>

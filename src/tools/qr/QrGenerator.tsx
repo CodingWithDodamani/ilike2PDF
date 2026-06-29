@@ -13,7 +13,7 @@ const TYPES: QrType[] = ['text', 'url', 'wifi', 'vcard', 'email', 'phone', 'sms'
 export default function QrGenerator() {
   const toast = useToast()
   const [type, setType] = useState<QrType>('url')
-  const [fields, setFields] = useState<Record<string, string>>({ url: 'https://snappdf.app' })
+  const [fields, setFields] = useState<Record<string, string>>({ url: 'https://ilikepdf.app' })
   const [fg, setFg] = useState('#0b0b14')
   const [bg, setBg] = useState('#ffffff')
   const [ecc, setEcc] = useState<'L' | 'M' | 'Q' | 'H'>('M')

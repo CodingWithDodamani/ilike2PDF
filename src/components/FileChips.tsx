@@ -1,5 +1,7 @@
+import { useRef } from 'react'
 import { GripVertical, X, FileText } from 'lucide-react'
 import { formatBytes } from '@/lib/utils'
+import { useTouchDnd } from '@/hooks/useTouchDnd'
 
 interface Props {
   files: File[]
@@ -9,11 +11,14 @@ interface Props {
 }
 
 export function FileChips({ files, onRemove, onReorder, thumbs }: Props) {
+  const touch = useTouchDnd({ onReorder: onReorder ?? (() => {}) })
+
   return (
     <ul className="grid gap-2">
       {files.map((f, i) => (
         <li
           key={`${f.name}-${i}`}
+          ref={el => touch.register(i, el)}
           draggable={!!onReorder}
           onDragStart={(e) => e.dataTransfer.setData('text/plain', String(i))}
           onDragOver={(e) => e.preventDefault()}
@@ -25,7 +30,11 @@ export function FileChips({ files, onRemove, onReorder, thumbs }: Props) {
             if (Number.isNaN(from) || from === i) return
             onReorder(from, i)
           }}
-          className="flex items-center gap-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-850 px-3 py-2"
+          onTouchStart={onReorder ? e => touch.onTouchStart(i, e) : undefined}
+          onTouchMove={onReorder ? e => touch.onTouchMove(i, e) : undefined}
+          onTouchEnd={onReorder ? e => touch.onTouchEnd(i, e) : undefined}
+          className="flex items-center gap-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-white dark:bg-ink-850 px-3 py-2 select-none"
+          style={touch.dragging === i ? { opacity: 0.5, transform: 'scale(0.97)' } : touch.over === i ? { borderColor: 'rgb(225 29 72 / 0.6)' } : undefined}
         >
           {onReorder && <GripVertical className="h-4 w-4 text-ink-400 cursor-grab shrink-0" />}
           {thumbs?.[i] ? (

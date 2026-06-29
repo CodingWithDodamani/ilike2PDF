@@ -29,6 +29,7 @@ export default defineConfig({
             if (id.includes('framer-motion')) return 'motion'
             if (id.includes('react-markdown') || id.includes('remark') || id.includes('micromark') || id.includes('mdast') || id.includes('hast')) return 'markdown'
             if (id.includes('qrcode') || id.includes('jsqr')) return 'qr'
+            if (id.includes('kokoro-js') || id.includes('onnxruntime') || id.includes('transformers')) return 'kokoro'
             if (id.includes('jszip')) return 'jszip'
             if (id.includes('react-router')) return 'router'
             if (id.includes('react') || id.includes('scheduler')) return 'react'
@@ -43,7 +44,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,wasm}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/api/],
@@ -57,8 +58,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'SnapPDF — Private Document Tools',
-        short_name: 'SnapPDF',
+        name: 'iLikePDF — Private Document Tools',
+        short_name: 'iLikePDF',
         description: 'Free client-side PDF, image & QR tools. Zero uploads, 100% private, works offline.',
         theme_color: '#e11d48',
         background_color: '#0b0b14',

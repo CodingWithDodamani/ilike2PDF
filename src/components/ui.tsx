@@ -9,7 +9,7 @@ export function Spinner({ className }: { className?: string }) {
 }
 
 export function Section({ children, className }: { children: ReactNode; className?: string }) {
-  return <section className={cn('card p-5 sm:p-6', className)}>{children}</section>
+  return <section className={cn('card p-4 sm:p-5', className)}>{children}</section>
 }
 
 export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
@@ -25,7 +25,7 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
 
 export function Progress({ value }: { value: number }) {
   return (
-    <div className="h-2 w-full rounded-full bg-ink-200 dark:bg-ink-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(value)} aria-valuemin={0} aria-valuemax={100}>
+    <div className="h-1.5 w-full rounded-full bg-ink-200 dark:bg-ink-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(value)} aria-valuemin={0} aria-valuemax={100}>
       <motion.div
         className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-400"
         initial={{ width: 0 }}
@@ -38,10 +38,10 @@ export function Progress({ value }: { value: number }) {
 
 export function Stat({ label, value, sub }: { label: string; value: ReactNode; sub?: string }) {
   return (
-    <div className="card p-4">
-      <p className="text-xs uppercase tracking-wide text-ink-500 dark:text-ink-400">{label}</p>
-      <p className="text-2xl font-bold mt-1 gradient-text">{value}</p>
-      {sub && <p className="text-xs text-ink-500 dark:text-ink-400 mt-0.5">{sub}</p>}
+    <div className="card p-3">
+      <p className="text-[11px] uppercase tracking-wide text-ink-500 dark:text-ink-400">{label}</p>
+      <p className="text-xl font-bold mt-0.5 gradient-text">{value}</p>
+      {sub && <p className="text-[11px] text-ink-500 dark:text-ink-400 mt-0.5">{sub}</p>}
     </div>
   )
 }
@@ -58,7 +58,7 @@ export function Segmented<T extends string>({
           aria-selected={value === o.value}
           onClick={() => onChange(o.value)}
           className={cn(
-            'px-3 py-2.5 rounded-lg text-sm font-medium transition focus-ring',
+            'px-2.5 py-1.5 rounded-lg text-xs font-medium transition focus-ring',
             value === o.value ? 'bg-white dark:bg-ink-700 text-brand-600 dark:text-brand-300 shadow' : 'text-ink-600 dark:text-ink-300 hover:text-ink-900 dark:hover:text-white'
           )}
         >
@@ -75,7 +75,7 @@ export function ResultBar({ inputSize, outputSize }: { inputSize: number; output
   const positive = saved > 0
   return (
     <div className={cn(
-      'rounded-xl px-4 py-3 text-sm flex items-center justify-between gap-2 flex-wrap',
+      'rounded-lg px-3 py-2 text-xs flex items-center justify-between gap-2 flex-wrap',
       positive ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-ink-100 dark:bg-ink-800 text-ink-600 dark:text-ink-300'
     )}>
       <span>{positive ? `Reduced by ${pct}%` : 'Size change'}</span>

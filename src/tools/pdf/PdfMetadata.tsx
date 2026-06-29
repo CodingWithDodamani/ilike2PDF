@@ -36,7 +36,7 @@ export default function PdfMetadata() {
       const doc = await PDFDocument.load(data, { ignoreEncryption: true })
       doc.setTitle(meta.title); doc.setAuthor(meta.author); doc.setSubject(meta.subject)
       doc.setKeywords(meta.keywords.split(',').map((k) => k.trim()).filter(Boolean))
-      doc.setCreator(meta.creator || 'SnapPDF'); doc.setProducer(meta.producer || 'SnapPDF')
+      doc.setCreator(meta.creator || 'iLikePDF'); doc.setProducer(meta.producer || 'iLikePDF')
       const bytes = await doc.save()
       downloadBlob(bytesToBlob(bytes, 'application/pdf'), `${baseName(file.name)}-metadata.pdf`)
       trackUsage({ toolId: 'pdf-metadata', toolName: 'PDF Metadata', action: 'Edited metadata', fileName: file.name, inputSize: file.size })

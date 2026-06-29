@@ -1,4 +1,4 @@
-// SnapPDF keeps zero history and zero analytics — like a pure tool site.
+// iLikePDF keeps zero history and zero analytics — like a pure tool site.
 // trackUsage is intentionally a no-op so every tool can call it without storing anything.
 
 export function trackUsage(_opts: {
@@ -10,11 +10,11 @@ export function trackUsage(_opts: {
   outputSize?: number
   files?: number
 }): void {
-  /* no-op: SnapPDF does not record any usage data */
+  /* no-op: iLikePDF does not record any usage data */
 }
 
 // -------- Theme --------
-const THEME_KEY = 'snappdf.theme'
+const THEME_KEY = 'ilikepdf.theme'
 export type ThemeMode = 'light' | 'dark' | 'system'
 
 function readTheme(): ThemeMode {

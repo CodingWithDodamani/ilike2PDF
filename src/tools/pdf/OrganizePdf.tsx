@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { PDFDocument, degrees } from 'pdf-lib'
 import { LayoutGrid, Download, RotateCw, Trash2, GripVertical } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
@@ -9,6 +9,7 @@ import { renderThumbnail } from '@/lib/pdf'
 import { baseName, downloadBlob, bytesToBlob } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
 import { cn } from '@/lib/utils'
+import { useTouchDnd } from '@/hooks/useTouchDnd'
 
 interface PageItem { orig: number; rot: number; thumb: string | null }
 
@@ -18,6 +19,8 @@ export default function OrganizePdf() {
   const [pages, setPages] = useState<PageItem[]>([])
   const [busy, setBusy] = useState(false)
   const [drag, setDrag] = useState<number | null>(null)
+  const move = useCallback((from: number, to: number) => setPages((p) => { const c = [...p]; const [m] = c.splice(from, 1); c.splice(to, 0, m); return c }), [])
+  const touch = useTouchDnd({ onReorder: move })
 
   useEffect(() => {
     if (!pdf.data || !pdf.count) return
@@ -34,8 +37,6 @@ export default function OrganizePdf() {
     })()
     return () => { cancelled = true }
   }, [pdf.data, pdf.count])
-
-  const move = (from: number, to: number) => setPages((p) => { const c = [...p]; const [m] = c.splice(from, 1); c.splice(to, 0, m); return c })
   const rotate = (i: number) => setPages((p) => p.map((x, idx) => (idx === i ? { ...x, rot: (x.rot + 90) % 360 } : x)))
   const del = (i: number) => setPages((p) => p.filter((_, idx) => idx !== i))
 
@@ -81,11 +82,18 @@ export default function OrganizePdf() {
           {pages.map((p, i) => (
             <div
               key={`${p.orig}-${i}`}
+              ref={el => touch.register(i, el)}
               draggable
               onDragStart={() => setDrag(i)}
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => { if (drag !== null) move(drag, i); setDrag(null) }}
-              className={cn('relative group rounded-xl overflow-hidden border-2 bg-white dark:bg-ink-850 aspect-[3/4]', drag === i ? 'border-brand-500' : 'border-ink-200 dark:border-ink-700')}
+              onTouchStart={e => touch.onTouchStart(i, e)}
+              onTouchMove={e => touch.onTouchMove(i, e)}
+              onTouchEnd={e => touch.onTouchEnd(i, e)}
+              className={cn(
+                'relative group rounded-xl overflow-hidden border-2 bg-white dark:bg-ink-850 aspect-[3/4] select-none',
+                touch.dragging === i ? 'border-brand-500 opacity-50' : touch.over === i ? 'border-brand-500' : drag === i ? 'border-brand-500' : 'border-ink-200 dark:border-ink-700'
+              )}
             >
               {p.thumb ? <img src={p.thumb} alt={`Page ${p.orig + 1}`} className="h-full w-full object-contain" style={{ transform: `rotate(${p.rot}deg)` }} /> : <span className="grid h-full place-items-center"><Spinner className="h-4 w-4 text-ink-400" /></span>}
               <span className="absolute bottom-1 left-1 text-[11px] font-bold px-1.5 py-0.5 rounded bg-ink-900/70 text-white flex items-center gap-1"><GripVertical className="h-3 w-3" />{p.orig + 1}</span>

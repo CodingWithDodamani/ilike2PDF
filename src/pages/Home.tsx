@@ -10,7 +10,7 @@ import {
 import { CATEGORY_META, popularTools, toolsByCategory } from '@/lib/tools'
 import { ToolCard } from '@/components/ToolCard'
 
-const HOSTNAME = 'https://snappdf.pages.dev'
+const HOSTNAME = 'https://ilikepdf.pages.dev'
 
 export default function Home() {
   const popular = useMemo(() => popularTools(), [])
@@ -20,17 +20,17 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       <Helmet>
-        <title>SnapPDF — Private, Browser-First Document Tools</title>
+        <title>iLikePDF — Private, Browser-First Document Tools</title>
         <meta name="description" content={description} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={HOSTNAME} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="SnapPDF — Private, Browser-First Document Tools" />
+        <meta property="og:title" content="iLikePDF — Private, Browser-First Document Tools" />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={HOSTNAME} />
-        <meta property="og:site_name" content="SnapPDF" />
+        <meta property="og:site_name" content="iLikePDF" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="SnapPDF — Private, Browser-First Document Tools" />
+        <meta name="twitter:title" content="iLikePDF — Private, Browser-First Document Tools" />
         <meta name="twitter:description" content={description} />
       </Helmet>
       {/* ============ HERO ============ */}
@@ -53,7 +53,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="relative section pt-12 pb-8 sm:pt-16 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center grid">
+        <div className="relative section pt-10 pb-6 sm:pt-14 sm:pb-10 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-center grid">
           {/* Left: copy */}
           <div className="text-center lg:text-left">
             <motion.div
@@ -112,24 +112,24 @@ export default function Home() {
       </section>
 
       {/* ============ CATEGORIES ============ */}
-      <section id="tools" className="section py-16 sm:py-20">
+      <section id="tools" className="section py-10 sm:py-14">
         <SectionHeading eyebrow="Browse by category" title="Find the right tool, fast" subtitle="Four focused toolkits covering every everyday document task." />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 mt-12">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8">
           {(['pdf', 'image', 'qr', 'utility'] as const).map((cat, i) => {
             const meta = CATEGORY_META[cat]
             const count = toolsByCategory(cat).length
             return (
               <motion.div key={cat} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-                <Link to={`/category/${cat}`} className="group card card-hover p-7 block relative overflow-hidden h-full">
+                <Link to={`/category/${cat}`} className="group card card-hover p-5 block relative overflow-hidden h-full">
                   <div className={`absolute inset-0 bg-gradient-to-br ${meta.gradient} opacity-0 group-hover:opacity-[0.06] transition-opacity duration-300`} />
-                  <span className={`relative inline-grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${meta.gradient} text-white shadow-lg group-hover:scale-105 group-hover:-rotate-3 transition-transform duration-300`}>
-                    <span className="absolute inset-0 rounded-2xl bg-shine opacity-30" aria-hidden />
-                    <meta.icon className="relative h-7 w-7" />
+                  <span className={`relative inline-grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${meta.gradient} text-white shadow-lg group-hover:scale-105 group-hover:-rotate-3 transition-transform duration-300`}>
+                    <span className="absolute inset-0 rounded-xl bg-shine opacity-30" aria-hidden />
+                    <meta.icon className="relative h-5.5 w-5.5" />
                   </span>
-                  <h3 className="font-display font-bold text-lg mt-5">{meta.label}</h3>
-                  <p className="text-sm text-ink-500 dark:text-ink-400 mt-1.5 leading-relaxed">{meta.description}</p>
-                  <p className="text-sm font-semibold text-brand-500 mt-4 inline-flex items-center gap-1.5">
-                    {count} tools <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                  <h3 className="font-display font-bold text-sm mt-3">{meta.label}</h3>
+                  <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 leading-relaxed">{meta.description}</p>
+                  <p className="text-xs font-semibold text-brand-500 mt-3 inline-flex items-center gap-1.5">
+                    {count} tools <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                   </p>
                 </Link>
               </motion.div>
@@ -139,24 +139,24 @@ export default function Home() {
       </section>
 
       {/* ============ POPULAR ============ */}
-      <section className="section py-16 sm:py-20">
+      <section className="section py-10 sm:py-14">
         <SectionHeading
           eyebrow="Trending now"
           title="Most-loved tools"
           subtitle="The fastest way to get things done."
-          action={<Link to="/category/pdf" className="btn-secondary btn-md">View all tools <ArrowRight className="h-4 w-4" /></Link>}
+          action={<Link to="/category/pdf" className="btn-secondary btn-sm">View all tools <ArrowRight className="h-3.5 w-3.5" /></Link>}
         />
-        <div className="grid gap-5 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-12">
+        <div className="grid gap-3 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-8">
           {popular.map((t, i) => <ToolCard key={t.id} tool={t} index={i} />)}
         </div>
       </section>
 
       {/* ============ FEATURES ============ */}
-      <section className="relative py-16 sm:py-24">
+      <section className="relative py-10 sm:py-16">
         <div aria-hidden className="absolute inset-0 bg-grid-light dark:bg-grid-dark bg-grid opacity-60 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000,transparent)]" />
         <div className="relative section">
-          <SectionHeading eyebrow="Why SnapPDF" title={<>Engineered for privacy &amp; speed</>} subtitle="A premium experience that never sends your files anywhere." center />
-        <div className="grid gap-5 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-12">
+          <SectionHeading eyebrow="Why iLikePDF" title={<>Engineered for privacy &amp; speed</>} subtitle="A premium experience that never sends your files anywhere." center />
+        <div className="grid gap-4 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-8">
             {[
               { icon: Shield, title: 'Privacy First', desc: 'Files are processed on your device and never uploaded — ever.', grad: 'from-emerald-500 to-teal-500' },
               { icon: WifiOff, title: 'Works Offline', desc: 'Install once and keep working without an internet connection.', grad: 'from-brand-500 to-fuchsia-500' },
@@ -166,14 +166,14 @@ export default function Home() {
               <motion.div
                 key={f.title}
                 initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
-                className="card p-7 relative overflow-hidden group"
+                className="card p-5 relative overflow-hidden group"
               >
                 <div className={`absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br ${f.grad} opacity-[0.07] group-hover:opacity-15 blur-2xl transition-opacity`} />
-                <div className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${f.grad} text-white shadow-lg mb-5`}>
-                  <f.icon className="h-6 w-6" />
+                <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${f.grad} text-white shadow-lg mb-3`}>
+                  <f.icon className="h-5 w-5" />
                 </div>
-                <h3 className="font-display font-bold text-lg">{f.title}</h3>
-                <p className="text-sm text-ink-500 dark:text-ink-400 mt-2 leading-relaxed">{f.desc}</p>
+                <h3 className="font-display font-bold text-sm">{f.title}</h3>
+                <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 leading-relaxed">{f.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -181,38 +181,38 @@ export default function Home() {
       </section>
 
       {/* ============ HOW IT WORKS ============ */}
-      <section className="section py-16 sm:py-20">
+      <section className="section py-10 sm:py-14">
         <SectionHeading eyebrow="How it works" title="Three steps. Zero friction." center />
-        <div className="grid md:grid-cols-3 gap-6 mt-12 relative">
-          <div aria-hidden className="hidden md:block absolute top-12 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-brand-400/40 to-transparent" />
+        <div className="grid md:grid-cols-3 gap-5 mt-8 relative">
+          <div aria-hidden className="hidden md:block absolute top-10 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-brand-400/40 to-transparent" />
           {[
             { n: '01', icon: MousePointerClick, t: 'Pick a tool', d: 'Choose from 40+ tools or press Ctrl+K to search instantly.' },
             { n: '02', icon: UploadCloud, t: 'Drop your file', d: 'Drag & drop — your file is read locally, never uploaded.' },
             { n: '03', icon: Check, t: 'Download result', d: 'Process and download in seconds. Done, privately.' },
           ].map((s, i) => (
             <motion.div key={s.n} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="relative text-center">
-              <div className="relative inline-grid h-24 w-24 place-items-center mx-auto">
-                <span className="absolute inset-0 rounded-3xl bg-white dark:bg-ink-900 border border-ink-200/70 dark:border-white/10 shadow-card dark:shadow-card-dark" />
-                <s.icon className="relative h-9 w-9 text-brand-500" />
-                <span className="absolute -top-2 -right-1 badge-gold">{s.n}</span>
+              <div className="relative inline-grid h-20 w-20 place-items-center mx-auto">
+                <span className="absolute inset-0 rounded-2xl bg-white dark:bg-ink-900 border border-ink-200/70 dark:border-white/10 shadow-card dark:shadow-card-dark" />
+                <s.icon className="relative h-8 w-8 text-brand-500" />
+                <span className="absolute -top-2 -right-1 badge-gold text-[10px]">{s.n}</span>
               </div>
-              <h3 className="font-display font-bold text-lg mt-6">{s.t}</h3>
-              <p className="text-sm text-ink-500 dark:text-ink-400 mt-2 max-w-xs mx-auto leading-relaxed">{s.d}</p>
+              <h3 className="font-display font-bold text-sm mt-4">{s.t}</h3>
+              <p className="text-xs text-ink-500 dark:text-ink-400 mt-1.5 max-w-xs mx-auto leading-relaxed">{s.d}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* ============ COMPARISON ============ */}
-      <section className="section max-w-5xl py-16 sm:py-20">
-        <SectionHeading eyebrow="How we compare" title="SnapPDF vs. typical SaaS" center />
-        <div className="card overflow-hidden mt-12">
-          <table className="w-full text-sm" aria-label="SnapPDF vs typical SaaS comparison">
+      <section className="section max-w-5xl py-10 sm:py-14">
+        <SectionHeading eyebrow="How we compare" title="iLikePDF vs. typical SaaS" center />
+        <div className="card overflow-hidden mt-8">
+          <table className="w-full text-xs" aria-label="iLikePDF vs typical SaaS comparison">
             <thead>
               <tr className="border-b border-ink-200/60 dark:border-white/10 bg-ink-50/60 dark:bg-ink-850/50">
-                <th scope="col" className="text-left p-5 font-semibold text-ink-600 dark:text-ink-300">Feature</th>
-                <th scope="col" className="p-5 font-display font-bold text-base gradient-text">SnapPDF</th>
-                <th scope="col" className="p-5 font-medium text-ink-500">Typical SaaS</th>
+                <th scope="col" className="text-left p-3 font-semibold text-ink-600 dark:text-ink-300">Feature</th>
+                <th scope="col" className="p-3 font-display font-bold text-sm gradient-text">iLikePDF</th>
+                <th scope="col" className="p-3 font-medium text-ink-500">Typical SaaS</th>
               </tr>
             </thead>
             <tbody>
@@ -225,14 +225,14 @@ export default function Home() {
                 ['Free forever', true, false],
               ].map(([label, a, b]) => (
                 <tr key={label as string} className="border-b border-ink-200/40 dark:border-white/5 last:border-0 hover:bg-ink-50/40 dark:hover:bg-ink-850/30 transition-colors">
-                  <td className="p-5 font-medium">{label}</td>
-                  <td className="p-5 text-center">
-                    {a ? <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-emerald-500/15 mx-auto"><Check className="h-4 w-4 text-emerald-500" /></span>
-                       : <X className="h-5 w-5 text-rose-400 mx-auto" />}
+                  <td className="p-3 font-medium">{label}</td>
+                  <td className="p-3 text-center">
+                    {a ? <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-emerald-500/15 mx-auto"><Check className="h-3.5 w-3.5 text-emerald-500" /></span>
+                       : <X className="h-4 w-4 text-rose-400 mx-auto" />}
                   </td>
-                  <td className="p-5 text-center">
-                    {b ? <Check className="h-5 w-5 text-emerald-500 mx-auto" />
-                       : <span className="inline-grid h-7 w-7 place-items-center rounded-full bg-rose-500/10 mx-auto"><X className="h-4 w-4 text-rose-400" /></span>}
+                  <td className="p-3 text-center">
+                    {b ? <Check className="h-4 w-4 text-emerald-500 mx-auto" />
+                       : <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-rose-500/10 mx-auto"><X className="h-3.5 w-3.5 text-rose-400" /></span>}
                   </td>
                 </tr>
               ))}
@@ -245,35 +245,35 @@ export default function Home() {
       <Testimonials />
 
       {/* ============ OPEN SOURCE + PWA ============ */}
-      <section className="section py-16 sm:py-20 grid gap-6 lg:grid-cols-2">
-        <div className="card p-9 relative overflow-hidden group">
+      <section className="section py-10 sm:py-14 grid gap-5 lg:grid-cols-2">
+        <div className="card p-6 relative overflow-hidden group">
           <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-brand-500/20 blur-3xl group-hover:bg-brand-500/30 transition-colors" />
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-brand-600 to-brand-500 text-white shadow-lg"><Github className="h-6 w-6" /></div>
-          <h3 className="font-display text-2xl font-bold mt-5">Proudly open source</h3>
-          <p className="text-ink-500 dark:text-ink-400 mt-2.5 leading-relaxed">Built on great libraries like pdf-lib, PDF.js and qrcode. Inspect the code, file issues, contribute.</p>
-          <Link to="/licenses" className="btn-secondary btn-md mt-6">View licenses <ArrowRight className="h-4 w-4" /></Link>
+          <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-500 text-white shadow-lg"><Github className="h-5 w-5" /></div>
+          <h3 className="font-display text-xl font-bold mt-3">Proudly open source</h3>
+          <p className="text-ink-500 dark:text-ink-400 mt-2 leading-relaxed text-sm">Built on great libraries like pdf-lib, PDF.js and qrcode. Inspect the code, file issues, contribute.</p>
+          <Link to="/licenses" className="btn-secondary btn-sm mt-4">View licenses <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
-        <div className="card p-9 relative overflow-hidden group">
+        <div className="card p-6 relative overflow-hidden group">
           <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-accent-500/20 blur-3xl group-hover:bg-accent-500/30 transition-colors" />
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-accent-500 to-cyan-500 text-white shadow-lg"><Smartphone className="h-6 w-6" /></div>
-          <h3 className="font-display text-2xl font-bold mt-5">Install as an app</h3>
-          <p className="text-ink-500 dark:text-ink-400 mt-2.5 leading-relaxed">SnapPDF is a Progressive Web App. Install it on desktop or mobile and use every tool offline.</p>
-          <Link to="/pwa-install" className="btn-secondary btn-md mt-6">Install guide <ArrowRight className="h-4 w-4" /></Link>
+          <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-500 to-cyan-500 text-white shadow-lg"><Smartphone className="h-5 w-5" /></div>
+          <h3 className="font-display text-xl font-bold mt-3">Install as an app</h3>
+          <p className="text-ink-500 dark:text-ink-400 mt-2 leading-relaxed text-sm">iLikePDF is a Progressive Web App. Install it on desktop or mobile and use every tool offline.</p>
+          <Link to="/pwa-install" className="btn-secondary btn-sm mt-4">Install guide <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
       </section>
 
       {/* ============ FINAL CTA ============ */}
-      <section className="section pb-20 sm:pb-28">
-        <div className="relative card !rounded-[2rem] overflow-hidden text-center px-6 py-16 sm:py-20">
+      <section className="section pb-16 sm:pb-20">
+        <div className="relative card !rounded-[1.5rem] overflow-hidden text-center px-5 py-12 sm:py-16">
           <div className="absolute inset-0 bg-mesh animate-mesh opacity-90" aria-hidden />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-brand-600/90 to-accent-600/80" />
           <div className="relative">
-            <Sparkles className="h-9 w-9 text-white/90 mx-auto" />
-            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-white mt-4 text-balance">Ready to get started?</h2>
-            <p className="text-white/85 mt-3 max-w-lg mx-auto text-lg">Pick a tool and process your first file in seconds — no account, no upload, no cost.</p>
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-              <a href="#tools" className="btn-lg bg-white text-brand-700 font-bold rounded-2xl shadow-lg hover:-translate-y-0.5 transition-transform inline-flex items-center gap-2">Browse tools <ArrowRight className="h-5 w-5" /></a>
-              <Link to="/faq" className="btn-lg bg-white/15 text-white border border-white/30 backdrop-blur rounded-2xl hover:bg-white/25 transition-colors">Read the FAQ</Link>
+            <Sparkles className="h-7 w-7 text-white/90 mx-auto" />
+            <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-white mt-3 text-balance">Ready to get started?</h2>
+            <p className="text-white/85 mt-2 max-w-lg mx-auto text-sm">Pick a tool and process your first file in seconds — no account, no upload, no cost.</p>
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mt-6">
+              <a href="#tools" className="btn-sm bg-white text-brand-700 font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-transform inline-flex items-center gap-1.5">Browse tools <ArrowRight className="h-4 w-4" /></a>
+              <Link to="/faq" className="btn-sm bg-white/15 text-white border border-white/30 backdrop-blur rounded-xl hover:bg-white/25 transition-colors">Read the FAQ</Link>
             </div>
           </div>
         </div>
@@ -329,7 +329,7 @@ function HeroArt() {
           <span className="h-2.5 w-2.5 rounded-full bg-gold-400" />
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
         </div>
-        <img src="/snappdf_logo_flat_1782547779742.png" className="h-12 w-12 rounded-xl object-contain shadow-md mb-4" alt="SnapPDF Logo" />
+        <img src="/ilikepdf-logo.png" className="h-12 w-12 rounded-xl object-contain shadow-md mb-4" alt="iLikePDF Logo" />
         <div className="h-2.5 w-3/4 rounded-full bg-brand-500/70 mb-2.5" />
         <div className="h-2 w-full rounded-full bg-ink-300/60 dark:bg-ink-600/60 mb-2" />
         <div className="h-2 w-5/6 rounded-full bg-ink-300/50 dark:bg-ink-600/50 mb-2" />
@@ -372,23 +372,23 @@ function Testimonials() {
     { name: 'Aisha K.', role: 'Graduate Student', text: 'Made my passport photo and compressed assignment PDFs in seconds. No sign-up, no ads, no nonsense.' },
   ]
   return (
-    <section className="section py-16 sm:py-20">
+    <section className="section py-10 sm:py-14">
       <SectionHeading eyebrow="Loved by users" title="What people are saying" center />
-      <div className="grid gap-5 sm:grid-cols-3 mt-12">
+      <div className="grid gap-4 sm:grid-cols-3 mt-8">
         {items.map((t, i) => (
           <motion.div
             key={t.name}
             initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-            className="card p-7 relative"
+            className="card p-5 relative"
           >
-            <Quote className="h-8 w-8 text-brand-500/25 absolute top-6 right-6" />
-            <div className="flex gap-0.5 text-gold-400 mb-4">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}</div>
-            <p className="text-[15px] leading-relaxed text-ink-700 dark:text-ink-200">“{t.text}”</p>
-            <div className="mt-6 flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 text-white font-display font-bold text-sm">{t.name[0]}</span>
+            <Quote className="h-6 w-6 text-brand-500/25 absolute top-4 right-4" />
+            <div className="flex gap-0.5 text-gold-400 mb-3">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-current" />)}</div>
+            <p className="text-xs leading-relaxed text-ink-700 dark:text-ink-200">"{t.text}"</p>
+            <div className="mt-4 flex items-center gap-2.5">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 text-white font-display font-bold text-xs">{t.name[0]}</span>
               <div>
-                <p className="text-sm font-semibold">{t.name}</p>
-                <p className="text-xs text-ink-500">{t.role}</p>
+                <p className="text-xs font-semibold">{t.name}</p>
+                <p className="text-[10px] text-ink-500">{t.role}</p>
               </div>
             </div>
           </motion.div>

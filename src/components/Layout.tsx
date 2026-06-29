@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  Command, Sun, Moon, Github, Menu, X, Home, FileText, Image as ImageIcon,
+  Command, Sun, Moon, Menu, X, Home, FileText, Image as ImageIcon,
   QrCode, Wrench, Shield, WifiOff,
 } from 'lucide-react'
 import { CommandPalette } from './CommandPalette'
@@ -50,8 +50,8 @@ export function Layout() {
       <header className="sticky top-0 z-50 glass border-b border-ink-200/50 dark:border-white/[0.06]">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-[4.5rem] flex items-center gap-3">
           <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-xl shrink-0 focus-ring rounded-xl">
-            <img src="/snappdf_logo_flat_1782547779742.png" className="h-10 w-10 rounded-xl object-contain shadow-md" alt="SnapPDF Logo" />
-            <span className="tracking-tight">Snap<span className="gradient-text">PDF</span></span>
+            <img src="/ilikepdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow-md" alt="iLikePDF Logo" />
+            <span className="tracking-tight">iLike<span className="gradient-text">PDF</span></span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-0.5 ml-6">
@@ -84,7 +84,7 @@ export function Layout() {
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
             <a href="https://github.com/CodingWithDodamani" target="_blank" rel="noreferrer" className="hidden sm:flex btn-ghost btn-sm !p-2" aria-label="GitHub">
-              <Github className="h-5 w-5" />
+              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-5 w-5" />
             </a>
             <Link to="/category/pdf" className="hidden lg:inline-flex btn-primary btn-sm">Get started</Link>
             <button onClick={() => setMenuOpen((o) => !o)} className="md:hidden btn-ghost btn-sm !p-2" aria-label="Menu">
@@ -162,8 +162,8 @@ function Footer() {
         <div className="grid gap-10 md:grid-cols-6">
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-xl">
-              <img src="/snappdf_logo_flat_1782547779742.png" className="h-10 w-10 rounded-xl object-contain shadow" alt="SnapPDF Logo" />
-              Snap<span className="gradient-text">PDF</span>
+              <img src="/ilikepdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow" alt="iLikePDF Logo" />
+              iLike<span className="gradient-text">PDF</span>
             </Link>
             <p className="text-sm text-ink-500 dark:text-ink-400 mt-4 max-w-xs leading-relaxed">
               40+ free document tools that run entirely in your browser. Zero uploads. Zero tracking. Works offline.
@@ -171,6 +171,23 @@ function Footer() {
             <div className="flex items-center gap-2 mt-5">
               <span className="badge"><Shield className="h-3 w-3" /> 100% private</span>
               <span className="badge"><WifiOff className="h-3 w-3" /> Installable</span>
+            </div>
+            <div className="flex items-center gap-3 mt-5">
+              <a href="https://github.com/CodingWithDodamani" target="_blank" rel="noreferrer" className="text-ink-400 hover:text-brand-500 transition" aria-label="GitHub">
+                <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-5 w-5" />
+              </a>
+              <a href="https://www.linkedin.com/in/halludodamani/" target="_blank" rel="noreferrer" className="text-ink-400 hover:text-brand-500 transition" aria-label="LinkedIn">
+                <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/linkedin.svg" alt="" className="h-5 w-5" />
+              </a>
+              <a href="https://www.instagram.com/royal_hudga_hallu777/" target="_blank" rel="noreferrer" className="text-ink-400 hover:text-brand-500 transition" aria-label="Instagram">
+                <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/instagram.svg" alt="" className="h-5 w-5" />
+              </a>
+              <a href="https://www.youtube.com/@Dodamanicraftschannel" target="_blank" rel="noreferrer" className="text-ink-400 hover:text-brand-500 transition" aria-label="YouTube">
+                <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/youtube.svg" alt="" className="h-5 w-5" />
+              </a>
+              <a href="https://www.pinterest.com/dodamanihallu75/" target="_blank" rel="noreferrer" className="text-ink-400 hover:text-brand-500 transition" aria-label="Pinterest">
+                <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/pinterest.svg" alt="" className="h-5 w-5" />
+              </a>
             </div>
           </div>
           {cols.map((c) => {
@@ -200,7 +217,7 @@ function Footer() {
           })}
         </div>
         <div className="mt-12 pt-7 border-t border-ink-200/60 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink-500">
-          <p>© {new Date().getFullYear()} SnapPDF — Open source &amp; client-side.</p>
+          <p>© {new Date().getFullYear()} iLikePDF — Open source &amp; client-side.</p>
           <p className="flex items-center gap-1.5"><Shield className="h-4 w-4 text-emerald-500" /> Your files never leave your device.</p>
         </div>
       </div>

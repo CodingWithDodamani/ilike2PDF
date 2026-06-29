@@ -12,7 +12,7 @@ export function PwaInstall() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('snappdf.installDismissed')
+    const dismissed = localStorage.getItem('ilikepdf.installDismissed')
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferred(e as BIPEvent)
@@ -31,7 +31,7 @@ export function PwaInstall() {
   }
   const dismiss = () => {
     setShow(false)
-    localStorage.setItem('snappdf.installDismissed', '1')
+    localStorage.setItem('ilikepdf.installDismissed', '1')
   }
 
   return (
@@ -46,7 +46,7 @@ export function PwaInstall() {
               <Download className="h-5 w-5" />
             </div>
             <div className="flex-1">
-              <p className="font-semibold text-sm">Install SnapPDF</p>
+              <p className="font-semibold text-sm">Install iLikePDF</p>
               <p className="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Add to your home screen for offline access & a faster experience.</p>
               <div className="flex gap-2 mt-3">
                 <button onClick={install} className="btn-primary btn-sm">Install</button>
