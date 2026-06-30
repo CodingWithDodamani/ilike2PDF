@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Command, Sun, Moon, Menu, X, Home, FileText, Image as ImageIcon,
-  QrCode, Wrench, Shield, WifiOff,
+  QrCode, Wrench, Shield, WifiOff, User,
 } from 'lucide-react'
 import { CommandPalette } from './CommandPalette'
 import { getTheme, setTheme, type ThemeMode } from '@/lib/storage'
@@ -16,6 +16,7 @@ const NAV = [
   { to: '/category/image', label: 'Image', icon: ImageIcon },
   { to: '/category/qr', label: 'QR', icon: QrCode },
   { to: '/category/utility', label: 'Tools', icon: Wrench },
+  { to: '/about', label: 'About', icon: User },
 ]
 
 export function Layout() {
@@ -60,7 +61,9 @@ export function Layout() {
                 key={n.to} to={n.to} end={n.end}
                 className={({ isActive }) => cn(
                   'px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5',
-                  isActive ? 'bg-brand-500/12 text-brand-600 dark:text-brand-300 shadow-inner-glow dark:shadow-inner-glow-dark' : 'text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800'
+                  n.to === '/about'
+                    ? 'gradient-text'
+                    : isActive ? 'bg-brand-500/12 text-brand-600 dark:text-brand-300 shadow-inner-glow dark:shadow-inner-glow-dark' : 'text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800'
                 )}
               >
                 <n.icon className="h-4 w-4" />{n.label}
@@ -83,6 +86,9 @@ export function Layout() {
             <button onClick={cycleTheme} className="btn-ghost btn-sm !p-2" aria-label="Toggle theme">
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
+            <Link to="/about" className="sm:hidden gradient-text text-sm font-bold px-2 py-1 rounded-lg">
+              About
+            </Link>
             <a href="https://github.com/CodingWithDodamani" target="_blank" rel="noreferrer" className="hidden sm:flex btn-ghost btn-sm !p-2" aria-label="GitHub">
               <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-5 w-5" />
             </a>
@@ -131,7 +137,7 @@ export function Layout() {
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 glass-strong border-t border-ink-200/60 dark:border-white/10 pb-[env(safe-area-inset-bottom)]" aria-label="Mobile navigation">
         <div className="grid grid-cols-5">
-          {NAV.map((n) => (
+          {NAV.filter((n) => n.to !== '/about').map((n) => (
             <NavLink key={n.to} to={n.to} end={n.end}
               className={({ isActive }) => cn('flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition', isActive ? 'text-brand-500' : 'text-ink-500 dark:text-ink-400')}>
               {({ isActive }) => (<><n.icon className={cn('h-5 w-5', isActive && 'scale-110')} />{n.label}</>)}
@@ -217,7 +223,7 @@ function Footer() {
           })}
         </div>
         <div className="mt-12 pt-7 border-t border-ink-200/60 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink-500">
-          <p>© {new Date().getFullYear()} iLikePDF — Open source &amp; client-side.</p>
+          <p>© {new Date().getFullYear()} iLikePDF. All rights reserved by Hallu Dodamani.</p>
           <p className="flex items-center gap-1.5"><Shield className="h-4 w-4 text-emerald-500" /> Your files never leave your device.</p>
         </div>
       </div>

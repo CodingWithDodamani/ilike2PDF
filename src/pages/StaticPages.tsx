@@ -282,6 +282,24 @@ function About() {
           </motion.div>
         </div>
 
+        {/* Animated border highlight */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.35, duration: 0.5 }}
+          className="mt-6 flex justify-center"
+        >
+          <div className="animate-border-rotate w-full max-w-md overflow-hidden">
+            <div className="relative z-10 rounded-2xl bg-white dark:bg-ink-900 p-5 text-center m-[2px]">
+              <p className="text-sm font-bold bg-gradient-to-r from-brand-500 via-accent-500 to-purple-500 bg-clip-text text-transparent">
+                94+ Browser-First Tools
+              </p>
+              <p className="text-xs text-ink-400 mt-1">Privacy-first. Zero uploads. Everything runs locally.</p>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Quick facts */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

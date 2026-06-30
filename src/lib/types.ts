@@ -1,4 +1,4 @@
-import type { LucideIcon } from 'lucide-react'
+import type { IconType } from 'react-icons'
 
 export type ToolCategory = 'pdf' | 'image' | 'qr' | 'utility'
 
@@ -9,7 +9,7 @@ export interface ToolDef {
   short: string
   description: string
   category: ToolCategory
-  icon: LucideIcon
+  icon: IconType
   accept?: string[] // file extensions / mime hints
   multiple?: boolean
   popular?: boolean

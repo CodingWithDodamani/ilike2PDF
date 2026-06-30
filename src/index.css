@@ -157,3 +157,42 @@
 
 .animate-mesh { background-size: 200% 200%; animation: gradient-shift 12s ease infinite; }
 .dropzone-active { @apply border-brand-500 bg-brand-500/[0.06] ring-4 ring-brand-500/15; }
+
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.animate-border-rotate {
+  position: relative;
+  border-radius: 16px;
+  z-index: 0;
+}
+
+.animate-border-rotate::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  background: conic-gradient(from 0deg, #e11d48, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6, #e11d48);
+  z-index: -1;
+  animation: border-rotate 3s linear infinite;
+}
+
+.animate-border-rotate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: white;
+  z-index: -1;
+}
+
+.dark .animate-border-rotate::after {
+  background: #09090b;
+}
+
+@keyframes border-rotate {
+  to { transform: rotate(360deg); }
+}
