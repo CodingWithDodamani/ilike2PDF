@@ -1,7 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
-import { Copy, Check, Pipette } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 function hexToRgb(hex: string): [number, number, number] | null {
   const m = hex.replace('#', '').match(/^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i)

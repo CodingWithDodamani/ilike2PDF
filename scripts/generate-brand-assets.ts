@@ -7,7 +7,7 @@ const PUBLIC = join(ROOT, 'public')
 const ICONS_DIR = join(PUBLIC, 'icons')
 if (!existsSync(ICONS_DIR)) mkdirSync(ICONS_DIR, { recursive: true })
 
-const SOURCE = join(PUBLIC, 'iLikePDF.png')
+const SOURCE = join(PUBLIC, 'iLike2PDF.png')
 
 async function run() {
   if (!existsSync(SOURCE)) {
@@ -21,8 +21,8 @@ async function run() {
   await sharp(SOURCE)
     .resize(800, 800, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
-    .toFile(join(PUBLIC, 'ilikepdf-logo.png'))
-  console.log('✅ ilikepdf-logo.png (800×800)')
+    .toFile(join(PUBLIC, 'ilike2pdf-logo.png'))
+  console.log('✅ ilike2pdf-logo.png (800×800)')
 
   // PWA icons (icon only, square crop)
   for (const [size, name] of [[192, 'icon-192.png'], [512, 'icon-512.png']] as const) {
@@ -146,7 +146,7 @@ async function run() {
       {
         input: Buffer.from(
           `<svg width="${ogW}" height="${ogH}">
-            <text x="600" y="260" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="82" fill="white" text-anchor="middle">iLikePDF</text>
+            <text x="600" y="260" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="82" fill="white" text-anchor="middle">iLike2PDF</text>
             <text x="600" y="315" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="26" fill="rgba(255,255,255,0.55)">40+ tools · 100% private · works offline</text>
             <g transform="translate(600, 355)">
               <rect x="0" y="0" width="118" height="36" rx="18" fill="rgba(225,29,72,0.12)" stroke="rgba(225,29,72,0.25)" stroke-width="1"/>
@@ -175,7 +175,7 @@ async function run() {
     .toFile(join(PUBLIC, 'og-image.png'))
   console.log('✅ og-image.png (1200×630)')
 
-  console.log('\n✨ All iLikePDF brand assets generated from your logo!')
+  console.log('\n✨ All iLike2PDF brand assets generated from your logo!')
 }
 
 run().catch((e) => { console.error(e); process.exit(1) })

@@ -1,37 +1,60 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import {
-  Shield, WifiOff, UploadCloud, Zap, ArrowRight, Check, X, Star,
-  Github, Smartphone, Lock, Sparkles, FileText, Image as ImageIcon, QrCode, Wrench,
-  Gauge, MousePointerClick, Quote,
+  Shield, WifiOff, UploadCloud, Zap, ArrowRight, Check, X,
+  Github, Smartphone, Lock, Sparkles, Image as ImageIcon, QrCode, Wrench,
+  Gauge, MousePointerClick,
 } from 'lucide-react'
-import { CATEGORY_META, popularTools, toolsByCategory } from '@/lib/tools'
+import { CATEGORY_META, popularTools, toolsByCategory, getTool } from '@/lib/tools'
+import { getRecentTools } from '@/lib/storage'
 import { ToolCard } from '@/components/ToolCard'
 
-const HOSTNAME = 'https://ilikepdf.pages.dev'
+const HOSTNAME = 'https://ilike2pdf.pages.dev'
 
 export default function Home() {
   const popular = useMemo(() => popularTools(), [])
+  const [recentTools, setRecentTools] = useState<any[]>([])
 
-  const description = 'Merge, split, compress and convert PDFs & images, generate QR codes — 40+ free, private, browser-based tools. No uploads, no tracking, works offline.'
+  useEffect(() => {
+    const ids = getRecentTools()
+    if (ids.length > 0) {
+      const tools = ids.map(id => getTool(id)).filter(Boolean)
+      setRecentTools(tools)
+    }
+  }, [])
+
+  const description = 'Merge, split, compress and convert PDFs & images, generate QR codes — 94 free, private, browser-based tools. No uploads, no tracking, works offline.'
 
   return (
     <div className="overflow-x-hidden">
       <Helmet>
-        <title>iLikePDF — Private, Browser-First Document Tools</title>
+        <title>iLike2PDF — Private, Browser-First Document Tools</title>
         <meta name="description" content={description} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={HOSTNAME} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="iLikePDF — Private, Browser-First Document Tools" />
+        <meta property="og:title" content="iLike2PDF — Private, Browser-First Document Tools" />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={HOSTNAME} />
-        <meta property="og:site_name" content="iLikePDF" />
+        <meta property="og:site_name" content="iLike2PDF" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="iLikePDF — Private, Browser-First Document Tools" />
+        <meta name="twitter:title" content="iLike2PDF — Private, Browser-First Document Tools" />
         <meta name="twitter:description" content={description} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: 'iLike2PDF',
+          url: HOSTNAME,
+          description,
+          applicationCategory: 'UtilitiesApplication',
+          operatingSystem: 'Web Browser',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+          featureList: ['PDF tools', 'Image tools', 'QR code generator', 'Utility tools'],
+          browserRequirements: 'Requires a modern web browser with JavaScript enabled',
+          softwareHelp: { '@type': 'CreativeWork', url: `${HOSTNAME}/faq` },
+        }) }} />
       </Helmet>
       {/* ============ HERO ============ */}
       <section className="relative grain overflow-hidden">
@@ -138,6 +161,21 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ RECENTLY USED ============ */}
+      {recentTools.length > 0 && (
+        <section className="section py-6 sm:py-10">
+          <SectionHeading
+            eyebrow="Welcome back"
+            title="Continue where you left off"
+            subtitle="Pick up right where you stopped — your recent tools are waiting."
+            action={<Link to="/category/pdf" className="btn-secondary btn-sm">Browse all tools <ArrowRight className="h-3.5 w-3.5" /></Link>}
+          />
+          <div className="grid gap-3 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-8">
+            {recentTools.map((t, i) => <ToolCard key={t.id} tool={t} index={i} />)}
+          </div>
+        </section>
+      )}
+
       {/* ============ POPULAR ============ */}
       <section className="section py-10 sm:py-14">
         <SectionHeading
@@ -155,7 +193,7 @@ export default function Home() {
       <section className="relative py-10 sm:py-16">
         <div aria-hidden className="absolute inset-0 bg-grid-light dark:bg-grid-dark bg-grid opacity-60 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000,transparent)]" />
         <div className="relative section">
-          <SectionHeading eyebrow="Why iLikePDF" title={<>Engineered for privacy &amp; speed</>} subtitle="A premium experience that never sends your files anywhere." center />
+          <SectionHeading eyebrow="Why iLike2PDF" title={<>Engineered for privacy &amp; speed</>} subtitle="A premium experience that never sends your files anywhere." center />
         <div className="grid gap-4 sm:grid-cols-2 tl:grid-cols-3 lg:grid-cols-4 mt-8">
             {[
               { icon: Shield, title: 'Privacy First', desc: 'Files are processed on your device and never uploaded — ever.', grad: 'from-emerald-500 to-teal-500' },
@@ -186,7 +224,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-5 mt-8 relative">
           <div aria-hidden className="hidden md:block absolute top-10 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-brand-400/40 to-transparent" />
           {[
-            { n: '01', icon: MousePointerClick, t: 'Pick a tool', d: 'Choose from 40+ tools or press Ctrl+K to search instantly.' },
+            { n: '01', icon: MousePointerClick, t: 'Pick a tool', d: 'Choose from 94 tools or press Ctrl+K to search instantly.' },
             { n: '02', icon: UploadCloud, t: 'Drop your file', d: 'Drag & drop — your file is read locally, never uploaded.' },
             { n: '03', icon: Check, t: 'Download result', d: 'Process and download in seconds. Done, privately.' },
           ].map((s, i) => (
@@ -205,13 +243,13 @@ export default function Home() {
 
       {/* ============ COMPARISON ============ */}
       <section className="section max-w-5xl py-10 sm:py-14">
-        <SectionHeading eyebrow="How we compare" title="iLikePDF vs. typical SaaS" center />
+        <SectionHeading eyebrow="How we compare" title="iLike2PDF vs. typical SaaS" center />
         <div className="card overflow-hidden mt-8">
-          <table className="w-full text-xs" aria-label="iLikePDF vs typical SaaS comparison">
+          <table className="w-full text-xs" aria-label="iLike2PDF vs typical SaaS comparison">
             <thead>
               <tr className="border-b border-ink-200/60 dark:border-white/10 bg-ink-50/60 dark:bg-ink-850/50">
                 <th scope="col" className="text-left p-3 font-semibold text-ink-600 dark:text-ink-300">Feature</th>
-                <th scope="col" className="p-3 font-display font-bold text-sm gradient-text">iLikePDF</th>
+                <th scope="col" className="p-3 font-display font-bold text-sm gradient-text">iLike2PDF</th>
                 <th scope="col" className="p-3 font-medium text-ink-500">Typical SaaS</th>
               </tr>
             </thead>
@@ -257,7 +295,7 @@ export default function Home() {
           <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-accent-500/20 blur-3xl group-hover:bg-accent-500/30 transition-colors" />
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-500 to-cyan-500 text-white shadow-lg"><Smartphone className="h-5 w-5" /></div>
           <h3 className="font-display text-xl font-bold mt-3">Install as an app</h3>
-          <p className="text-ink-500 dark:text-ink-400 mt-2 leading-relaxed text-sm">iLikePDF is a Progressive Web App. Install it on desktop or mobile and use every tool offline.</p>
+          <p className="text-ink-500 dark:text-ink-400 mt-2 leading-relaxed text-sm">iLike2PDF is a Progressive Web App. Install it on desktop or mobile and use every tool offline.</p>
           <Link to="/pwa-install" className="btn-secondary btn-sm mt-4">Install guide <ArrowRight className="h-3.5 w-3.5" /></Link>
         </div>
       </section>
@@ -329,7 +367,7 @@ function HeroArt() {
           <span className="h-2.5 w-2.5 rounded-full bg-gold-400" />
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
         </div>
-        <img src="/ilikepdf-logo.png" className="h-12 w-12 rounded-xl object-contain shadow-md mb-4" alt="iLikePDF Logo" />
+        <img src="/ilike2pdf-logo.png" className="h-12 w-12 rounded-xl object-contain shadow-md mb-4" alt="iLike2PDF Logo" />
         <div className="h-2.5 w-3/4 rounded-full bg-brand-500/70 mb-2.5" />
         <div className="h-2 w-full rounded-full bg-ink-300/60 dark:bg-ink-600/60 mb-2" />
         <div className="h-2 w-5/6 rounded-full bg-ink-300/50 dark:bg-ink-600/50 mb-2" />
@@ -367,30 +405,25 @@ function HeroArt() {
 
 function Testimonials() {
   const items = [
-    { name: 'Priya S.', role: 'Product Designer', text: 'Finally a PDF tool that doesn’t upload my client files. Merge & compress are instant — and gorgeous.' },
-    { name: 'Marcus T.', role: 'Software Engineer', text: 'I use the hash & base64 utilities daily. Love that it all works offline as a PWA.' },
-    { name: 'Aisha K.', role: 'Graduate Student', text: 'Made my passport photo and compressed assignment PDFs in seconds. No sign-up, no ads, no nonsense.' },
+    { icon: Shield, title: 'Privacy-first', text: 'All processing happens in your browser. Your files never leave your device — no uploads, no servers, no risk.', grad: 'from-emerald-500 to-teal-500' },
+    { icon: Zap, title: 'Instant results', text: 'No waiting for uploads or server queues. Tools run locally using Web Workers and native browser APIs.', grad: 'from-brand-500 to-fuchsia-500' },
+    { icon: WifiOff, title: 'Works offline', text: 'Install as a PWA and use every tool without an internet connection. Your documents, anywhere.', grad: 'from-accent-500 to-cyan-500' },
   ]
   return (
     <section className="section py-10 sm:py-14">
-      <SectionHeading eyebrow="Loved by users" title="What people are saying" center />
+      <SectionHeading eyebrow="Why users choose iLike2PDF" title="Built for people who care about privacy" center />
       <div className="grid gap-4 sm:grid-cols-3 mt-8">
         {items.map((t, i) => (
           <motion.div
-            key={t.name}
+            key={t.title}
             initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
             className="card p-5 relative"
           >
-            <Quote className="h-6 w-6 text-brand-500/25 absolute top-4 right-4" />
-            <div className="flex gap-0.5 text-gold-400 mb-3">{Array.from({ length: 5 }).map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-current" />)}</div>
-            <p className="text-xs leading-relaxed text-ink-700 dark:text-ink-200">"{t.text}"</p>
-            <div className="mt-4 flex items-center gap-2.5">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-accent-500 text-white font-display font-bold text-xs">{t.name[0]}</span>
-              <div>
-                <p className="text-xs font-semibold">{t.name}</p>
-                <p className="text-[10px] text-ink-500">{t.role}</p>
-              </div>
+            <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${t.grad} text-white shadow-lg mb-3`}>
+              <t.icon className="h-5 w-5" />
             </div>
+            <h3 className="font-display font-bold text-sm">{t.title}</h3>
+            <p className="text-xs leading-relaxed text-ink-600 dark:text-ink-300 mt-1">{t.text}</p>
           </motion.div>
         ))}
       </div>

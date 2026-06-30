@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { TrendingUp, Calendar, ArrowUpDown, Globe, RefreshCw } from 'lucide-react'
+import { TrendingUp, Globe, RefreshCw } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 

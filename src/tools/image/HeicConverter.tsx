@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Download, RefreshCw, Image, Trash2 } from 'lucide-react'
+import { Download, Image, Trash2 } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { downloadBlob } from '@/lib/utils'

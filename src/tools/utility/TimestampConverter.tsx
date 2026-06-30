@@ -89,7 +89,6 @@ export default function TimestampConverter() {
     return null
   })()
 
-  const nowTs = Math.floor(now / (tsUnit === 's' ? 1000 : 1))
   const diff = result ? Math.abs(now - result.date.getTime()) : null
 
   const copy = (text: string) => {

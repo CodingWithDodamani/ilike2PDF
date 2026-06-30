@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Camera, Upload, Copy, Check, ExternalLink, Image } from 'lucide-react'
+import { Camera, Upload, Copy, Check, ExternalLink } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 interface QrResult {
   text: string
@@ -98,7 +97,7 @@ export default function QrReader() {
                   stopCamera()
                   return
                 }
-              } catch {}
+              } catch { /* QR decode error — skip frame */ }
             }
           }
           animRef.current = requestAnimationFrame(scan)

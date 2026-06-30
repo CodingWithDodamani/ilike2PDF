@@ -12,7 +12,7 @@ export function PwaInstall() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('ilikepdf.installDismissed')
+    const dismissed = localStorage.getItem('ilike2pdf.installDismissed')
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferred(e as BIPEvent)
@@ -31,7 +31,7 @@ export function PwaInstall() {
   }
   const dismiss = () => {
     setShow(false)
-    localStorage.setItem('ilikepdf.installDismissed', '1')
+    localStorage.setItem('ilike2pdf.installDismissed', '1')
   }
 
   return (
@@ -39,14 +39,14 @@ export function PwaInstall() {
       {show && deferred && (
         <motion.div
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 40 }}
-          className="fixed bottom-24 md:bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-[90] max-w-sm glass-strong rounded-2xl p-4 shadow-glow"
+          className="fixed bottom-28 md:bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-[90] max-w-sm glass-strong rounded-2xl p-4 shadow-glow"
         >
           <div className="flex items-start gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-600 to-accent-500 text-white shrink-0">
               <Download className="h-5 w-5" />
             </div>
             <div className="flex-1">
-              <p className="font-semibold text-sm">Install iLikePDF</p>
+              <p className="font-semibold text-sm">Install iLike2PDF</p>
               <p className="text-xs text-ink-500 dark:text-ink-400 mt-0.5">Add to your home screen for offline access & a faster experience.</p>
               <div className="flex gap-2 mt-3">
                 <button onClick={install} className="btn-primary btn-sm">Install</button>

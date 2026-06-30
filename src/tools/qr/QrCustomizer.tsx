@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import QRCode from 'qrcode'
 import { motion } from 'framer-motion'
-import { QrCode, Download, Copy, Palette, Sparkles, ImagePlus } from 'lucide-react'
+import { QrCode, Download, Copy, ImagePlus } from 'lucide-react'
 import { Field, Segmented } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { downloadDataUrl } from '@/lib/utils'
@@ -13,7 +13,7 @@ type ModuleStyle = 'square' | 'rounded' | 'dots'
 export default function QrCustomizer() {
   const toast = useToast()
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [text, setText] = useState('https://ilikepdf.app')
+  const [text, setText] = useState('https://ilike2pdf.app')
   const [fg, setFg] = useState('#0b0b14')
   const [bg, setBg] = useState('#ffffff')
   const [gradientType, setGradientType] = useState<GradientType>('none')

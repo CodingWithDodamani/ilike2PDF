@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Copy, Check, Download, Trash2, Image } from 'lucide-react'
+import { Copy, Check, Download, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 interface Color {
   r: number; g: number; b: number

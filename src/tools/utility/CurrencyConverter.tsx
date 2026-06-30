@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { ArrowUpDown, RefreshCw, Star, Copy, Check, Globe, TrendingUp, TrendingDown, Minus, History, ChevronDown } from 'lucide-react'
+import { ArrowUpDown, RefreshCw, Star, Copy, Check, Globe, TrendingUp, TrendingDown, History } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
-const CACHE_KEY = 'ilikepdf-fx-rates-v2'
+const CACHE_KEY = 'ilike2pdf-fx-rates-v2'
 const CACHE_TTL = 60 * 60 * 1000 // 1 hour (rates update daily, no need to refetch often)
 const AUTO_REFRESH_INTERVAL = 60 * 60 * 1000 // auto-refresh every hour (daily rates)
-const HISTORY_KEY = 'ilikepdf-fx-history'
 
 interface FxRates {
   rates: Record<string, number>
@@ -15,13 +14,6 @@ interface FxRates {
   base: string
 }
 
-interface RateHistory {
-  date: string
-  rates: Record<string, number>
-}
-
-// ─── Multi-Source API Engine ────────────────────────────────────────────────
-// Sources from https://github.com/public-apis/public-apis (Currency Exchange)
 interface ApiSource {
   name: string
   url: string | (() => string)
@@ -213,7 +205,7 @@ async function fetchHistoricalRates(date: string, base = 'USD'): Promise<Record<
       const data = await res.json()
       if (data.conversion_rates) return data.conversion_rates
     }
-  } catch {}
+  } catch { /* primary API failed, try fallback */ }
 
   // Fallback to Frankfurter (ECB historical)
   try {
@@ -236,9 +228,8 @@ export default function CurrencyConverter() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [source, setSource] = useState('')
-  const [activeSourceIdx, setActiveSourceIdx] = useState(0)
   const [favorites, setFavorites] = useState<string[]>(() => {
-    try { return JSON.parse(localStorage.getItem('ilikepdf-fx-favs') || '[]') } catch { return [] }
+    try { return JSON.parse(localStorage.getItem('ilike2pdf-fx-favs') || '[]') } catch { return [] }
   })
   const [copied, setCopied] = useState(false)
   const [searchFrom, setSearchFrom] = useState('')
@@ -298,7 +289,7 @@ export default function CurrencyConverter() {
   }, [autoRefresh, fetchRates])
 
   useEffect(() => {
-    localStorage.setItem('ilikepdf-fx-favs', JSON.stringify(favorites))
+    localStorage.setItem('ilike2pdf-fx-favs', JSON.stringify(favorites))
   }, [favorites])
 
   // Load historical rates
@@ -623,7 +614,7 @@ export default function CurrencyConverter() {
           API Sources (Primary: Exchange Rate API + {API_SOURCES.length - 1} fallbacks)
         </summary>
         <div className="mt-2 space-y-1">
-          {API_SOURCES.map((s, i) => (
+          {API_SOURCES.map((s) => (
             <div key={s.name} className="flex items-center gap-2 text-xs text-ink-500 dark:text-ink-400">
               <span className={cn(
                 'w-2 h-2 rounded-full',

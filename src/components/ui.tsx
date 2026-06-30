@@ -2,10 +2,40 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { useId, type ReactNode } from 'react'
-import { cn } from '@/lib/utils'
+import { cn, formatBytes } from '@/lib/utils'
 
 export function Spinner({ className }: { className?: string }) {
   return <Loader2 className={cn('animate-spin', className)} role="status" aria-label="Loading" />
+}
+
+export function ToolSkeleton() {
+  return (
+    <div className="card p-4 sm:p-5 animate-pulse" role="status" aria-label="Loading tool">
+      <div className="grid gap-4">
+        {/* Header skeleton */}
+        <div className="flex items-start gap-3">
+          <div className="h-10 w-10 rounded-xl bg-ink-200 dark:bg-ink-700" />
+          <div className="flex-1">
+            <div className="h-5 w-40 rounded bg-ink-200 dark:bg-ink-700 mb-2" />
+            <div className="h-3 w-64 rounded bg-ink-100 dark:bg-ink-800" />
+          </div>
+        </div>
+        {/* Dropzone skeleton */}
+        <div className="h-36 rounded-xl border-2 border-dashed border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-800/40" />
+        {/* Button skeleton */}
+        <div className="flex gap-2">
+          <div className="h-9 w-32 rounded-lg bg-ink-200 dark:bg-ink-700" />
+          <div className="h-9 w-24 rounded-lg bg-ink-100 dark:bg-ink-800" />
+        </div>
+        {/* Stats skeleton */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[0, 1, 2, 3].map(i => (
+            <div key={i} className="h-16 rounded-xl bg-ink-100 dark:bg-ink-800" />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function Section({ children, className }: { children: ReactNode; className?: string }) {
@@ -97,13 +127,7 @@ export function ResultBar({ inputSize, outputSize }: { inputSize: number; output
 }
 
 function formatPair(a: number, b: number) {
-  const f = (n: number) => {
-    const k = 1024
-    const u = ['B', 'KB', 'MB', 'GB']
-    const i = Math.min(Math.floor(Math.log(Math.max(n, 1)) / Math.log(k)), u.length - 1)
-    return `${(n / Math.pow(k, i)).toFixed(1)} ${u[i]}`
-  }
-  return `${f(a)} → ${f(b)}`
+  return `${formatBytes(a)} → ${formatBytes(b)}`
 }
 
 export function EmptyHint({ children }: { children: ReactNode }) {

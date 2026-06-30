@@ -1,11 +1,10 @@
 import { useRef, useState } from 'react'
-import { removeBackground } from '@imgly/background-removal'
 import { Eraser, Download, Loader2 } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
 import { Section, Progress } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { BeforeAfter } from '@/components/BeforeAfter'
-import { baseName, downloadBlob, fileToDataUrl, formatBytes } from '@/lib/utils'
+import { baseName, downloadBlob, formatBytes } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
 
 export default function BackgroundRemover() {
@@ -44,6 +43,7 @@ export default function BackgroundRemover() {
     setProgress(0)
     setProgressText('Initializing AI model…')
     try {
+      const { removeBackground } = await import('@imgly/background-removal')
       const blob = await removeBackground(file, {
         progress: (key: string, current: number, total: number) => {
           if (total > 0) {

@@ -29,7 +29,7 @@ function playBeep() {
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5)
     osc.stop(ctx.currentTime + 0.5)
     setTimeout(() => ctx.close(), 600)
-  } catch {}
+  } catch { /* audio context not available */ }
 }
 
 interface Lap {
@@ -130,12 +130,6 @@ export default function Stopwatch() {
     cdRafRef.current = requestAnimationFrame(tickCd)
   }, [hours, minutes, seconds, tickCd])
 
-  const handleCdPause = useCallback(() => {
-    cancelAnimationFrame(cdRafRef.current)
-    setSwRunning(false)
-    setCdRunning(false)
-  }, [])
-
   const handleCdResume = useCallback(() => {
     cdEndTimeRef.current = performance.now() + cdRemaining
     setCdRunning(true)
@@ -155,8 +149,6 @@ export default function Stopwatch() {
     setMinutes(m)
     setSeconds(0)
   }, [])
-
-  const displayTime = mode === 'stopwatch' ? swElapsed : cdRemaining
 
   return (
     <Section>

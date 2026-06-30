@@ -75,7 +75,7 @@ function mdToHtml(md: string): string {
   // Blockquote
   html = html.replace(/^&gt;\s+(.+)$/gm, '<blockquote>$1</blockquote>')
   // Tables
-  html = html.replace(/^\|(.+)\|$/gm, (match, content) => {
+  html = html.replace(/^\|(.+)\|$/gm, (_match, content) => {
     const cells = content.split('|').map((c: string) => c.trim())
     if (cells.every((c: string) => /^[-:]+$/.test(c))) return ''
     const tag = 'td'

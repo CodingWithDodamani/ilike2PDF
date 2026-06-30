@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import JsBarcode from 'jsbarcode'
 import { motion } from 'framer-motion'
-import { Download, Copy, Info } from 'lucide-react'
+import { Download, Info } from 'lucide-react'
 import { Field, Segmented } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { downloadDataUrl } from '@/lib/utils'
@@ -12,7 +12,7 @@ type BarcodeFormat = 'CODE128' | 'EAN13' | 'CODE39'
 const FORMAT_INFO: Record<BarcodeFormat, { label: string; hint: string; example: string; validate: (v: string) => boolean }> = {
   CODE128: { label: 'Code 128', hint: 'Any ASCII text, 1–80 chars', example: 'Hello-123', validate: v => v.length > 0 && v.length <= 80 },
   EAN13: { label: 'EAN-13', hint: 'Exactly 12 or 13 digits', example: '5901234123457', validate: v => /^[0-9]{12,13}$/.test(v) },
-  CODE39: { label: 'Code 39', hint: 'Uppercase A-Z, 0-9, symbols: - . $ / + % SPACE', example: 'HELLO-123', validate: v => /^[A-Z0-9\-\.\$\/\+\%\s]+$/.test(v) && v.length > 0 },
+  CODE39: { label: 'Code 39', hint: 'Uppercase A-Z, 0-9, symbols: - . $ / + % SPACE', example: 'HELLO-123', validate: v => /^[A-Z0-9\-.$/+%\s]+$/.test(v) && v.length > 0 },
 }
 
 export default function BarcodeGenerator() {

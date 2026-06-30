@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Grid3x3, Download } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
 import { FileChips } from '@/components/FileChips'
-import { Spinner, Field, Segmented } from '@/components/ui'
+import { Spinner, Field } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { canvasToBlob, downloadBlob, fileToImage } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
@@ -13,7 +13,7 @@ export default function CollageMaker() {
   const [cols, setCols] = useState(2)
   const [gap, setGap] = useState(12)
   const [bg, setBg] = useState('#ffffff')
-  const [cell, setCell] = useState(400)
+  const [cell] = useState(400)
   const [busy, setBusy] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 

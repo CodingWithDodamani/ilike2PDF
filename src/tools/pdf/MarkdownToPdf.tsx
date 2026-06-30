@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { FileCode2, Printer } from 'lucide-react'
@@ -6,7 +6,7 @@ import { Segmented } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { trackUsage } from '@/lib/storage'
 
-const SAMPLE = `# iLikePDF Document
+const SAMPLE = `# iLike2PDF Document
 
 Write **Markdown** on the left and see a live preview on the right.
 
@@ -21,7 +21,7 @@ Write **Markdown** on the left and see a live preview on the right.
 | Split | ✅ |
 
 \`\`\`js
-console.log('Hello, iLikePDF!')
+console.log('Hello, iLike2PDF!')
 \`\`\`
 
 > Everything runs locally in your browser.
@@ -43,7 +43,7 @@ export default function MarkdownToPdf() {
     const previewEl = previewRef.current
     if (!previewEl) return
     const html = previewEl.innerHTML
-    w.document.write(`<!doctype html><html><head><title>iLikePDF Document</title>
+    w.document.write(`<!doctype html><html><head><title>iLike2PDF Document</title>
       <style>
         body{font-family:Inter,system-ui,sans-serif;max-width:780px;margin:40px auto;padding:0 24px;line-height:1.65;color:#111}
         h1,h2,h3{line-height:1.25}h1{border-bottom:2px solid #eee;padding-bottom:.3em}

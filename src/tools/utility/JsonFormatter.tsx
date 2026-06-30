@@ -191,7 +191,7 @@ export default function JsonFormatter() {
     try {
       const data = JSON.parse(input)
       setInput(JSON.stringify(data, null, 2))
-    } catch {}
+    } catch { /* ignore invalid JSON */ }
   }, [input])
 
   return (

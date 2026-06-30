@@ -1,6 +1,5 @@
 import { useState, useRef, useMemo } from 'react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import { User, Download, Copy } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
 import { useToast } from '@/components/Toaster'

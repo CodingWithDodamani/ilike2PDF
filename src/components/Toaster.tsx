@@ -50,7 +50,7 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
   return (
     <Ctx.Provider value={value}>
       {children}
-      <div className="fixed bottom-20 sm:bottom-6 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 items-end pointer-events-none" aria-live="assertive">
+      <div className="fixed bottom-24 sm:bottom-6 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 items-end pointer-events-none" aria-live="assertive">
         <AnimatePresence>
           {toasts.filter(t => t.type === 'error').map((t) => {
             const Icon = ICONS[t.type]
@@ -76,7 +76,7 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
           })}
         </AnimatePresence>
       </div>
-      <div className="fixed bottom-20 sm:bottom-6 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 items-end pointer-events-none" aria-live="polite">
+      <div className="fixed bottom-24 sm:bottom-6 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 items-end pointer-events-none" aria-live="polite">
         <AnimatePresence>
           {toasts.filter(t => t.type !== 'error').map((t) => {
             const Icon = ICONS[t.type]

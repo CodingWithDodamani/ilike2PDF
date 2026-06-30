@@ -1,8 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Download, Image, RefreshCw } from 'lucide-react'
+import { Download, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
-import { downloadBlob } from '@/lib/utils'
 
 type SketchStyle = 'pencil' | 'ink' | 'charcoal' | 'negative'
 

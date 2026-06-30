@@ -5,22 +5,22 @@ import { Search } from 'lucide-react'
 import { CATEGORY_META, toolsByCategory } from '@/lib/tools'
 import { ToolCard } from '@/components/ToolCard'
 
-const HOSTNAME = 'https://ilikepdf.pages.dev'
+const HOSTNAME = 'https://ilike2pdf.pages.dev'
 
 export default function Category() {
   const { cat } = useParams()
   const [q, setQ] = useState('')
-
-  if (!cat || !CATEGORY_META[cat]) return <Navigate to="/" replace />
-  const meta = CATEGORY_META[cat]
-  const tools = useMemo(() => toolsByCategory(cat), [cat])
+  const meta = cat ? CATEGORY_META[cat] : undefined
+  const tools = useMemo(() => (cat ? toolsByCategory(cat) : []), [cat])
   const filtered = useMemo(
     () => tools.filter((t) => (t.name + t.short + (t.keywords ?? []).join(' ')).toLowerCase().includes(q.toLowerCase())),
     [tools, q]
   )
 
+  if (!cat || !meta) return <Navigate to="/" replace />
+
   const url = `${HOSTNAME}/category/${cat}`
-  const title = `${meta.label} — iLikePDF`
+  const title = `${meta.label} — iLike2PDF`
   const description = `${meta.description} ${tools.length} free, private browser-based tools. No uploads, no tracking.`
 
   return (
@@ -34,7 +34,8 @@ export default function Category() {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={url} />
-        <meta property="og:site_name" content="iLikePDF" />
+        <meta property="og:site_name" content="iLike2PDF" />
+        <meta property="og:image" content={`${HOSTNAME}/og-image.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />

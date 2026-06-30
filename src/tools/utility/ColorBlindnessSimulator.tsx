@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { Eye, Upload, Download, RotateCcw } from 'lucide-react'
+import { Eye, Upload, Download } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  Command, Sun, Moon, Menu, X, Home, FileText, Image as ImageIcon,
+  Command, Sun, Moon, Monitor, Menu, X, Home, FileText, Image as ImageIcon,
   QrCode, Wrench, Shield, WifiOff, User,
 } from 'lucide-react'
 import { CommandPalette } from './CommandPalette'
@@ -39,11 +39,10 @@ export function Layout() {
   useEffect(() => { setMenuOpen(false); window.scrollTo({ top: 0 }) }, [location.pathname])
 
   const cycleTheme = () => {
-    const next: ThemeMode = theme === 'dark' ? 'light' : 'dark'
+    const next: ThemeMode = theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'
     setTheme(next); setThemeState(next)
   }
   const refreshTheme = useCallback(() => setThemeState(getTheme()), [])
-  const isDark = document.documentElement.classList.contains('dark')
 
   return (
     <div className="min-h-dvh flex flex-col">
@@ -51,8 +50,8 @@ export function Layout() {
       <header className="sticky top-0 z-50 glass border-b border-ink-200/50 dark:border-white/[0.06]">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 h-[4.5rem] flex items-center gap-3">
           <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-xl shrink-0 focus-ring rounded-xl">
-            <img src="/ilikepdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow-md" alt="iLikePDF Logo" />
-            <span className="tracking-tight">iLike<span className="gradient-text">PDF</span></span>
+            <img src="/ilike2pdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow-md" alt="iLike2PDF Logo" />
+            <span className="tracking-tight">iLike<span className="gradient-text">2PDF</span></span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-0.5 ml-6">
@@ -83,8 +82,8 @@ export function Layout() {
             <button onClick={() => setPaletteOpen(true)} className="sm:hidden btn-ghost btn-sm !p-2" aria-label="Search">
               <Command className="h-5 w-5" />
             </button>
-            <button onClick={cycleTheme} className="btn-ghost btn-sm !p-2" aria-label="Toggle theme">
-              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            <button onClick={cycleTheme} className="btn-ghost btn-sm !p-2" aria-label={`Theme: ${theme}`}>
+              {theme === 'dark' ? <Moon className="h-5 w-5" /> : theme === 'system' ? <Monitor className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
             </button>
             <Link to="/about" className="sm:hidden gradient-text text-sm font-bold px-2 py-1 rounded-lg">
               About
@@ -162,7 +161,6 @@ function Footer() {
     { title: 'Product', links: [['About', '/about'], ['FAQ', '/faq'], ['Changelog', '/changelog'], ['Shortcuts', '/shortcuts']] },
     { title: 'Legal', links: [['Privacy', '/privacy'], ['Terms', '/terms'], ['Accessibility', '/accessibility'], ['Licenses', '/licenses']] },
   ]
-  const productCol = cols.find((c) => c.title === 'Product')!
   return (
     <footer className="relative border-t border-ink-200/60 dark:border-white/[0.06] mt-16 overflow-hidden">
       <div aria-hidden className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent" />
@@ -171,11 +169,11 @@ function Footer() {
         <div className="grid gap-10 md:grid-cols-6">
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-xl">
-              <img src="/ilikepdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow" alt="iLikePDF Logo" />
-              iLike<span className="gradient-text">PDF</span>
+              <img src="/ilike2pdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow" alt="iLike2PDF Logo" />
+              iLike<span className="gradient-text">2PDF</span>
             </Link>
             <p className="text-sm text-ink-500 dark:text-ink-400 mt-4 max-w-xs leading-relaxed">
-              40+ free document tools that run entirely in your browser. Zero uploads. Zero tracking. Works offline.
+              94 free document tools that run entirely in your browser. Zero uploads. Zero tracking. Works offline.
             </p>
             <div className="flex items-center gap-2 mt-5">
               <span className="badge"><Shield className="h-3 w-3" /> 100% private</span>
@@ -199,21 +197,7 @@ function Footer() {
               </a>
             </div>
           </div>
-          {cols.map((c) => {
-            if (c.title === 'Product') {
-              return (
-                <div key={c.title}>
-                  <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-ink-400 mb-4">{c.title}</h3>
-                  <ul className="space-y-2.5">
-                    {productCol.links.map(([label, to]) => (
-                      <li key={to}><Link to={to} className="text-sm text-ink-600 dark:text-ink-300 hover:text-brand-500 transition-colors">{label}</Link></li>
-                    ))}
-
-                  </ul>
-                </div>
-              )
-            }
-            return (
+          {cols.map((c) => (
               <div key={c.title}>
                 <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-ink-400 mb-4">{c.title}</h3>
                 <ul className="space-y-2.5">
@@ -222,11 +206,10 @@ function Footer() {
                   ))}
                 </ul>
               </div>
-            )
-          })}
+          ))}
         </div>
         <div className="mt-12 pt-7 border-t border-ink-200/60 dark:border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink-500">
-          <p>© {new Date().getFullYear()} iLikePDF. All rights reserved by Hallu Dodamani.</p>
+          <p>© {new Date().getFullYear()} iLike2PDF. All rights reserved by Hallu Dodamani.</p>
           <p className="flex items-center gap-1.5"><Shield className="h-4 w-4 text-emerald-500" /> Your files never leave your device.</p>
         </div>
       </div>

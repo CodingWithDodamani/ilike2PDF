@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { GripVertical, X, FileText } from 'lucide-react'
 import { formatBytes } from '@/lib/utils'
 import { useTouchDnd } from '@/hooks/useTouchDnd'

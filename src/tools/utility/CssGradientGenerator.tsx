@@ -29,7 +29,6 @@ export default function CssGradientGenerator() {
     { color: '#764ba2', position: 100 },
   ])
   const [copied, setCopied] = useState(false)
-  const [showCode, setShowCode] = useState(false)
 
   const gradient = useMemo(() => {
     const sorted = [...stops].sort((a, b) => a.position - b.position)

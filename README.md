@@ -6,7 +6,7 @@
 - **Core principles**: Client-side processing · Offline-first · Installable PWA · WCAG 2.2 AA accessibility · Mobile-first · Open source.
 
 ## Live URLs
-- **Sandbox preview**: served via `wrangler pages dev` on port 3000 (use the GetServiceUrl link from the build session).
+- **Sandbox preview**: served via `wrangler pages dev` on port 5173 (use the GetServiceUrl link from the build session).
 - **Production**: deploy to Cloudflare Pages (`npm run deploy`). Replace with the `*.pages.dev` URL after first deploy.
 
 ## Tech Stack
@@ -20,11 +20,11 @@
 - **Misc**: Fuse.js (command palette fuzzy search), react-markdown + remark-gfm, JSZip, Web Crypto API
 
 ## Completed Features
-### 40 Tools across 4 categories
-- **PDF (20)**: Merge, Split, Extract Pages, Delete Pages, Rotate, Organize (reorder/rotate/remove), PDF→Image, Compress, PDF→Text, Extract Images, Watermark, Page Numbers, Edit Metadata, Page-Size Converter, Unlock (known password), Protect (AES-GCM container), Compare, Sign (draw/type/upload), Markdown→PDF, Image→PDF.
-- **Image (12)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background (chroma-key), Blur, Watermark, Color Picker, Image Metadata (EXIF), Passport Photo, Collage Maker.
-- **QR (3)**: Generator (text/URL/wifi/vcard/etc.), Scanner (camera/file), Batch generator.
-- **Utility (5)**: File-size inspector, Document-size inspector, Base64 encode/decode, Text Counter, Hash Generator (SHA-1/256/384/512 via Web Crypto).
+### 94 Tools across 4 categories
+- **PDF (25)**: Merge, Split, Extract Pages, Delete Pages, Rotate, Organize (reorder/rotate/remove), PDF→Image, Compress, PDF→Text, Extract Images, Watermark, Page Numbers, Edit Metadata, Page-Size Converter, Unlock (known password), Protect (AES-GCM container), Compare, Sign (draw/type/upload), Markdown→PDF, Image→PDF, Crop, Bookmarks, Annotate, PDF→Word, Advanced Compression.
+- **Image (17)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background (chroma-key), Blur, Watermark, Color Picker, Image Metadata (EXIF), Passport Photo, Collage Maker, HEIC Converter, Color Palette, Photo to Sketch, Image Border, AI Background Remover, Image Upscaler, Meme Generator, Batch Compressor, EXIF Editor.
+- **QR (8)**: Generator (text/URL/wifi/vcard/etc.), Scanner (camera/file), Batch generator, Customizer (styled), Barcode Generator, WiFi QR, vCard QR, QR to PDF, Enhanced Scanner.
+- **Utility (44)**: File-size inspector, Document-size inspector, Base64 encode/decode, Text Counter, Hash Generator (SHA-1/256/384/512 via Web Crypto), Age Calculator, Text to Speech (3 engines), Currency Converter (170+ currencies), Unit Converter (100+ units), JSON Formatter, Password Generator, Timestamp Converter, Number Base Converter, Lorem Ipsum, Markdown Preview, Color Converter, Regex Tester, UUID Generator, Dice Roller, Random Generator, Tip Calculator, BMI Calculator, Loan/EMI Calculator, Roman Numeral Converter, Scientific Calculator, Text Diff Checker, CSV Viewer, JSON↔CSV Converter, Stopwatch & Timer, Cron Generator, CSS Gradient Generator, Box Shadow Generator, SVG to PNG, Image to Text OCR, Favicon Generator, Currency Chart, Color Blindness Simulator, Text to Handwriting, Heatmap Generator.
 
 ### Platform
 - **Premium landing page** — animated hero, category grid, popular tools, features, comparison table, testimonials, open-source/PWA sections, FAQ teaser, footer.
@@ -50,7 +50,7 @@ All processing routes accept input via drag-and-drop or file picker. No query pa
 
 ## Data Architecture
 - **Data models**: `ToolDef` (tool registry), `HistoryEntry` (per-action record), `AnalyticsState` (`filesProcessed`, `bytesSaved`, `bytesProcessed`, `toolUsage`, `daily`).
-- **Storage services**: **Browser `localStorage` only** — keys `snappdf.history`, `snappdf.analytics`, `snappdf.recentTools`, `snappdf.theme`. No server, no database, no cloud storage.
+- **Storage services**: **Browser `localStorage` only** — keys `snappdf.history`, `snappdf.analytics`, `snappdf.recentTools`, `ilike2pdf.theme`. No server, no database, no cloud storage.
 - **Data flow**: File → read in-memory (FileReader / ArrayBuffer) → processed via WASM/JS libraries → result downloaded via Blob URL. Usage metadata (not file contents) is recorded to localStorage via `trackUsage()`.
 
 ## User Guide
@@ -63,16 +63,19 @@ All processing routes accept input via drag-and-drop or file picker. No query pa
 ## Development
 ```bash
 npm install            # install dependencies
+npm run dev            # start Vite dev server on :5173
 npm run build          # type-check + production build to dist/
-pm2 start ecosystem.config.cjs   # serve dist via wrangler pages dev on :3000
-curl http://localhost:3000       # smoke test
+npm run test           # run Vitest unit tests
+npm run test:e2e       # run Playwright E2E tests
+pm2 start ecosystem.config.cjs   # serve dist via wrangler pages dev on :5173
+curl http://localhost:5173       # smoke test
 ```
 
 ## Deployment (Cloudflare Pages)
 - **Platform**: Cloudflare Pages (static SPA + PWA)
 - **Build output**: `./dist`
 - **Deploy**: `npm run build && npx wrangler pages deploy dist --project-name <project>`
-- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 40 tools code-split and lazy-loaded.
+- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 94 tools code-split and lazy-loaded.
 
 ## Not Yet Implemented / Known Limitations
 - **Compress PDF** re-rasterizes pages (flattens selectable text into images) — no text-preserving optimization yet.
@@ -95,9 +98,13 @@ This reads the approved flat logo file (`/public/snappdf_logo_flat_1782547779742
 - OpenGraph preview cards (`og-image.png`) composited onto the dark mesh layout.
 
 ## Recommended Next Steps
-1. Add a Tesseract.js-based OCR tool for image-only PDFs (lazy-loaded to keep bundle size small).
-2. Replace chroma-key Remove Background with a WASM ML model (e.g. MODNet) behind an opt-in download.
-3. Add E2E smoke tests (Playwright) per tool category.
+1. ~~Add a Tesseract.js-based OCR tool for image-only PDFs~~ — Done (Image to Text OCR).
+2. ~~Replace chroma-key Remove Background with a WASM ML model~~ — Done (Background Remover AI uses @imgly/background-removal).
+3. ~~Add E2E smoke tests (Playwright) per tool category~~ — Done (100 tests passing).
+4. Add Vitest unit tests for utility functions and tool logic (56 tests passing).
+5. Implement privacy-respecting localStorage analytics via `trackUsage()`.
+6. Add ESLint + Prettier for code quality.
+7. Add keyboard shortcuts for common operations.
 
 ## GitHub Repository
 - **Remote**: [CodingWithDodamani/SnapPDF](https://github.com/CodingWithDodamani/SnapPDF.git)

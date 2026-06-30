@@ -34,7 +34,7 @@ const KOKORO_VOICES = [
 ]
 
 const PRESET_TEXTS = [
-  'Welcome to iLikePDF — the free, private, browser-based document toolkit. No uploads. No tracking. Everything runs locally in your browser.',
+  'Welcome to iLike2PDF — the free, private, browser-based document toolkit. No uploads. No tracking. Everything runs locally in your browser.',
   'The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.',
   'In the beginning was the Word, and the Word was with God, and the Word was God.',
   'To be, or not to be, that is the question: Whether \'tis nobler in the mind to suffer the slings and arrows of outrageous fortune.',
@@ -54,7 +54,8 @@ export default function TextToSpeech() {
   const synthRef = useRef<SpeechSynthesis | null>(null)
 
   // Engine state
-  const [engine, setEngine] = useState<Engine>('edge')
+  const [engine, setEngine] = useState<Engine>(() => navigator.onLine ? 'edge' : 'browser')
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
 
   // Text
   const [text, setText] = useState(PRESET_TEXTS[0])
@@ -85,7 +86,6 @@ export default function TextToSpeech() {
   const [edgeVoices, setEdgeVoices] = useState<EdgeVoice[]>([])
   const [selectedEdgeVoice, setSelectedEdgeVoice] = useState('en-US-JennyNeural')
   const [edgeLocale, setEdgeLocale] = useState('en-US')
-  const [edgeLoading, setEdgeLoading] = useState(false)
   const [edgeReady, setEdgeReady] = useState(false)
   const edgeAudioRef = useRef<HTMLAudioElement | null>(null)
   const edgeBlobUrlRef = useRef<string | null>(null)
@@ -116,6 +116,24 @@ export default function TextToSpeech() {
     synthRef.current.onvoiceschanged = loadVoices
     return () => { synthRef.current?.cancel() }
   }, [])
+
+  // Listen for online/offline changes
+  useEffect(() => {
+    const goOnline = () => { setIsOnline(true) }
+    const goOffline = () => {
+      setIsOnline(false)
+      if (engine === 'edge') {
+        toast.info('You are offline. Switching to Browser TTS.')
+        setEngine('browser')
+      }
+    }
+    window.addEventListener('online', goOnline)
+    window.addEventListener('offline', goOffline)
+    return () => {
+      window.removeEventListener('online', goOnline)
+      window.removeEventListener('offline', goOffline)
+    }
+  }, [engine])
 
   // Load Edge voices on mount
   useEffect(() => {
@@ -431,7 +449,7 @@ export default function TextToSpeech() {
   const playDisabled = !text.trim() ||
     (engine === 'browser' && !browserSupported) ||
     (engine === 'kokoro' && !kokoroReady) ||
-    (engine === 'edge' && !edgeReady)
+    (engine === 'edge' && (!edgeReady || !isOnline))
 
   return (
     <div className="grid gap-5 lg:grid-cols-2">
@@ -461,7 +479,9 @@ export default function TextToSpeech() {
 
         {engine === 'edge' && (
           <div className="flex items-center gap-3 p-3 rounded-xl border border-ink-200 dark:border-ink-700 bg-ink-50 dark:bg-ink-800/40">
-            {edgeReady ? (
+            {!isOnline ? (
+              <><VolumeX className="h-5 w-5 text-rose-500 shrink-0" /><div className="flex-1 min-w-0"><p className="text-sm font-medium text-rose-600 dark:text-rose-400">Offline</p><p className="text-xs text-ink-500">Edge Neural requires an internet connection</p></div></>
+            ) : edgeReady ? (
               <><Globe className="h-5 w-5 text-blue-500 shrink-0" /><div className="flex-1 min-w-0"><p className="text-sm font-medium text-blue-600 dark:text-blue-400">Edge Neural ready</p><p className="text-xs text-ink-500">{edgeVoices.length} voices · no download needed</p></div></>
             ) : (
               <><Loader2 className="h-5 w-5 text-blue-500 shrink-0 animate-spin" /><div className="flex-1 min-w-0"><p className="text-sm font-medium">Loading voices...</p></div></>

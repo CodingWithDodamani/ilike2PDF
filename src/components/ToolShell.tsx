@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ChevronRight, Shield } from 'lucide-react'
+import { ChevronRight, Shield, Keyboard } from 'lucide-react'
 import type { ToolDef } from '@/lib/types'
 import { CATEGORY_META } from '@/lib/tools'
 
@@ -34,7 +34,23 @@ export function ToolShell({ tool, children }: { tool: ToolDef; children: React.R
         <div className="min-w-0">
           {children}
         </div>
-        <aside className="hidden lg:block" aria-hidden="true" />
+        <aside className="hidden lg:block space-y-3" aria-label="Tool tips">
+          <div className="card p-3 space-y-2">
+            <p className="text-[11px] font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wide flex items-center gap-1.5">
+              <Keyboard className="h-3 w-3" /> Shortcuts
+            </p>
+            <div className="space-y-1.5 text-[11px] text-ink-500 dark:text-ink-400">
+              <div className="flex items-center gap-2">
+                <kbd className="px-1.5 py-0.5 rounded bg-ink-100 dark:bg-ink-800 text-ink-600 dark:text-ink-300 font-mono text-[10px]">Ctrl+O</kbd>
+                <span>Open file</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <kbd className="px-1.5 py-0.5 rounded bg-ink-100 dark:bg-ink-800 text-ink-600 dark:text-ink-300 font-mono text-[10px]">Ctrl+S</kbd>
+                <span>Save result</span>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   )

@@ -5,28 +5,28 @@ import { motion } from 'framer-motion'
 import {
   Shield, Lock, FileText, Mail, HelpCircle, History as HistoryIcon, Keyboard,
   Accessibility as AccessibilityIcon, WifiOff, Download, Scale, ChevronDown,
-  Heart, CheckCircle2, Cpu, Zap, Globe, Copy, Check,
-  ExternalLink, Star, Code2, Sparkles, Youtube,
+  Heart, CheckCircle2, Globe, Copy, Check,
+  ExternalLink, Star, Code2, Sparkles,
 } from 'lucide-react'
 
 type PageKey =
   | 'about' | 'privacy' | 'terms' | 'contact' | 'faq' | 'changelog'
   | 'shortcuts' | 'accessibility' | 'offline' | 'pwa' | 'licenses'
 
-const HOSTNAME = 'https://ilikepdf.pages.dev'
+const HOSTNAME = 'https://ilike2pdf.pages.dev'
 
 const TITLES: Record<PageKey, { title: string; sub: string; description: string; icon: typeof Shield }> = {
-  about: { title: 'About iLikePDF', sub: 'A free, private, browser-first document toolkit.', description: 'Learn about iLikePDF — a free, private, browser-first document toolkit with 40+ tools that run entirely in your browser. No uploads, no tracking, works offline.', icon: Shield },
-  privacy: { title: 'Privacy Policy', sub: 'How iLikePDF handles (and doesn’t handle) your data.', description: 'iLikePDF privacy policy — we collect no data, no files are uploaded, no tracking. Your files never leave your device.', icon: Lock },
-  terms: { title: 'Terms of Use', sub: 'The simple rules for using iLikePDF.', description: 'Terms of use for iLikePDF — free, open-source document tools provided as-is without warranty.', icon: FileText },
-  contact: { title: 'Contact', sub: 'Questions, feedback or bug reports — reach out.', description: 'Contact the iLikePDF team — report bugs, request features, or ask questions via GitHub or email.', icon: Mail },
-  faq: { title: 'Frequently Asked Questions', sub: 'Everything you might wonder about iLikePDF.', description: 'iLikePDF FAQ — answers about file privacy, offline use, file size limits, password removal, and browser support.', icon: HelpCircle },
-  changelog: { title: 'Changelog', sub: 'What’s new and what’s coming.', description: 'iLikePDF changelog — track new features, improvements, and releases for the privacy-first document toolkit.', icon: HistoryIcon },
-  shortcuts: { title: 'Keyboard Shortcuts', sub: 'Work faster with the keyboard.', description: 'iLikePDF keyboard shortcuts — Ctrl/Cmd+K for command palette, Esc to close dialogs, arrow keys to navigate.', icon: Keyboard },
-  accessibility: { title: 'Accessibility', sub: 'Our commitment to WCAG 2.2 AA.', description: 'iLikePDF accessibility statement — WCAG 2.2 AA compliant, keyboard operable, sufficient contrast, screen reader support.', icon: AccessibilityIcon },
-  offline: { title: 'Offline Guide', sub: 'Use every tool with no connection.', description: 'iLikePDF offline guide — install the PWA and use all 40+ document tools without an internet connection.', icon: WifiOff },
-  pwa: { title: 'Install iLikePDF', sub: 'Add iLikePDF to your device like a native app.', description: 'Install iLikePDF as a Progressive Web App on desktop, iOS, or Android for offline access to all tools.', icon: Download },
-  licenses: { title: 'Open-Source Licenses', sub: 'The libraries that power iLikePDF.', description: 'iLikePDF open-source licenses — MIT, Apache-2.0, ISC licenses for React, pdf-lib, PDF.js, qrcode, and more.', icon: Scale },
+  about: { title: 'About iLike2PDF', sub: 'A free, private, browser-first document toolkit.', description: 'Learn about iLike2PDF — a free, private, browser-first document toolkit with 94 tools that run entirely in your browser. No uploads, no tracking, works offline.', icon: Shield },
+  privacy: { title: 'Privacy Policy', sub: 'How iLike2PDF handles (and doesn’t handle) your data.', description: 'iLike2PDF privacy policy — we collect no data, no files are uploaded, no tracking. Your files never leave your device.', icon: Lock },
+  terms: { title: 'Terms of Use', sub: 'The simple rules for using iLike2PDF.', description: 'Terms of use for iLike2PDF — free, open-source document tools provided as-is without warranty.', icon: FileText },
+  contact: { title: 'Contact', sub: 'Questions, feedback or bug reports — reach out.', description: 'Contact the iLike2PDF team — report bugs, request features, or ask questions via GitHub or email.', icon: Mail },
+  faq: { title: 'Frequently Asked Questions', sub: 'Everything you might wonder about iLike2PDF.', description: 'iLike2PDF FAQ — answers about file privacy, offline use, file size limits, password removal, and browser support.', icon: HelpCircle },
+  changelog: { title: 'Changelog', sub: 'What’s new and what’s coming.', description: 'iLike2PDF changelog — track new features, improvements, and releases for the privacy-first document toolkit.', icon: HistoryIcon },
+  shortcuts: { title: 'Keyboard Shortcuts', sub: 'Work faster with the keyboard.', description: 'iLike2PDF keyboard shortcuts — Ctrl/Cmd+K for command palette, Esc to close dialogs, arrow keys to navigate.', icon: Keyboard },
+  accessibility: { title: 'Accessibility', sub: 'Our commitment to WCAG 2.2 AA.', description: 'iLike2PDF accessibility statement — WCAG 2.2 AA compliant, keyboard operable, sufficient contrast, screen reader support.', icon: AccessibilityIcon },
+  offline: { title: 'Offline Guide', sub: 'Use every tool with no connection.', description: 'iLike2PDF offline guide — install the PWA and use all 94 document tools without an internet connection.', icon: WifiOff },
+  pwa: { title: 'Install iLike2PDF', sub: 'Add iLike2PDF to your device like a native app.', description: 'Install iLike2PDF as a Progressive Web App on desktop, iOS, or Android for offline access to all tools.', icon: Download },
+  licenses: { title: 'Open-Source Licenses', sub: 'The libraries that power iLike2PDF.', description: 'iLike2PDF open-source licenses — MIT, Apache-2.0, ISC licenses for React, pdf-lib, PDF.js, qrcode, and more.', icon: Scale },
 }
 
 function H2({ children }: { children: ReactNode }) {
@@ -271,8 +271,8 @@ function About() {
             <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-accent-500 to-emerald-500 rounded-r-full" />
             <div className="pl-4">
               <p className="text-ink-600 dark:text-ink-300 leading-relaxed text-base">
-                I'm the creator of <span className="font-semibold text-brand-500">iLikePDF</span> — a privacy-first
-                document toolkit with <span className="font-semibold">94+ tools</span> that run entirely in the browser.
+                I'm the creator of <span className="font-semibold text-brand-500">iLike2PDF</span> — a privacy-first
+                document toolkit with <span className="font-semibold">94 tools</span> that run entirely in the browser.
                 I believe in <span className="font-semibold text-accent-500">building in public</span>,
                 <span className="font-semibold text-accent-500"> shipping fast</span>, and
                 <span className="font-semibold text-accent-500"> open-source everything</span>.
@@ -482,7 +482,7 @@ function About() {
             },
             {
               href: '',
-              name: 'iLikePDF',
+              name: 'iLike2PDF',
               desc: '94+ free document tools that run entirely in your browser. Zero uploads. Works offline.',
               gradient: 'from-brand-500 to-accent-500',
               isCurrent: true,
@@ -531,12 +531,12 @@ function About() {
         </div>
       </motion.div>
 
-      {/* Why iLikePDF */}
+      {/* Why iLike2PDF */}
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <H2>Why I Built iLikePDF</H2>
+        <H2>Why I Built iLike2PDF</H2>
         <P>
           Most "free" online PDF tools quietly upload your documents to a server. For contracts,
-          IDs, medical records and financial statements, that is an unnecessary risk. iLikePDF proves
+          IDs, medical records and financial statements, that is an unnecessary risk. iLike2PDF proves
           you don't need a server at all — modern browsers are powerful enough to do the work safely
           on your machine.
         </P>
@@ -599,7 +599,7 @@ function Privacy() {
         </p>
       </div>
       <H2>What we collect</H2>
-      <P>Nothing. iLikePDF has no backend, no database, and no telemetry. There is no account system.</P>
+      <P>Nothing. iLike2PDF has no backend, no database, and no telemetry. There is no account system.</P>
       <H2>Your files</H2>
       <P>
         Files you open are read directly by your browser and processed in memory using JavaScript and
@@ -607,7 +607,7 @@ function Privacy() {
       </P>
       <H2>Local storage</H2>
       <P>
-        The only thing iLikePDF stores in your browser’s <code className="font-mono text-brand-500">localStorage</code>
+        The only thing iLike2PDF stores in your browser’s <code className="font-mono text-brand-500">localStorage</code>
         is your theme preference (light / dark / system). We keep no history of your files and gather no usage
         statistics. Nothing leaves your device.
       </P>
@@ -626,22 +626,22 @@ function Terms() {
   return (
     <Prose>
       <H2>Acceptance</H2>
-      <P>By using iLikePDF you agree to these terms. If you don’t agree, please don’t use the service.</P>
+      <P>By using iLike2PDF you agree to these terms. If you don’t agree, please don’t use the service.</P>
       <H2>The service</H2>
       <P>
-        iLikePDF is provided free of charge, “as is”, without warranty of any kind. Because all processing
+        iLike2PDF is provided free of charge, “as is”, without warranty of any kind. Because all processing
         happens locally in your browser, results may vary depending on your device, browser and the files
         you provide. Always keep backups of important documents.
       </P>
       <H2>Acceptable use</H2>
       <UL items={[
-        'Use iLikePDF only for content you own or are authorized to process.',
+        'Use iLike2PDF only for content you own or are authorized to process.',
         'Do not use it to infringe copyright or violate any law.',
-        'Do not attempt to misrepresent iLikePDF as your own commercial service without complying with its open-source license.',
+        'Do not attempt to misrepresent iLike2PDF as your own commercial service without complying with its open-source license.',
       ]} />
       <H2>Limitation of liability</H2>
       <P>
-        To the maximum extent permitted by law, iLikePDF and its contributors are not liable for any loss
+        To the maximum extent permitted by law, iLike2PDF and its contributors are not liable for any loss
         of data, profits or other damages arising from use of the tools. You are responsible for verifying
         output before relying on it.
       </P>
@@ -655,19 +655,19 @@ function Contact() {
   return (
     <Prose>
       <P>
-        iLikePDF is a community-driven open-source project. The best way to report a bug, request a feature
+        iLike2PDF is a community-driven open-source project. The best way to report a bug, request a feature
         or ask a question is through the project repository.
       </P>
       <div className="grid sm:grid-cols-2 gap-3 not-prose my-6">
-        <a href="https://github.com" target="_blank" rel="noreferrer" className="card p-5 hover:border-brand-500/50 transition group">
+        <a href="https://github.com/CodingWithDodamani/ilike2PDF" target="_blank" rel="noreferrer" className="card p-5 hover:border-brand-500/50 transition group">
           <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-7 w-7 mb-2" />
           <p className="font-semibold group-hover:text-brand-500 transition">Open an issue</p>
           <p className="text-sm text-ink-500">Report bugs or request features on GitHub.</p>
         </a>
-        <a href="mailto:hello@ilikepdf.app" className="card p-5 hover:border-brand-500/50 transition group">
+        <a href="mailto:hello@ilike2pdf.app" className="card p-5 hover:border-brand-500/50 transition group">
           <Mail className="h-7 w-7 text-brand-500 mb-2" />
           <p className="font-semibold group-hover:text-brand-500 transition">Email us</p>
-          <p className="text-sm text-ink-500">hello@ilikepdf.app</p>
+          <p className="text-sm text-ink-500">hello@ilike2pdf.app</p>
         </a>
       </div>
       <H2>Before you reach out</H2>
@@ -682,12 +682,12 @@ function Contact() {
 /* ---------------- FAQ ---------------- */
 const FAQS: { q: string; a: ReactNode }[] = [
   { q: 'Are my files uploaded anywhere?', a: 'No. Every tool runs entirely in your browser. There is no server endpoint that receives your files — they never leave your device.' },
-  { q: 'Is iLikePDF really free?', a: 'Yes, completely. There are no accounts, no paywalls, no premium tiers and no ads. It is open-source software.' },
-  { q: 'Does it work offline?', a: 'Yes. iLikePDF is a Progressive Web App. After your first visit it caches everything needed, so you can install it and use every tool with no connection.' },
+  { q: 'Is iLike2PDF really free?', a: 'Yes, completely. There are no accounts, no paywalls, no premium tiers and no ads. It is open-source software.' },
+  { q: 'Does it work offline?', a: 'Yes. iLike2PDF is a Progressive Web App. After your first visit it caches everything needed, so you can install it and use every tool with no connection.' },
   { q: 'How large a file can I process?', a: 'It depends on your device’s available memory rather than any fixed limit. Most phones handle files up to ~50 MB comfortably; desktops can go much higher.' },
-  { q: 'Can iLikePDF compress a PDF without losing text?', a: 'Our Compress PDF tool re-rasterizes pages to shrink size, which flattens selectable text into images. For text-preserving optimization, try removing unused pages or images instead.' },
+  { q: 'Can iLike2PDF compress a PDF without losing text?', a: 'Our Compress PDF tool re-rasterizes pages to shrink size, which flattens selectable text into images. For text-preserving optimization, try removing unused pages or images instead.' },
   { q: 'Can it remove a password I don’t know?', a: 'No. The Unlock tool only removes a password you already know — it does not crack encryption. That would be both impractical in a browser and unethical.' },
-  { q: 'Do you keep a history of my files?', a: 'No. iLikePDF stores no history and no usage statistics. The only thing saved locally is your theme preference.' },
+  { q: 'Do you keep a history of my files?', a: 'No. iLike2PDF stores no history and no usage statistics. The only thing saved locally is your theme preference.' },
   { q: 'Which browsers are supported?', a: 'Any modern browser — Chrome, Edge, Firefox and Safari (recent versions). Some advanced features rely on the latest Web APIs.' },
 ]
 function FAQ() {
@@ -716,7 +716,7 @@ const RELEASES: { v: string; date: string; tag: string; items: string[] }[] = [
   {
     v: '1.0.0', date: 'June 2026', tag: 'Launch',
     items: [
-      '40+ tools across PDF, Image, QR and Utility categories.',
+      '94 tools across PDF, Image, QR and Utility categories.',
       'Installable PWA with full offline support.',
       'Command Palette (Ctrl K) with fuzzy search.',
       'Smart File Router that suggests the best tool for a dropped file.',
@@ -774,7 +774,7 @@ function AccessibilityPage() {
   return (
     <Prose>
       <P>
-        iLikePDF is designed to meet <strong>WCAG 2.2 Level AA</strong>. Accessibility isn’t a feature we
+        iLike2PDF is designed to meet <strong>WCAG 2.2 Level AA</strong>. Accessibility isn’t a feature we
         bolt on — it’s a baseline requirement for every page and tool.
       </P>
       <H2>What we’ve done</H2>
@@ -800,13 +800,13 @@ function Offline() {
   return (
     <Prose>
       <P>
-        iLikePDF works without an internet connection. Because all tools run locally, the only thing that
+        iLike2PDF works without an internet connection. Because all tools run locally, the only thing that
         needs to load is the app itself — and after your first visit, it’s cached on your device.
       </P>
       <H2>How to use it offline</H2>
       <div className="grid sm:grid-cols-3 gap-3 not-prose my-6">
         {[
-          { n: '1', t: 'Visit once online', d: 'Open iLikePDF while connected so it can cache the app.' },
+          { n: '1', t: 'Visit once online', d: 'Open iLike2PDF while connected so it can cache the app.' },
           { n: '2', t: 'Install (optional)', d: 'Add it to your device for an app-like, offline experience.' },
           { n: '3', t: 'Go offline', d: 'Open it anytime — every tool keeps working.' },
         ].map((s) => (
@@ -834,20 +834,20 @@ function Pwa() {
   return (
     <Prose>
       <P>
-        iLikePDF is a Progressive Web App, so you can install it like a native app — with its own icon,
+        iLike2PDF is a Progressive Web App, so you can install it like a native app — with its own icon,
         window and full offline support — without any app store.
       </P>
       <H2>Desktop (Chrome / Edge)</H2>
       <UL items={[
         'Look for the install icon in the address bar, or open the browser menu.',
-        'Choose “Install iLikePDF”.',
+        'Choose “Install iLike2PDF”.',
         'Launch it from your dock, taskbar or start menu like any app.',
       ]} />
       <H2>iPhone / iPad (Safari)</H2>
       <UL items={[
         'Tap the Share button.',
         'Scroll down and tap “Add to Home Screen”.',
-        'Tap “Add” — iLikePDF now appears on your home screen.',
+        'Tap “Add” — iLike2PDF now appears on your home screen.',
       ]} />
       <H2>Android (Chrome)</H2>
       <UL items={[
@@ -860,7 +860,7 @@ function Pwa() {
           <Globe className="h-5 w-5" /> Tip
         </p>
         <p className="text-sm text-ink-600 dark:text-ink-300 mt-1">
-          When an install prompt is available, iLikePDF shows a one-tap install button automatically.
+          When an install prompt is available, iLike2PDF shows a one-tap install button automatically.
         </p>
       </div>
     </Prose>
@@ -895,7 +895,7 @@ function Licenses() {
   return (
     <div>
       <P>
-        iLikePDF stands on the shoulders of incredible open-source projects. We’re grateful to every
+        iLike2PDF stands on the shoulders of incredible open-source projects. We’re grateful to every
         maintainer and contributor. Below are the major libraries we use and their licenses.
       </P>
       <div className="flex justify-end mb-3">
@@ -955,7 +955,7 @@ export default function StaticPage({ page }: { page: string }) {
   const Body = RENDERERS[key]
 
   const url = `${HOSTNAME}/${page}`
-  const title = `${meta.title} — iLikePDF`
+  const title = `${meta.title} — iLike2PDF`
 
   return (
     <>
@@ -968,7 +968,7 @@ export default function StaticPage({ page }: { page: string }) {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={meta.description} />
         <meta property="og:url" content={url} />
-        <meta property="og:site_name" content="iLikePDF" />
+        <meta property="og:site_name" content="iLike2PDF" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={meta.description} />

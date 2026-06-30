@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import { Download, Copy, Check, ArrowUpDown, Upload } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import Papa from 'papaparse'
 
 export default function CsvViewer() {

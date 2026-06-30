@@ -1,4 +1,3 @@
-const TRUSTED_CLIENT_TOKEN = '6A5AA1D4EAFF4E9FB37E23D68491D6F4'
 const WSS_URL = 'wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1'
 const VOICES_URL = 'https://api.msedgeservices.com/tts/cognitiveservices/voices/list'
 const VERSION_MS_GEC = '1-142.0.3595'

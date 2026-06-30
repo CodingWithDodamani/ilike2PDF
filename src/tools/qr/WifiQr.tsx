@@ -1,6 +1,5 @@
 import { useState, useRef, useMemo } from 'react'
 import { Section, Segmented } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import { Wifi, Download, Copy, Eye, EyeOff } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
 import { useToast } from '@/components/Toaster'
@@ -15,7 +14,7 @@ const ENC_OPTIONS: { value: Enc; label: string }[] = [
 
 function buildWifiString(ssid: string, password: string, enc: Enc): string {
   if (!ssid) return ''
-  const escape = (s: string) => s.replace(/[\\;,:\"]/g, (c) => '\\' + c)
+  const escape = (s: string) => s.replace(/[\\;,:"]/g, (c) => '\\' + c)
   const parts = [`T:${enc}`, `S:${escape(ssid)}`]
   if (enc !== 'nopass' && password) parts.push(`P:${escape(password)}`)
   return `WIFI:${parts.join(';')};;`

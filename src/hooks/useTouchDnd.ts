@@ -49,7 +49,7 @@ export function useTouchDnd({ onReorder, longPressMs = 400 }: TouchDndOpts) {
     setOver(closest)
   }, [])
 
-  const onTouchEnd = useCallback((_idx: number, e: React.TouchEvent) => {
+  const onTouchEnd = useCallback((_idx: number, _e: React.TouchEvent) => {
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
     if (fromRef.current !== null && over !== null && fromRef.current !== over) {
       onReorder(fromRef.current, over)

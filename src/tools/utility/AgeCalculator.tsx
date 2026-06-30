@@ -3,14 +3,14 @@ import { motion } from 'framer-motion'
 import { Field, Stat, Progress } from '@/components/ui'
 import { trackUsage } from '@/lib/storage'
 import {
-  Copy, Share2, Check, Cake, Clock, Globe, Milestone,
+  Copy, Share2, Check, Cake, Globe, Milestone,
   Star, Compass, Sparkles, Zap, Target, Crown, Gem,
-  Hash, Calendar, Hourglass, Timer, Activity,
+  Timer, Activity,
   Orbit, Gauge, Scale, Hexagon, Triangle, Circle,
   Flame, Droplets, Mountain, Leaf, Fish, Bug,
   TreePine, Bird, Cat, Rabbit, Dog, Heart,
   Shield, Compass as CompassIcon, RotateCcw,
-  Briefcase, Bed, Users, Sunrise,
+  Briefcase, Bed, Sunrise,
 } from 'lucide-react'
 
 const ZODIAC_SIGNS = [

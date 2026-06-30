@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FileType2, Download, Copy } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
-import { Spinner, Progress } from '@/components/ui'
+import { Progress } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
 import { loadPdfDocument } from '@/lib/pdf'
 import { baseName, downloadBlob, fileToArrayBuffer } from '@/lib/utils'

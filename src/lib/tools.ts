@@ -6,11 +6,11 @@ import {
   FaExchangeAlt, FaIdCard, FaCode, FaCut, FaEyeSlash, FaStamp, FaEyeDropper, FaPen,
   FaLaugh, FaLayerGroup, FaUserSlash, FaArrowUp, FaPalette, FaPencilAlt, FaBorderAll,
   FaQrcode, FaClone, FaBarcode, FaCamera, FaWifi, FaAddressCard, FaFilePdf,
-  FaHdd, FaFile, FaFont, FaFingerprint, FaCalendar, FaVolumeUp, FaDollarSign,
+  FaHdd, FaFont, FaFingerprint, FaCalendar, FaVolumeUp, FaDollarSign,
   FaKey, FaClock, FaCalculator, FaParagraph, FaTerminal, FaRandom, FaPercent,
-  FaHeartbeat, FaMoneyBillWave, FaSortNumericDown, FaAlignLeft, FaTable,
+  FaHeartbeat, FaMoneyBillWave, FaSortNumericDown, FaTable,
   FaPaintBrush, FaSquare, FaSearch, FaGlobe, FaStopwatch, FaCalendarAlt,
-  FaChartLine, FaEye, FaPenFancy, FaFire, FaRegFilePdf, FaFileCode, FaDiceD6,
+  FaChartLine, FaEye, FaPenFancy, FaFire, FaFileCode, FaDiceD6,
 } from 'react-icons/fa'
 import type { IconType } from 'react-icons'
 import type { ToolDef } from './types'

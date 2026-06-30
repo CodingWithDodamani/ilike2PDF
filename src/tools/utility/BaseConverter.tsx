@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Copy, Check, ArrowRightLeft } from 'lucide-react'
+import { Copy, Check } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 

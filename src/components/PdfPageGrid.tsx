@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { RotateCw, Check } from 'lucide-react'
 import { renderThumbnail } from '@/lib/pdf'
 import { cn } from '@/lib/utils'
@@ -17,11 +17,13 @@ interface Props {
 export function PdfPageGrid({ data, pageCount, selected, onToggle, rotations, onRotate, selectable }: Props) {
   const [thumbs, setThumbs] = useState<(string | null)[]>([])
   const [loading, setLoading] = useState(true)
+  const thumbsRef = useRef<(string | null)[]>([])
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
-    setThumbs(new Array(pageCount).fill(null))
+    thumbsRef.current = new Array(pageCount).fill(null)
+    setThumbs([...thumbsRef.current])
     ;(async () => {
       const BATCH = 6
       for (let start = 0; start < pageCount; start += BATCH) {
@@ -31,13 +33,12 @@ export function PdfPageGrid({ data, pageCount, selected, onToggle, rotations, on
         )
         const results = await Promise.all(batch)
         if (cancelled) return
-        setThumbs((prev) => {
-          const c = [...prev]
-          results.forEach((t, j) => { c[start + j] = t })
-          return c
-        })
+        results.forEach((t, j) => { thumbsRef.current[start + j] = t })
       }
-      if (!cancelled) setLoading(false)
+      if (!cancelled) {
+        setThumbs([...thumbsRef.current])
+        setLoading(false)
+      }
     })()
     return () => { cancelled = true }
   }, [data, pageCount])

@@ -1,5 +1,5 @@
 {
-  "name": "ilikepdf",
+  "name": "ilike2pdf",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -7,10 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build && node --loader ts-node/esm scripts/generate-sitemap.ts",
     "preview": "vite preview",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name ilikepdf",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name ilike2pdf",
     "generate-assets": "node --loader ts-node/esm scripts/generate-brand-assets.ts",
-    "test": "npx playwright test",
-    "test:ui": "npx playwright test --ui"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "npx playwright test --ui",
+    "test:e2e": "npx playwright test",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css,json}\""
   },
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",
@@ -46,6 +52,7 @@
     "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.61.1",
     "@types/diff": "^7.0.2",
     "@types/papaparse": "^5.5.2",
@@ -55,14 +62,21 @@
     "@types/react-helmet-async": "^1.0.1",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "jsdom": "^28.1.0",
     "postcss": "^8.4.47",
+    "prettier": "^3.9.4",
     "sharp": "^0.35.2",
     "sitemap": "^9.0.1",
     "tailwindcss": "^3.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
+    "typescript-eslint": "^8.62.1",
     "vite": "^5.4.6",
     "vite-plugin-pwa": "^0.20.5",
+    "vitest": "^4.1.9",
     "wrangler": "^4.4.0"
   }
 }

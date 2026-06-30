@@ -58,9 +58,9 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'iLikePDF — Private Document Tools',
-        short_name: 'iLikePDF',
-        description: 'Free client-side PDF, image & QR tools. Zero uploads, 100% private, works offline.',
+        name: 'iLike2PDF — Private Document Tools',
+        short_name: 'iLike2PDF',
+        description: 'Free client-side PDF, image & QR tools. Zero uploads, 100% private. Most tools work offline.',
         theme_color: '#e11d48',
         background_color: '#0b0b14',
         display: 'standalone',

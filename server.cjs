@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DIST = path.join(__dirname, 'dist');
-const PORT = 8080;
+const PORT = 5173;
 
 const MIME = {
   '.html': 'text/html',

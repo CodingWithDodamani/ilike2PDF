@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
-import { Download, Upload, Image, Trash2 } from 'lucide-react'
+import { Download, Upload } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import { downloadBlob } from '@/lib/utils'
 
 export default function SvgToPng() {

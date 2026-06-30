@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import { RefreshCw } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 
 const DICE_FACES: Record<number, string> = {
   1: '⚀', 2: '⚁', 3: '⚂', 4: '⚃', 5: '⚄', 6: '⚅',

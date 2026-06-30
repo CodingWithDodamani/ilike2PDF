@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react'
-import { Delete } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
@@ -15,7 +14,7 @@ const BUTTONS = [
 
 function evalExpression(expr: string): number {
   // Replace symbols
-  let e = expr
+  const e = expr
     .replace(/π/g, `${Math.PI}`)
     .replace(/e(?![xp])/g, `${Math.E}`)
     .replace(/×/g, '*')
@@ -34,7 +33,7 @@ function evalExpression(expr: string): number {
     .replace(/tan⁻¹\(([^)]+)\)/g, 'Math.atan($1)*180/Math.PI')
 
   // Simple eval for safe math expressions
-  // eslint-disable-next-line no-eval
+   
   const result = new Function(`"use strict"; return (${e})`)()
   if (typeof result !== 'number' || !isFinite(result)) throw new Error('Invalid')
   return result

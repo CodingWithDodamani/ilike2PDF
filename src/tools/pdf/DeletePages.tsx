@@ -15,7 +15,7 @@ export default function DeletePages() {
   const [selected, setSelected] = useState<Set<number>>(new Set())
   const [busy, setBusy] = useState(false)
 
-  const toggle = (p: number) => setSelected((s) => { const n = new Set(s); n.has(p) ? n.delete(p) : n.add(p); return n })
+  const toggle = (p: number) => setSelected((s) => { const n = new Set(s); if (n.has(p)) n.delete(p); else n.add(p); return n })
 
   const run = async () => {
     if (!pdf.file || !pdf.data || selected.size === 0) { toast.error('Select pages to delete.'); return }

@@ -62,7 +62,7 @@ export default function PassportPhoto() {
     setBusy(true)
     try {
       // redraw without guide
-      const c = canvasRef.current; const p = PRESETS[preset]
+      const p = PRESETS[preset]
       const cw = mmToPx(p.w), ch = mmToPx(p.h)
       const clean = document.createElement('canvas'); clean.width = cw; clean.height = ch
       const ctx = clean.getContext('2d')!

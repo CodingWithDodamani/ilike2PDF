@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Grid3x3, Download, Palette } from 'lucide-react'
+import { Grid3x3, Download } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
@@ -82,7 +82,7 @@ export default function HeatmapGenerator() {
         r.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v))
       ).filter(r => r.length > 0)
       if (rows.length > 0) setData(rows)
-    } catch {}
+    } catch { /* ignore parse errors */ }
   }
 
   useEffect(() => { parseData() }, [inputText])

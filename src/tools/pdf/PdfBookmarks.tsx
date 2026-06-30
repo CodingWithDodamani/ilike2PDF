@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PDFDocument, PDFDict, PDFName, PDFString, PDFNumber, PDFArray, PDFRef } from 'pdf-lib'
+import { PDFDocument, PDFDict, PDFName, PDFString, PDFNumber, PDFRef } from 'pdf-lib'
 import { BookmarkPlus, Trash2, Download, Plus, ChevronUp, ChevronDown, Pencil } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
 import { Spinner, Field } from '@/components/ui'

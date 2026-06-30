@@ -31,7 +31,7 @@ export default function ComparePdf() {
   const load = async (files: File[], side: 'a' | 'b') => {
     try {
       const s = await analyze(files[0])
-      side === 'a' ? setA(s) : setB(s)
+      if (side === 'a') setA(s); else setB(s)
     } catch { toast.error('Could not read PDF.') }
   }
 
@@ -67,7 +67,7 @@ export default function ComparePdf() {
       </div>
       <button onClick={compare} disabled={busy || !a || !b} className="btn-primary btn-md w-fit">{busy ? <Spinner className="h-4 w-4" /> : <GitCompare className="h-4 w-4" />} Compare text</button>
       {diff && (
-        <div className="card p-5">
+        <div className="card p-5" role="region" aria-label="Comparison results" aria-live="polite">
           <div className="flex gap-4 text-sm mb-3">
             <span className="text-emerald-500">+ {diff.filter((d) => d.type === 'add').length} added</span>
             <span className="text-rose-500">− {diff.filter((d) => d.type === 'del').length} removed</span>

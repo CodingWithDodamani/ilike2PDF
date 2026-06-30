@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { Download, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
-import { downloadBlob } from '@/lib/utils'
 
 export default function ImageBorder() {
   const [original, setOriginal] = useState<string | null>(null)

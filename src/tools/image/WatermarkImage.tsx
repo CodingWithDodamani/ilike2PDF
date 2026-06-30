@@ -11,7 +11,7 @@ export default function WatermarkImage() {
   const toast = useToast()
   const [file, setFile] = useState<File | null>(null)
   const [img, setImg] = useState<HTMLImageElement | null>(null)
-  const [text, setText] = useState('© iLikePDF')
+  const [text, setText] = useState('© iLike2PDF')
   const [opacity, setOpacity] = useState(0.35)
   const [size, setSize] = useState(6)
   const [color, setColor] = useState('#ffffff')

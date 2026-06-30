@@ -1,12 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import { Download, Upload, Image } from 'lucide-react'
+import { Download, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { downloadBlob } from '@/lib/utils'
 
 const SIZES = [16, 32, 48, 64, 128, 180, 192, 512]
 
 export default function FaviconGenerator() {
-  const [preview, setPreview] = useState<string | null>(null)
   const [previews, setPreviews] = useState<{ size: number; url: string }[]>([])
   const [bgColor, setBgColor] = useState('#ffffff')
   const [transparent, setTransparent] = useState(true)
@@ -47,7 +46,6 @@ export default function FaviconGenerator() {
     if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
     const url = URL.createObjectURL(file)
     previewUrlRef.current = url
-    setPreview(url)
     img.src = url
   }, [bgColor, transparent])
 

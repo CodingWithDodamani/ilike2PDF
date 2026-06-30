@@ -1,8 +1,7 @@
 import { useState, useCallback } from 'react'
-import { Upload, Copy, Check, Download, Loader2, Image } from 'lucide-react'
+import { Copy, Check, Download, Loader2, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
-import { createWorker } from 'tesseract.js'
 
 type Lang = 'eng' | 'spa' | 'fra' | 'deu' | 'ita' | 'por' | 'rus' | 'jpn' | 'chi_sim' | 'kor' | 'ara'
 
@@ -38,6 +37,7 @@ export default function ImageOcr() {
     setImage(url)
 
     try {
+      const { createWorker } = await import('tesseract.js')
       const worker = await createWorker(lang, 1, {
         logger: (m: any) => {
           if (m.status === 'recognizing text') setProgress(Math.round((m.progress || 0) * 100))

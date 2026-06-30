@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { Section } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import { downloadBlob, baseName, fileToImage, canvasToBlob } from '@/lib/utils'
 import { useToast } from '@/components/Toaster'
 import { FileSearch, Trash2, Download } from 'lucide-react'
