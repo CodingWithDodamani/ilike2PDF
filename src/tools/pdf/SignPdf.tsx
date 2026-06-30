@@ -32,7 +32,8 @@ export default function SignPdf() {
   useEffect(() => {
     const c = canvasRef.current
     if (!c || mode !== 'draw') return
-    const ctx = c.getContext('2d')!
+    const ctx = c.getContext('2d')
+    if (!ctx) return
     ctx.lineWidth = 3.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#111'
     const pos = (e: PointerEvent) => { const r = c.getBoundingClientRect(); return { x: (e.clientX - r.left) * (c.width / r.width), y: (e.clientY - r.top) * (c.height / r.height) } }
     const down = (e: PointerEvent) => { drawing.current = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y) }
@@ -42,25 +43,31 @@ export default function SignPdf() {
     return () => { c.removeEventListener('pointerdown', down); c.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up) }
   }, [mode])
 
-  const clearCanvas = () => { const c = canvasRef.current; if (c) c.getContext('2d')!.clearRect(0, 0, c.width, c.height); setSigDataUrl(null) }
+  const clearCanvas = () => { const c = canvasRef.current; if (c) { const ctx = c.getContext('2d'); if (ctx) ctx.clearRect(0, 0, c.width, c.height) }; setSigDataUrl(null) }
 
   const typedToImage = (): string => {
     const c = document.createElement('canvas'); c.width = 600; c.height = 160
-    const ctx = c.getContext('2d')!
+    const ctx = c.getContext('2d')
+    if (!ctx) return ''
     ctx.fillStyle = '#111'; ctx.font = "64px 'Brush Script MT', cursive, serif"; ctx.textBaseline = 'middle'
     ctx.fillText(typed || 'Signature', 20, 80)
     return c.toDataURL('image/png')
   }
 
   const onUpload = async (files: File[]) => {
-    const buf = await fileToArrayBuffer(files[0])
-    const bytes = new Uint8Array(buf)
-    let binary = ''
-    const chunkSize = 8192
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize))
+    if (!files[0]) { toast.error('No file selected.'); return }
+    try {
+      const buf = await fileToArrayBuffer(files[0])
+      const bytes = new Uint8Array(buf)
+      let binary = ''
+      const chunkSize = 8192
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize))
+      }
+      setSigDataUrl(`data:${files[0].type};base64,${btoa(binary)}`)
+    } catch {
+      toast.error('Failed to read signature image.')
     }
-    setSigDataUrl(`data:${files[0].type};base64,${btoa(binary)}`)
   }
 
   const run = async () => {

@@ -66,6 +66,7 @@ export default function BarcodeGenerator() {
       downloadDataUrl(canvas.toDataURL('image/png'), `barcode-${format.toLowerCase()}.png`)
       trackUsage({ toolId: 'barcode-generator', toolName: 'Barcode Generator', action: `Downloaded ${format} PNG` })
     }
+    img.onerror = () => toast.error('PNG download failed.')
     img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgData)}`
   }
 

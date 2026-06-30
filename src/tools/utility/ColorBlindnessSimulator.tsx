@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Eye, Upload, Download, RotateCcw } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -43,13 +43,21 @@ export default function ColorBlindnessSimulator() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const splitCanvasRef = useRef<HTMLCanvasElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+  const origUrlRef = useRef('')
+
+  useEffect(() => {
+    return () => { if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current) }
+  }, [])
 
   const handleFile = (file: File) => {
     const img = new Image()
     img.onload = () => {
       setOriginal(img)
     }
-    img.src = URL.createObjectURL(file)
+    if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current)
+    const url = URL.createObjectURL(file)
+    origUrlRef.current = url
+    img.src = url
   }
 
   const render = useCallback(() => {

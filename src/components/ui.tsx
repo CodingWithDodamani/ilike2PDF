@@ -50,7 +50,19 @@ export function Segmented<T extends string>({
   options, value, onChange, ariaLabel, id,
 }: { options: { value: T; label: ReactNode }[]; value: T; onChange: (v: T) => void; ariaLabel?: string; id?: string }) {
   return (
-    <div id={id} role="tablist" aria-label={ariaLabel} className="inline-flex flex-wrap gap-1 rounded-xl bg-ink-100 dark:bg-ink-850 p-1">
+    <div id={id} role="tablist" aria-label={ariaLabel} className="inline-flex flex-wrap gap-1 rounded-xl bg-ink-100 dark:bg-ink-850 p-1"
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault()
+          const idx = options.findIndex(o => o.value === value)
+          onChange(options[(idx + 1) % options.length].value)
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault()
+          const idx = options.findIndex(o => o.value === value)
+          onChange(options[(idx - 1 + options.length) % options.length].value)
+        }
+      }}
+    >
       {options.map((o) => (
         <button
           key={o.value}

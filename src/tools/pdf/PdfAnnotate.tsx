@@ -6,6 +6,7 @@ import { loadPdfDocument, renderPageToCanvas } from '@/lib/pdf'
 import { PDFDocument, rgb } from 'pdf-lib'
 import { Highlighter, Type, Download, Undo2, Minus } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
+import { useToast } from '@/components/Toaster'
 
 interface Annotation {
   type: 'highlight' | 'text' | 'underline'
@@ -20,6 +21,7 @@ interface Annotation {
 const SCALE = 1.5
 
 export default function PdfAnnotate() {
+  const toast = useToast()
   const [file, setFile] = useState<File | null>(null)
   const [data, setData] = useState<ArrayBuffer | null>(null)
   const [currentPage, setCurrentPage] = useState(0)
@@ -32,6 +34,7 @@ export default function PdfAnnotate() {
   const [textInput, setTextInput] = useState<{ x: number; y: number; pageIndex: number } | null>(null)
   const [textValue, setTextValue] = useState('')
   const [canvasSize, setCanvasSize] = useState({ w: 0, h: 0 })
+  const [busy, setBusy] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -62,7 +65,7 @@ export default function PdfAnnotate() {
     setAnnotations([])
   }
 
-  const getCanvasCoords = (e: React.MouseEvent) => {
+  const getCanvasCoords = (e: React.MouseEvent | React.PointerEvent) => {
     const overlay = overlayRef.current
     if (!overlay) return { x: 0, y: 0 }
     const rect = overlay.getBoundingClientRect()
@@ -71,7 +74,7 @@ export default function PdfAnnotate() {
     return { x, y }
   }
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     if (!data) return
     const pos = getCanvasCoords(e)
 
@@ -84,9 +87,10 @@ export default function PdfAnnotate() {
     setDrawing(true)
     setStartPos(pos)
     setCurrentRect({ x: pos.x, y: pos.y, w: 0, h: 0 })
+    e.currentTarget.setPointerCapture(e.pointerId)
   }
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!drawing || !startPos) return
     const pos = getCanvasCoords(e)
     const x = Math.min(startPos.x, pos.x)
@@ -96,7 +100,7 @@ export default function PdfAnnotate() {
     setCurrentRect({ x, y, w, h })
   }
 
-  const handleMouseUp = () => {
+  const handlePointerUp = () => {
     if (!drawing || !currentRect || currentRect.w < 5 || currentRect.h < 5) {
       setDrawing(false)
       setStartPos(null)
@@ -149,41 +153,48 @@ export default function PdfAnnotate() {
 
   const save = async () => {
     if (!file || !data) return
-    const doc = await PDFDocument.load(data, { ignoreEncryption: true })
+    setBusy(true)
+    try {
+      const doc = await PDFDocument.load(data, { ignoreEncryption: true })
 
-    for (const ann of annotations) {
-      const page = doc.getPage(ann.pageIndex)
-      const { height } = page.getSize()
-      const canvasY = canvasSize.h - ann.y - ann.h
+      for (const ann of annotations) {
+        const page = doc.getPage(ann.pageIndex)
+        const { height } = page.getSize()
 
-      if (ann.type === 'highlight') {
-        page.drawRectangle({
-          x: ann.x / SCALE,
-          y: height - (ann.y + ann.h) / SCALE,
-          width: ann.w / SCALE,
-          height: ann.h / SCALE,
-          opacity: 0.3,
-          color: rgb(1, 1, 0),
-        })
-      } else if (ann.type === 'text' && ann.text) {
-        page.drawText(ann.text, {
-          x: ann.x / SCALE,
-          y: height - ann.y / SCALE - 12,
-          size: 12,
-          color: rgb(1, 0, 0),
-        })
-      } else if (ann.type === 'underline') {
-        page.drawLine({
-          start: { x: ann.x / SCALE, y: height - (ann.y + ann.h) / SCALE },
-          end: { x: (ann.x + ann.w) / SCALE, y: height - (ann.y + ann.h) / SCALE },
-          thickness: 1,
-          color: rgb(0, 0, 1),
-        })
+        if (ann.type === 'highlight') {
+          page.drawRectangle({
+            x: ann.x / SCALE,
+            y: height - (ann.y + ann.h) / SCALE,
+            width: ann.w / SCALE,
+            height: ann.h / SCALE,
+            opacity: 0.3,
+            color: rgb(1, 1, 0),
+          })
+        } else if (ann.type === 'text' && ann.text) {
+          page.drawText(ann.text, {
+            x: ann.x / SCALE,
+            y: height - ann.y / SCALE - 12,
+            size: 12,
+            color: rgb(1, 0, 0),
+          })
+        } else if (ann.type === 'underline') {
+          page.drawLine({
+            start: { x: ann.x / SCALE, y: height - (ann.y + ann.h) / SCALE },
+            end: { x: (ann.x + ann.w) / SCALE, y: height - (ann.y + ann.h) / SCALE },
+            thickness: 1,
+            color: rgb(0, 0, 1),
+          })
+        }
       }
-    }
 
-    const bytes = await doc.save()
-    downloadBlob(bytesToBlob(bytes, 'application/pdf'), `${baseName(file.name)}-annotated.pdf`)
+      const bytes = await doc.save()
+      downloadBlob(bytesToBlob(bytes, 'application/pdf'), `${baseName(file.name)}-annotated.pdf`)
+      toast.success('Annotated PDF saved.')
+    } catch {
+      toast.error('Failed to save annotations.')
+    } finally {
+      setBusy(false)
+    }
   }
 
   if (!file || !data) {
@@ -227,11 +238,11 @@ export default function PdfAnnotate() {
         <div
           ref={overlayRef}
           className="absolute inset-0"
-          style={{ cursor: tool === 'text' ? 'text' : 'crosshair' }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          style={{ cursor: tool === 'text' ? 'text' : 'crosshair', touchAction: 'none' }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
         >
           {pageAnnotations.map((ann, i) => {
             if (ann.type === 'highlight') {
@@ -326,8 +337,8 @@ export default function PdfAnnotate() {
           <span className="text-sm text-ink-600 dark:text-ink-300">{currentPage + 1} / {totalPages}</span>
           <button onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="btn-ghost btn-sm disabled:opacity-40">Next</button>
         </div>
-        <button onClick={save} disabled={annotations.length === 0} className="btn-primary btn-md disabled:opacity-40">
-          <Download className="h-4 w-4" /> Save annotated PDF
+        <button onClick={save} disabled={busy || annotations.length === 0} className="btn-primary btn-md disabled:opacity-40">
+          {busy ? 'Saving…' : <><Download className="h-4 w-4" /> Save annotated PDF</>}
         </button>
       </div>
     </Section>

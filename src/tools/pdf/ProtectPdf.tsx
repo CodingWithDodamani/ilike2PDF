@@ -81,13 +81,16 @@ export default function ProtectPdf() {
           </div>
           <Field label="Password" hint="AES-256-GCM with PBKDF2 (150k iterations). 100% local.">
             <div className="relative">
-              <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} className="input pr-10" placeholder="Enter a strong password" />
+              <input type={showPw ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} className="input pr-10" placeholder="Enter a strong password (min 6 chars)" />
               <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-600 dark:hover:text-ink-300" aria-label={showPw ? 'Hide password' : 'Show password'}>
                 {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
+            {mode === 'encrypt' && password.length > 0 && password.length < 6 && (
+              <p className="text-xs text-amber-500 mt-1">Password must be at least 6 characters.</p>
+            )}
           </Field>
-          <button onClick={run} disabled={busy} className="btn-primary btn-md w-fit">{busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} {mode === 'encrypt' ? 'Encrypt' : 'Decrypt'} & download</button>
+          <button onClick={run} disabled={busy || !password || (mode === 'encrypt' && password.length < 6)} className="btn-primary btn-md w-fit">{busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} {mode === 'encrypt' ? 'Encrypt' : 'Decrypt'} & download</button>
         </div>
       )}
       <p className="text-xs text-ink-500">Encrypted files use the <code>.snappdf</code> extension and can be decrypted here with the same password.</p>

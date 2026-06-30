@@ -3,6 +3,7 @@ import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { User, Download, Copy } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
+import { useToast } from '@/components/Toaster'
 
 type Form = {
   firstName: string
@@ -53,6 +54,7 @@ function svgToPng(svgRef: SVGSVGElement | null): Promise<string> {
 }
 
 export default function VCardQr() {
+  const toast = useToast()
   const [form, setForm] = useState<Form>(EMPTY)
   const svgRef = useRef<SVGSVGElement>(null)
 
@@ -70,11 +72,16 @@ export default function VCardQr() {
       a.href = dataUrl
       a.download = 'vcard-qr.png'
       a.click()
-    } catch {}
+    } catch {
+      toast.error('Download failed. Try again.')
+    }
   }
 
   const copyVCard = () => {
-    navigator.clipboard.writeText(vcard)
+    navigator.clipboard.writeText(vcard).then(
+      () => toast.success('vCard copied.'),
+      () => toast.error('Copy failed.'),
+    )
   }
 
   const fields: { key: keyof Form; label: string }[] = [

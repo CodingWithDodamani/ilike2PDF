@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Download, Image, RefreshCw } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -14,29 +14,34 @@ export default function PhotoToSketch() {
   const [processing, setProcessing] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const origUrlRef = useRef('')
+
+  useEffect(() => {
+    return () => { if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current) }
+  }, [])
 
   const processImage = useCallback((file: File) => {
     setProcessing(true)
     const img = new window.Image()
     img.onload = () => {
-      const canvas = canvasRef.current!
+      const canvas = canvasRef.current
+      if (!canvas) return
       const maxDim = 800
       const scale = Math.min(maxDim / img.width, maxDim / img.height, 1)
       canvas.width = img.width * scale
       canvas.height = img.height * scale
-      const ctx = canvas.getContext('2d')!
+      const ctx = canvas.getContext('2d')
+      if (!ctx) { setProcessing(false); return }
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       const data = imageData.data
 
-      // Convert to grayscale
       const gray = new Float32Array(canvas.width * canvas.height)
       for (let i = 0; i < data.length; i += 4) {
         gray[i / 4] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]
       }
 
-      // Edge detection (Sobel-like)
       const edges = new Float32Array(canvas.width * canvas.height)
       for (let y = 1; y < canvas.height - 1; y++) {
         for (let x = 1; x < canvas.width - 1; x++) {
@@ -50,8 +55,10 @@ export default function PhotoToSketch() {
         }
       }
 
-      // Normalize and apply style
-      const maxEdge = Math.max(...edges)
+      let maxEdge = 0
+      for (let i = 0; i < edges.length; i++) { if (edges[i] > maxEdge) maxEdge = edges[i] }
+      if (maxEdge === 0) maxEdge = 1
+
       for (let i = 0; i < edges.length; i++) {
         let val = 1 - (edges[i] / maxEdge) * intensity
         val = Math.max(0, Math.min(1, val))
@@ -64,11 +71,12 @@ export default function PhotoToSketch() {
           case 'ink':
             data[pi] = data[pi + 1] = data[pi + 2] = val < 0.5 ? 0 : 255
             break
-          case 'charcoal':
+          case 'charcoal': {
             const noise = (Math.random() - 0.5) * 20
             const v = Math.max(0, Math.min(255, val * 255 + noise))
             data[pi] = data[pi + 1] = data[pi + 2] = v
             break
+          }
           case 'negative':
             data[pi] = (1 - val) * 255
             data[pi + 1] = (1 - val) * 200
@@ -82,8 +90,12 @@ export default function PhotoToSketch() {
       setSketch(canvas.toDataURL('image/png'))
       setProcessing(false)
     }
-    img.src = URL.createObjectURL(file)
-    setOriginal(URL.createObjectURL(file))
+    img.onerror = () => setProcessing(false)
+    if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current)
+    const url = URL.createObjectURL(file)
+    origUrlRef.current = url
+    setOriginal(url)
+    img.src = url
   }, [style, intensity])
 
   const handleDrop = useCallback((e: React.DragEvent) => {

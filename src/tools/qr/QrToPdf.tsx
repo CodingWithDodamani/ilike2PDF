@@ -7,10 +7,12 @@ import { QRCodeSVG } from 'qrcode.react'
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
 import { downloadBlob, bytesToBlob } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
+import { useToast } from '@/components/Toaster'
 
 type QrItem = { text: string; label: string }
 
 export default function QrToPdf() {
+  const toast = useToast()
   const [items, setItems] = useState<QrItem[]>([{ text: '', label: '' }])
   const [cols, setCols] = useState<2 | 3>(2)
   const [busy, setBusy] = useState(false)
@@ -80,8 +82,8 @@ export default function QrToPdf() {
       const blob = bytesToBlob(out, 'application/pdf')
       downloadBlob(blob, 'qrcodes.pdf')
       trackUsage({ toolId: 'qr-to-pdf', toolName: 'QR to PDF', action: 'Exported QR codes to PDF', files: valid.length })
-    } catch {
-      /* empty */
+    } catch (e) {
+      toast.error('Failed to export PDF. Check your QR entries.')
     } finally {
       setBusy(false)
     }

@@ -93,7 +93,7 @@ export function Layout() {
               <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-5 w-5" />
             </a>
             <Link to="/category/pdf" className="hidden lg:inline-flex btn-primary btn-sm">Get started</Link>
-            <button onClick={() => setMenuOpen((o) => !o)} className="md:hidden btn-ghost btn-sm !p-2" aria-label="Menu">
+            <button onClick={() => setMenuOpen((o) => !o)} className="md:hidden btn-ghost btn-sm !p-2" aria-label="Menu" aria-expanded={menuOpen}>
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
@@ -104,6 +104,9 @@ export function Layout() {
             <motion.nav
               initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
               className="md:hidden overflow-hidden border-t border-ink-200/50 dark:border-white/10"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation menu"
             >
               <div className="px-4 py-3 grid gap-1">
                 {NAV.map((n) => (
@@ -139,7 +142,7 @@ export function Layout() {
         <div className="grid grid-cols-5">
           {NAV.filter((n) => n.to !== '/about').map((n) => (
             <NavLink key={n.to} to={n.to} end={n.end}
-              className={({ isActive }) => cn('flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition', isActive ? 'text-brand-500' : 'text-ink-500 dark:text-ink-400')}>
+              className={({ isActive }) => cn('flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition focus-ring rounded-lg', isActive ? 'text-brand-500' : 'text-ink-500 dark:text-ink-400')}>
               {({ isActive }) => (<><n.icon className={cn('h-5 w-5', isActive && 'scale-110')} />{n.label}</>)}
             </NavLink>
           ))}

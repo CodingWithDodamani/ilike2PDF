@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Download, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { downloadBlob } from '@/lib/utils'
@@ -14,20 +14,25 @@ export default function ImageBorder() {
   const [shadow, setShadow] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const origUrlRef = useRef('')
+
+  useEffect(() => {
+    return () => { if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current) }
+  }, [])
 
   const processImage = useCallback((file: File) => {
     const img = new window.Image()
     img.onload = () => {
-      setOriginal(URL.createObjectURL(file))
-      const canvas = canvasRef.current!
-      const ctx = canvas.getContext('2d')!
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
 
       const totalW = img.width + (borderWidth + padding) * 2
       const totalH = img.height + (borderWidth + padding) * 2
       canvas.width = totalW
       canvas.height = totalH
 
-      // Shadow
       if (shadow > 0) {
         ctx.shadowColor = 'rgba(0,0,0,0.3)'
         ctx.shadowBlur = shadow
@@ -35,14 +40,12 @@ export default function ImageBorder() {
         ctx.shadowOffsetY = shadow / 2
       }
 
-      // Border with radius
       if (borderRadius > 0) {
         ctx.beginPath()
         ctx.roundRect(0, 0, totalW, totalH, borderRadius)
         ctx.fillStyle = borderColor
         ctx.fill()
         ctx.shadowColor = 'transparent'
-        // Image with radius
         ctx.beginPath()
         ctx.roundRect(borderWidth, borderWidth, totalW - borderWidth * 2, totalH - borderWidth * 2, Math.max(0, borderRadius - borderWidth))
         ctx.clip()
@@ -60,7 +63,11 @@ export default function ImageBorder() {
 
       setResult(canvas.toDataURL('image/png'))
     }
-    img.src = URL.createObjectURL(file)
+    if (origUrlRef.current) URL.revokeObjectURL(origUrlRef.current)
+    const url = URL.createObjectURL(file)
+    origUrlRef.current = url
+    setOriginal(url)
+    img.src = url
   }, [borderWidth, borderColor, borderRadius, padding, bgColor, shadow])
 
   const handleDrop = useCallback((e: React.DragEvent) => {

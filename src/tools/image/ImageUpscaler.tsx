@@ -2,12 +2,14 @@ import { useState, useRef, useCallback } from 'react'
 import { Maximize2, Download } from 'lucide-react'
 import { Dropzone } from '@/components/Dropzone'
 import { Section, Field, Segmented, Spinner } from '@/components/ui'
+import { useToast } from '@/components/Toaster'
 import { cn } from '@/lib/utils'
 import { downloadBlob, baseName, fileToImage } from '@/lib/utils'
 
 type Scale = 2 | 3 | 4
 
 export default function ImageUpscaler() {
+  const toast = useToast()
   const [file, setFile] = useState<File | null>(null)
   const [scale, setScale] = useState<Scale>(2)
   const [busy, setBusy] = useState(false)
@@ -62,6 +64,7 @@ export default function ImageUpscaler() {
         setBusy(false)
       }, type, 0.92)
     } catch {
+      toast.error('Upscaling failed. The image may be too large.')
       setBusy(false)
     }
   }

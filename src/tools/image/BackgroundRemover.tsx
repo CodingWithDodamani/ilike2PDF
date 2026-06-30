@@ -86,18 +86,24 @@ export default function BackgroundRemover() {
   const downloadJpeg = async () => {
     if (!result || !file) return
     const img = new Image()
-    img.src = URL.createObjectURL(result)
-    await new Promise<void>((r) => { img.onload = () => r() })
+    const objectUrl = URL.createObjectURL(result)
+    img.src = objectUrl
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Failed to load image')) }
+      setTimeout(() => { URL.revokeObjectURL(objectUrl); reject(new Error('Image load timed out')) }, 10000)
+    })
     const c = document.createElement('canvas')
     c.width = img.naturalWidth
     c.height = img.naturalHeight
-    const ctx = c.getContext('2d')!
+    const ctx = c.getContext('2d')
+    if (!ctx) { URL.revokeObjectURL(objectUrl); return }
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, c.width, c.height)
     ctx.drawImage(img, 0, 0)
     c.toBlob((blob) => {
       if (blob) downloadBlob(blob, `${baseName(file!.name)}-nobg-white.jpg`)
-      URL.revokeObjectURL(img.src)
+      URL.revokeObjectURL(objectUrl)
     }, 'image/jpeg', 0.92)
   }
 

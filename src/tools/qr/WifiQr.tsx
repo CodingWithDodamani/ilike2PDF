@@ -58,7 +58,9 @@ export default function WifiQr() {
       a.href = dataUrl
       a.download = 'wifi-qr.png'
       a.click()
-    } catch {}
+    } catch {
+      toast.error('Download failed. Try again.')
+    }
   }
 
   const copyString = () => {

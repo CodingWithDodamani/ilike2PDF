@@ -67,7 +67,7 @@ export default function PdfCrop() {
     }
   }, [toast])
 
-  const getOverlayCoords = useCallback((e: React.MouseEvent | MouseEvent) => {
+  const getOverlayCoords = useCallback((e: React.MouseEvent | React.PointerEvent | MouseEvent) => {
     if (!overlayRef.current) return { x: 0, y: 0 }
     const rect = overlayRef.current.getBoundingClientRect()
     return { x: e.clientX - rect.left, y: e.clientY - rect.top }
@@ -83,7 +83,7 @@ export default function PdfCrop() {
     return { x, y, w, h }
   }, [previewWidth, previewHeight])
 
-  const handleOverlayMouseDown = useCallback((e: React.MouseEvent) => {
+  const handleOverlayMouseDown = useCallback((e: React.MouseEvent | React.PointerEvent) => {
     const pos = getOverlayCoords(e)
     if (cropRect) {
       const handleSize = 10
@@ -223,7 +223,8 @@ export default function PdfCrop() {
           <div
             ref={overlayRef}
             className="absolute inset-0 cursor-crosshair"
-            onMouseDown={handleOverlayMouseDown}
+            style={{ touchAction: 'none' }}
+            onPointerDown={handleOverlayMouseDown}
           >
             {cropRect && (
               <>

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Camera, Upload, Copy, Check, ExternalLink, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -18,6 +18,13 @@ export default function QrReader() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const animRef = useRef<number>(0)
+
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) { streamRef.current.getTracks().forEach(t => t.stop()); streamRef.current = null }
+      cancelAnimationFrame(animRef.current)
+    }
+  }, [])
 
   const isUrl = (text: string): boolean => {
     try { new URL(text); return true } catch { return false }

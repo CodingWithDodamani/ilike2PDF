@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Download, Upload, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { downloadBlob } from '@/lib/utils'
@@ -12,13 +12,19 @@ export default function FaviconGenerator() {
   const [transparent, setTransparent] = useState(true)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const previewUrlRef = useRef('')
+
+  useEffect(() => {
+    return () => { if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current) }
+  }, [])
 
   const processImage = useCallback((file: File) => {
     const img = new window.Image()
     img.onload = () => {
-      setPreview(URL.createObjectURL(file))
-      const canvas = canvasRef.current!
-      const ctx = canvas.getContext('2d')!
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
       const results: { size: number; url: string }[] = []
 
       for (const size of SIZES) {
@@ -29,7 +35,6 @@ export default function FaviconGenerator() {
           ctx.fillStyle = bgColor
           ctx.fillRect(0, 0, size, size)
         }
-        // Center crop
         const minDim = Math.min(img.width, img.height)
         const sx = (img.width - minDim) / 2
         const sy = (img.height - minDim) / 2
@@ -39,7 +44,11 @@ export default function FaviconGenerator() {
       }
       setPreviews(results)
     }
-    img.src = URL.createObjectURL(file)
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
+    const url = URL.createObjectURL(file)
+    previewUrlRef.current = url
+    setPreview(url)
+    img.src = url
   }, [bgColor, transparent])
 
   const handleDrop = useCallback((e: React.DragEvent) => {

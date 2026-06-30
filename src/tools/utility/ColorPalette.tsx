@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Copy, Check, Download, Trash2, Image } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -76,24 +76,35 @@ export default function ColorPalette() {
   const [copied, setCopied] = useState('')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const previewUrlRef = useRef('')
+
+  useEffect(() => {
+    return () => { if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current) }
+  }, [])
 
   const processImage = useCallback((file: File) => {
     const img = new window.Image()
     img.crossOrigin = 'anonymous'
     img.onload = () => {
-      const canvas = canvasRef.current!
+      const canvas = canvasRef.current
+      if (!canvas) return
       const maxDim = 200
-      const scale = Math.min(maxDim / img.width, maxDim / 1, 1)
+      const scale = Math.min(maxDim / img.width, maxDim / img.height, 1)
       canvas.width = img.width * scale
       canvas.height = img.height * scale
-      const ctx = canvas.getContext('2d')!
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       const extracted = extractColors(imageData, numColors)
       setColors(extracted)
-      setPreview(URL.createObjectURL(file))
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current)
+      const url = URL.createObjectURL(file)
+      previewUrlRef.current = url
+      setPreview(url)
     }
-    img.src = URL.createObjectURL(file)
+    const url = URL.createObjectURL(file)
+    img.src = url
   }, [numColors])
 
   const handleDrop = useCallback((e: React.DragEvent) => {

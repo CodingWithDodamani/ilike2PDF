@@ -65,9 +65,9 @@ export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact
         <div className="flex flex-col items-center gap-3">
           <div className={cn(
             'grid place-items-center rounded-2xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-brand-500 transition-transform group-hover:scale-110',
-            compact ? 'h-12 w-12' : 'h-12 w-12'
+            compact ? 'h-10 w-10' : 'h-12 w-12'
           )}>
-            {icon ?? <UploadCloud className={            compact ? 'h-6 w-6' : 'h-6 w-6'} />}
+            {icon ?? <UploadCloud className={compact ? 'h-5 w-5' : 'h-6 w-6'} />}
           </div>
           <div>
             <p className={cn('font-semibold text-ink-800 dark:text-ink-100', compact ? 'text-sm' : 'text-sm')}>

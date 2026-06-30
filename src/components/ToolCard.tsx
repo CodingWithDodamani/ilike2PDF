@@ -29,7 +29,7 @@ export function ToolCard({ tool, index = 0 }: { tool: ToolDef; index?: number })
         </h3>
         <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 flex-1 leading-relaxed">{tool.short}</p>
         <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-500 sm:opacity-0 sm:group-hover:opacity-100 sm:-translate-x-2 sm:group-hover:translate-x-0 transition-all duration-300">
-          Open tool <ArrowRight className="h-3.5 w-3.5" />
+          Open tool <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
         </span>
       </Link>
     </motion.div>

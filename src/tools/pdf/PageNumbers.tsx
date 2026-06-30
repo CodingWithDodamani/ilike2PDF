@@ -74,7 +74,7 @@ export default function PageNumbers() {
       </Field>
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label={`Font size: ${size}pt`}><input type="range" min={8} max={24} value={size} onChange={(e) => setSize(+e.target.value)} className="w-full accent-brand-500" /></Field>
-        <Field label="Start at"><input type="number" min={0} value={start} onChange={(e) => setStart(+e.target.value)} className="input" /></Field>
+        <Field label="Start at"><input type="number" min={1} step={1} value={start} onChange={(e) => setStart(Math.max(1, parseInt(e.target.value) || 1))} className="input" /></Field>
       </div>
       <button onClick={run} disabled={busy} className="btn-primary btn-md w-fit">{busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} Apply & download</button>
     </div>

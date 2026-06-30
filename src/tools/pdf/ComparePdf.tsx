@@ -38,11 +38,13 @@ export default function ComparePdf() {
   const compare = () => {
     if (!a || !b) { toast.error('Add two PDFs to compare.'); return }
     setBusy(true)
-    const wordsA = a.text.split(/\s+/)
-    const wordsB = b.text.split(/\s+/)
-    setDiff(lcsDiff(wordsA, wordsB))
-    setBusy(false)
-    trackUsage({ toolId: 'compare-pdf', toolName: 'Compare PDF', action: 'Compared two PDFs' })
+    setTimeout(() => {
+      const wordsA = a.text.split(/\s+/)
+      const wordsB = b.text.split(/\s+/)
+      setDiff(lcsDiff(wordsA, wordsB))
+      setBusy(false)
+      trackUsage({ toolId: 'compare-pdf', toolName: 'Compare PDF', action: 'Compared two PDFs' })
+    }, 50)
   }
 
   return (

@@ -13,6 +13,7 @@ interface RateHistory {
 async function fetchHistoricalRates(base: string, target: string, days: number): Promise<RateHistory[]> {
   const results: RateHistory[] = []
   const today = new Date()
+  let failures = 0
   
   for (let i = days; i >= 0; i--) {
     const d = new Date(today)
@@ -27,8 +28,16 @@ async function fetchHistoricalRates(base: string, target: string, days: number):
       if (res.ok) {
         const data = await res.json()
         results.push({ date: dateStr, rates: data.rates || {} })
+      } else {
+        failures++
       }
-    } catch {}
+    } catch {
+      failures++
+    }
+  }
+  
+  if (results.length === 0 && failures > 0) {
+    throw new Error('Could not fetch exchange rate data. Check your connection.')
   }
   
   return results

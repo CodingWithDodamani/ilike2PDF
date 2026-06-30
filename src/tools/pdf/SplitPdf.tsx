@@ -89,7 +89,7 @@ export default function SplitPdf() {
             <input value={rangeStr} onChange={(e) => setRangeStr(e.target.value)} placeholder="1-3, 5, 8-10" className="input" />
           </Field>
         )}
-        <button onClick={run} disabled={busy || (mode === 'select' && selected.size === 0)} className="btn-primary btn-md w-fit">
+        <button onClick={run} disabled={busy || (mode === 'select' && selected.size === 0) || (mode === 'range' && !rangeStr.trim())} className="btn-primary btn-md w-fit">
           {busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} Split & download
         </button>
       </div>
