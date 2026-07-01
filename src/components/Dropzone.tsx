@@ -11,6 +11,8 @@ interface DropzoneProps {
   hint?: string
   icon?: ReactNode
   compact?: boolean
+  maxSize?: number
+  onSizeError?: (fileName: string, size: number) => void
 }
 
 function matches(file: File, accept?: string[]): boolean {
@@ -24,7 +26,7 @@ function matches(file: File, accept?: string[]): boolean {
   })
 }
 
-export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact }: DropzoneProps) {
+export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact, maxSize, onSizeError }: DropzoneProps) {
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const id = useId()
@@ -33,10 +35,17 @@ export function Dropzone({ accept, multiple, onFiles, label, hint, icon, compact
     (fileList: FileList | null) => {
       if (!fileList) return
       let files = Array.from(fileList).filter((f) => matches(f, accept))
+      if (maxSize) {
+        const oversized = files.filter((f) => f.size > maxSize)
+        if (oversized.length > 0) {
+          oversized.forEach((f) => onSizeError?.(f.name, f.size))
+          files = files.filter((f) => f.size <= maxSize)
+        }
+      }
       if (!multiple) files = files.slice(0, 1)
       if (files.length) onFiles(files)
     },
-    [accept, multiple, onFiles]
+    [accept, multiple, onFiles, maxSize, onSizeError]
   )
 
   const acceptAttr = accept && !accept.includes('*/*')

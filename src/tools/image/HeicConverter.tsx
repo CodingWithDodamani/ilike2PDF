@@ -31,7 +31,9 @@ export default function HeicConverter() {
   }, [outputFormat, quality])
 
   const handleInput = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = Array.from(e.target.files || [])
+    const selected = Array.from(e.target.files || []).filter(f =>
+      f.type === 'image/heic' || f.type === 'image/heif' || f.name.toLowerCase().endsWith('.heic') || f.name.toLowerCase().endsWith('.heif')
+    )
     if (selected.length === 0) return
     await convertFiles(selected)
     e.target.value = ''

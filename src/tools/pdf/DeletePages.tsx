@@ -48,7 +48,7 @@ export default function DeletePages() {
       <div className="card p-5 flex items-center justify-between flex-wrap gap-2">
         <p className="text-sm font-medium">{pdf.file.name} · delete {selected.size} of {pdf.count}</p>
         <div className="flex gap-2">
-          <button onClick={run} disabled={busy} className="btn-primary btn-sm">{busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} Delete & save</button>
+          <button onClick={run} disabled={busy || selected.size === 0 || selected.size >= pdf.count} className="btn-primary btn-sm">{busy ? <Spinner className="h-4 w-4" /> : <Download className="h-4 w-4" />} Delete & save</button>
           <button onClick={pdf.reset} className="btn-ghost btn-sm">Change file</button>
         </div>
       </div>

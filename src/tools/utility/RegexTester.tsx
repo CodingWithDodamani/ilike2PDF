@@ -32,7 +32,10 @@ export default function RegexTester() {
   const highlighted = useMemo(() => {
     if (!result.valid || result.matches.length === 0) return testString
     const regex = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g')
-    return testString.replace(regex, (m) => `<mark class="bg-brand-500/20 text-brand-700 dark:text-brand-300 rounded px-0.5">${m}</mark>`)
+    return testString.replace(regex, (m) => {
+      const safe = m.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      return `<mark class="bg-brand-500/20 text-brand-700 dark:text-brand-300 rounded px-0.5">${safe}</mark>`
+    })
   }, [testString, pattern, flags, result])
 
   const copyFlags = () => {

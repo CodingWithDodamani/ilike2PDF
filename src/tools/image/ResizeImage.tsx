@@ -64,9 +64,9 @@ export default function ResizeImage() {
       </Field>
       {unit === 'px' ? (
         <div className="flex items-end gap-3 flex-wrap">
-          <Field label="Width"><input type="number" min={1} max={10000} value={w} onChange={(e) => setWidth(Math.max(1, +e.target.value))} className="input w-32" /></Field>
+          <Field label={`Width${w > 8000 ? ' ⚠️' : ''}`}><input type="number" min={1} max={10000} value={w} onChange={(e) => setWidth(Math.max(1, Math.min(10000, +e.target.value || 1)))} className="input w-32" /></Field>
           <button onClick={() => setLock((l) => !l)} className="btn-ghost btn-sm !p-2 mb-1" aria-label="Toggle aspect lock">{lock ? <Link2 className="h-5 w-5 text-brand-500" /> : <Unlink className="h-5 w-5" />}</button>
-          <Field label="Height"><input type="number" min={1} max={10000} value={h} onChange={(e) => setHeight(Math.max(1, +e.target.value))} className="input w-32" /></Field>
+          <Field label={`Height${h > 8000 ? ' ⚠️' : ''}`}><input type="number" min={1} max={10000} value={h} onChange={(e) => setHeight(Math.max(1, Math.min(10000, +e.target.value || 1)))} className="input w-32" /></Field>
         </div>
       ) : (
         <Field label={`Scale: ${pct}% → ${w}×${h}`}><input type="range" min={5} max={200} value={pct} onChange={(e) => setPct(+e.target.value)} className="w-full accent-brand-500" /></Field>

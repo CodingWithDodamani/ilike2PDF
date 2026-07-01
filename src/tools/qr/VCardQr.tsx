@@ -60,8 +60,30 @@ export default function VCardQr() {
   const vcard = useMemo(() => buildVCard(form), [form])
   const hasData = form.firstName || form.lastName || form.phone || form.email || form.org || form.title || form.website || form.address
 
-  const set = (key: keyof Form) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((s) => ({ ...s, [key]: e.target.value }))
+  const set = (key: keyof Form) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value
+    if (key === 'phone') {
+      const numericValue = raw.replace(/[^0-9+()\-\s]/g, '')
+      if (numericValue !== raw) {
+        toast.error('Phone: Only numbers, spaces, +, -, and parentheses are allowed.')
+      }
+      setForm((s) => ({ ...s, [key]: numericValue }))
+    } else if (key === 'firstName' || key === 'lastName') {
+      const lettersOnly = raw.replace(/[^a-zA-Z\s\-'.]/g, '')
+      if (lettersOnly !== raw) {
+        toast.error(`${key === 'firstName' ? 'First Name' : 'Last Name'}: Only letters, spaces, hyphens, apostrophes, and periods are allowed.`)
+      }
+      setForm((s) => ({ ...s, [key]: lettersOnly }))
+    } else if (key === 'email' && raw.length > 0) {
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)
+      if (!isValid) {
+        toast.error('Email: Please enter a valid email address (e.g., name@domain.com).')
+      }
+      setForm((s) => ({ ...s, [key]: raw }))
+    } else {
+      setForm((s) => ({ ...s, [key]: raw }))
+    }
+  }
 
   const downloadPng = async () => {
     if (!svgRef.current) return
@@ -83,14 +105,14 @@ export default function VCardQr() {
     )
   }
 
-  const fields: { key: keyof Form; label: string }[] = [
+  const fields: { key: keyof Form; label: string; type?: string }[] = [
     { key: 'firstName', label: 'First Name' },
     { key: 'lastName', label: 'Last Name' },
-    { key: 'phone', label: 'Phone' },
-    { key: 'email', label: 'Email' },
+    { key: 'phone', label: 'Phone', type: 'tel' },
+    { key: 'email', label: 'Email', type: 'email' },
     { key: 'org', label: 'Organization' },
     { key: 'title', label: 'Job Title' },
-    { key: 'website', label: 'Website' },
+    { key: 'website', label: 'Website', type: 'url' },
     { key: 'address', label: 'Address' },
   ]
 
@@ -106,11 +128,21 @@ export default function VCardQr() {
               <div key={f.key}>
                 <label className="label">{f.label}</label>
                 <input
-                  type="text"
+                  type={f.type ?? 'text'}
                   value={form[f.key]}
                   onChange={set(f.key)}
-                  className="input"
+                  className={`input ${
+                    f.key === 'phone' && form.phone && /[^0-9+()\-\s]/.test(form.phone)
+                      ? 'border-red-500 dark:border-red-500'
+                      : f.key === 'email' && form.email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+                        ? 'border-red-500 dark:border-red-500'
+                        : (f.key === 'firstName' || f.key === 'lastName') && form[f.key].length > 0 && /[^a-zA-Z\s\-'.]/.test(form[f.key])
+                          ? 'border-red-500 dark:border-red-500'
+                          : ''
+                  }`}
                   placeholder={f.label}
+                  maxLength={f.key === 'address' ? 200 : 100}
+                  inputMode={f.key === 'phone' ? 'numeric' : undefined}
                 />
               </div>
             ))}

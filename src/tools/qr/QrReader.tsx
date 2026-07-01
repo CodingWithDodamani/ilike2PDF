@@ -34,13 +34,14 @@ export default function QrReader() {
     setError('')
     try {
       const img = new window.Image()
+      const objectUrl = URL.createObjectURL(file)
       img.onload = async () => {
+        URL.revokeObjectURL(objectUrl)
         const canvas = canvasRef.current!
         canvas.width = img.width
         canvas.height = img.height
         const ctx = canvas.getContext('2d')!
         ctx.drawImage(img, 0, 0)
-        // Use BarcodeDetector API if available
         if ('BarcodeDetector' in window) {
           try {
             const detector = new (window as any).BarcodeDetector({ formats: ['qr_code'] })
@@ -60,7 +61,8 @@ export default function QrReader() {
         }
         setScanning(false)
       }
-      img.src = URL.createObjectURL(file)
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); setError('Failed to load image'); setScanning(false) }
+      img.src = objectUrl
     } catch {
       setError('Failed to process image')
       setScanning(false)

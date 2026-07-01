@@ -116,7 +116,21 @@ export default function SignPdf() {
             <button onClick={clearCanvas} className="btn-ghost btn-sm mt-2"><Eraser className="h-4 w-4" /> Clear</button>
           </div>
         )}
-        {mode === 'type' && <Field label="Your name"><input value={typed} onChange={(e) => setTyped(e.target.value)} className="input" style={{ fontFamily: 'Brush Script MT, cursive', fontSize: 24 }} placeholder="John Doe" /></Field>}
+        {mode === 'type' && <Field label="Your name">
+          <input
+            value={typed}
+            onChange={(e) => {
+              const raw = e.target.value
+              const lettersOnly = raw.replace(/[^a-zA-Z\s\-'.]/g, '')
+              if (lettersOnly !== raw) toast.error('Name: Only letters, spaces, hyphens, apostrophes, and periods are allowed.')
+              setTyped(lettersOnly)
+            }}
+            className={`input ${typed.length > 0 && /[^a-zA-Z\s\-'.]/.test(typed) ? 'border-red-500 dark:border-red-500' : ''}`}
+            style={{ fontFamily: 'Brush Script MT, cursive', fontSize: 24 }}
+            placeholder="John Doe"
+            inputMode="text"
+          />
+        </Field>}
         {mode === 'upload' && <Dropzone accept={['image/png', 'image/jpeg']} compact onFiles={onUpload} label="Upload signature image" />}
         {(sigDataUrl || (mode === 'type' && typed)) && (
           <img src={mode === 'type' ? typedToImage() : sigDataUrl!} alt="Signature preview" className="h-16 object-contain rounded-lg border border-ink-200 dark:border-ink-700 bg-white p-1" />

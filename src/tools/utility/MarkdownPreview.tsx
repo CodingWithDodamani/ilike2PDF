@@ -50,6 +50,12 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
 
+function sanitizeUrl(url: string): string {
+  const trimmed = url.trim().toLowerCase()
+  if (/^javascript:|^data:|^vbscript:/i.test(trimmed)) return '#'
+  return url
+}
+
 function mdToHtml(md: string): string {
   let html = escapeHtml(md)
   // Code blocks
@@ -68,8 +74,8 @@ function mdToHtml(md: string): string {
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>')
   // Links & images
-  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" />')
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_m, alt, src) => `<img alt="${alt}" src="${sanitizeUrl(src)}" />`)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, text, href) => `<a href="${sanitizeUrl(href)}" target="_blank" rel="noopener">${text}</a>`)
   // HR
   html = html.replace(/^---+$/gm, '<hr />')
   // Blockquote

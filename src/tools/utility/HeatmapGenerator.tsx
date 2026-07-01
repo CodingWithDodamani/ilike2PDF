@@ -179,7 +179,7 @@ export default function HeatmapGenerator() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-4">
         <div>
           <div className="card p-2 flex justify-center overflow-auto">
-            <canvas ref={canvasRef} />
+            <canvas ref={canvasRef} className="w-full h-auto" />
           </div>
         </div>
 

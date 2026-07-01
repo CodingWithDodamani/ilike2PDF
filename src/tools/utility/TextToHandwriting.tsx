@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PenLine, Download, Type } from 'lucide-react'
 import { Section } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -38,6 +38,28 @@ export default function TextToHandwriting() {
   const [showLines, setShowLines] = useState(true)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  /** Wrap text into lines that fit within maxWidth */
+  const wrapText = (ctx: CanvasRenderingContext2D, txt: string, maxWidth: number): string[] => {
+    const paragraphs = txt.split('\n')
+    const result: string[] = []
+    for (const para of paragraphs) {
+      if (!para) { result.push(''); continue }
+      const words = para.split(' ')
+      let line = ''
+      for (const word of words) {
+        const test = line ? line + ' ' + word : word
+        if (ctx.measureText(test).width > maxWidth && line) {
+          result.push(line)
+          line = word
+        } else {
+          line = test
+        }
+      }
+      if (line) result.push(line)
+    }
+    return result
+  }
+
   const generateHandwriting = () => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -46,50 +68,72 @@ export default function TextToHandwriting() {
     if (!ctx) return
 
     const dpr = window.devicePixelRatio || 1
-    const width = 800
+    const margin = 36
+    const contentWidth = 720
     const lineHeight = fontSize * lineSpacing
-    const lines = text.split('\n')
-    const totalHeight = Math.max(600, lines.length * lineHeight + 80)
 
-    canvas.width = width * dpr
+    // Measure & wrap text first
+    ctx.font = `${fontSize}px ${font.family}`
+    const wrappedLines = wrapText(ctx, text, contentWidth)
+    const contentHeight = wrappedLines.length * lineHeight
+    const totalHeight = Math.max(500, contentHeight + margin * 2)
+    const canvasW = contentWidth + margin * 2
+
+    // Set canvas physical & CSS dimensions
+    canvas.width = canvasW * dpr
     canvas.height = totalHeight * dpr
-    canvas.style.width = `${width}px`
+    canvas.style.width = '100%'
     canvas.style.height = `${totalHeight}px`
     ctx.scale(dpr, dpr)
 
     // Background
     ctx.fillStyle = bgColor.color
-    ctx.fillRect(0, 0, width, totalHeight)
+    ctx.fillRect(0, 0, canvasW, totalHeight)
 
-    // Draw ruled lines
+    // Draw ruled lines (positioned at text baseline)
     if (showLines) {
       ctx.strokeStyle = 'rgba(100,149,237,0.3)'
       ctx.lineWidth = 1
-      for (let y = 40; y < totalHeight; y += lineHeight) {
+      for (let i = 0; i < wrappedLines.length; i++) {
+        const y = margin + i * lineHeight + fontSize * 0.82
         ctx.beginPath()
-        ctx.moveTo(20, y)
-        ctx.lineTo(width - 20, y)
+        ctx.moveTo(margin * 0.75, y)
+        ctx.lineTo(margin * 0.75 + contentWidth, y)
         ctx.stroke()
       }
     }
 
-    // Draw text
+    // Draw text — positioned to sit ON the ruled line
     ctx.fillStyle = inkColor.color
     ctx.font = `${fontSize}px ${font.family}`
-    ctx.textBaseline = 'top'
+    ctx.textBaseline = 'alphabetic'
 
-    let yPos = 40
-    for (const line of lines) {
-      // Add slight random offset for natural look
-      const xOffset = (Math.random() - 0.5) * 2
-      const yOffset = (Math.random() - 0.5) * 1
-      ctx.fillText(line, 30 + xOffset, yPos + yOffset)
-      yPos += lineHeight
+    for (let i = 0; i < wrappedLines.length; i++) {
+      const line = wrappedLines[i]
+      if (!line) continue
+      const xBase = margin + (Math.random() - 0.5) * 3
+      const yBase = margin + i * lineHeight + fontSize * 0.82
+      // Draw each word with slight random offset for organic feel
+      const words = line.split(' ')
+      let xPos = xBase
+      for (const word of words) {
+        const wordWidth = ctx.measureText(word).width
+        const wiggle = (Math.random() - 0.5) * 1.8
+        ctx.fillText(word, xPos, yBase + wiggle)
+        xPos += wordWidth + ctx.measureText(' ').width
+      }
     }
   }
 
+  // Auto-generate on mount and when parameters change
+  useEffect(() => {
+    generateHandwriting()
+  })
+
   const downloadImage = () => {
-    if (!canvasRef.current) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    // Re-render at full quality before download
     generateHandwriting()
     const link = document.createElement('a')
     link.download = 'handwriting.png'

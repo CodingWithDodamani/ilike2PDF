@@ -30,7 +30,9 @@ export default function SvgToPng() {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       URL.revokeObjectURL(url)
       canvas.toBlob(b => {
-        if (b) setPreview(URL.createObjectURL(b))
+        if (b) {
+          setPreview(prev => { if (prev) URL.revokeObjectURL(prev); return URL.createObjectURL(b) })
+        }
       }, 'image/png')
     }
     img.onerror = () => { setError('Invalid SVG'); URL.revokeObjectURL(url) }
@@ -113,7 +115,7 @@ export default function SvgToPng() {
       {/* Preview */}
       {preview && (
         <div className="card p-4 flex items-center justify-center" style={{ background: transparent ? 'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50% / 20px 20px' : undefined }}>
-          <img src={preview} alt="Converted PNG" className="max-w-full max-h-60" />
+          <img src={preview} alt="Converted PNG" className="max-w-full max-h-60 w-full h-auto" />
         </div>
       )}
     </Section>

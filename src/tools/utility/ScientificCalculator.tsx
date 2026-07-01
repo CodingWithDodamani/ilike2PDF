@@ -13,7 +13,6 @@ const BUTTONS = [
 ]
 
 function evalExpression(expr: string): number {
-  // Replace symbols
   const e = expr
     .replace(/π/g, `${Math.PI}`)
     .replace(/e(?![xp])/g, `${Math.E}`)
@@ -32,8 +31,11 @@ function evalExpression(expr: string): number {
     .replace(/cos⁻¹\(([^)]+)\)/g, 'Math.acos($1)*180/Math.PI')
     .replace(/tan⁻¹\(([^)]+)\)/g, 'Math.atan($1)*180/Math.PI')
 
-  // Simple eval for safe math expressions
-   
+  if (!/^[\d\s+\-*/().,%eE]+$/.test(e) && !e.includes('Math.')) {
+    throw new Error('Invalid expression')
+  }
+
+  // eslint-disable-next-line no-new-func
   const result = new Function(`"use strict"; return (${e})`)()
   if (typeof result !== 'number' || !isFinite(result)) throw new Error('Invalid')
   return result

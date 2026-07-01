@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import QRCode from 'qrcode'
 import { motion } from 'framer-motion'
 import { QrCode, Download, Copy } from 'lucide-react'
 import { Field, Segmented } from '@/components/ui'
 import { useToast } from '@/components/Toaster'
-import { buildQrData, QR_FIELDS, type QrType } from '@/lib/qr'
+import { buildQrData, QR_FIELDS, type QrField, type QrType } from '@/lib/qr'
 import { downloadDataUrl } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
 
@@ -19,6 +19,24 @@ export default function QrGenerator() {
   const [ecc, setEcc] = useState<'L' | 'M' | 'Q' | 'H'>('M')
   const [margin, setMargin] = useState(2)
   const [dataUrl, setDataUrl] = useState('')
+
+  const handleFieldChange = useCallback((key: string, value: string, field: QrField) => {
+    if (field.numericOnly) {
+      const numericValue = value.replace(/[^0-9+()\-\s]/g, '')
+      if (numericValue !== value) {
+        toast.error(`${field.label}: Only numbers, spaces, +, -, and parentheses are allowed.`)
+      }
+      setFields((s) => ({ ...s, [key]: numericValue }))
+    } else if (key === 'email' && value.length > 0) {
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+      if (!isValid) {
+        toast.error('Email: Please enter a valid email address (e.g., name@domain.com).')
+      }
+      setFields((s) => ({ ...s, [key]: value }))
+    } else {
+      setFields((s) => ({ ...s, [key]: value }))
+    }
+  }, [toast])
 
   const data = buildQrData(type, fields)
 
@@ -54,9 +72,19 @@ export default function QrGenerator() {
         </Field>
         {QR_FIELDS[type].map((f) => (
           <Field key={f.key} label={f.label}>
-            {f.type === 'textarea'
-              ? <textarea value={fields[f.key] ?? ''} onChange={(e) => setFields((s) => ({ ...s, [f.key]: e.target.value }))} className="input h-24 resize-y" placeholder={f.placeholder} />
-              : <input type={f.type ?? 'text'} value={fields[f.key] ?? ''} onChange={(e) => setFields((s) => ({ ...s, [f.key]: e.target.value }))} className="input" placeholder={f.placeholder} />}
+            {f.key === 'security' && type === 'wifi'
+              ? <Segmented value={fields[f.key] ?? 'WPA'} onChange={(v) => setFields((s) => ({ ...s, [f.key]: v }))} options={[{ value: 'WPA', label: 'WPA' }, { value: 'WEP', label: 'WEP' }, { value: 'nopass', label: 'None' }]} />
+              : f.type === 'textarea'
+                ? <textarea value={fields[f.key] ?? ''} onChange={(e) => setFields((s) => ({ ...s, [f.key]: e.target.value }))} className="input h-24 resize-y" placeholder={f.placeholder} maxLength={f.key === 'text' ? 2000 : 500} />
+                : <input
+                  type={f.type ?? 'text'}
+                  value={fields[f.key] ?? ''}
+                  onChange={(e) => handleFieldChange(f.key, e.target.value, f)}
+                  className={`input ${f.numericOnly && fields[f.key] && /[^0-9+()\-\s]/.test(fields[f.key]) ? 'border-red-500 dark:border-red-500' : f.key === 'email' && fields[f.key] && fields[f.key].length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields[f.key]) ? 'border-red-500 dark:border-red-500' : ''}`}
+                  placeholder={f.placeholder}
+                  maxLength={f.key === 'ssid' ? 32 : f.key === 'password' ? 64 : 200}
+                  inputMode={f.numericOnly ? 'numeric' : undefined}
+                />}
           </Field>
         ))}
         <div className="grid grid-cols-2 gap-4">

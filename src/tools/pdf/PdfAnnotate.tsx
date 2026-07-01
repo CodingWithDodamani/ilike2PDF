@@ -56,13 +56,17 @@ export default function PdfAnnotate() {
   }, [renderPage])
 
   const onFile = async (files: File[]) => {
-    const buf = await fileToArrayBuffer(files[0])
-    const doc = await loadPdfDocument(buf.slice(0))
-    setFile(files[0])
-    setData(buf)
-    setTotalPages(doc.numPages)
-    setCurrentPage(0)
-    setAnnotations([])
+    try {
+      const buf = await fileToArrayBuffer(files[0])
+      const doc = await loadPdfDocument(buf.slice(0))
+      setFile(files[0])
+      setData(buf)
+      setTotalPages(doc.numPages)
+      setCurrentPage(0)
+      setAnnotations([])
+    } catch {
+      toast.error('Failed to load PDF file.')
+    }
   }
 
   const getCanvasCoords = (e: React.MouseEvent | React.PointerEvent) => {

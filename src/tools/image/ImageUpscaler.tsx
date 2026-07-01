@@ -102,6 +102,9 @@ export default function ImageUpscaler() {
             <span>Original: {origDims?.w}×{origDims?.h}</span>
             <span>→</span>
             <span>Upscaled: {scaledW}×{scaledH}</span>
+            {scaledW * scaledH > 50_000_000 && (
+              <span className="text-amber-500 font-medium">⚠ Very large output ({(scaledW * scaledH / 1_000_000).toFixed(0)}MP) may cause issues</span>
+            )}
           </div>
 
           {resultBlob && (
@@ -113,7 +116,7 @@ export default function ImageUpscaler() {
           )}
 
           <div className="flex gap-2">
-            <button onClick={run} disabled={busy} className="btn-primary btn-md">
+            <button onClick={run} disabled={busy || (origDims !== null && scaledW * scaledH > 100_000_000)} className="btn-primary btn-md">
               {busy ? <Spinner className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />} Upscale
             </button>
             {resultBlob && (

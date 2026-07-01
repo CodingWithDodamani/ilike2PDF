@@ -42,20 +42,10 @@ const DISPLAY_FIELDS: { key: string; label: string }[] = [
   { key: 'UserComment', label: 'Comment' },
 ]
 
-const EDITABLE_FIELDS: { key: keyof ExifFields; label: string; type: string }[] = [
-  { key: 'DateTimeOriginal', label: 'Date/Time', type: 'datetime-local' },
-  { key: 'Make', label: 'Camera Make', type: 'text' },
-  { key: 'Model', label: 'Camera Model', type: 'text' },
-  { key: 'GPSLatitude', label: 'GPS Latitude', type: 'number' },
-  { key: 'GPSLongitude', label: 'GPS Longitude', type: 'number' },
-  { key: 'ImageDescription', label: 'Description', type: 'text' },
-]
-
 export default function ImageExifEditor() {
   const toast = useToast()
   const [file, setFile] = useState<File | null>(null)
   const [metadata, setMetadata] = useState<ExifFields | null>(null)
-  const [edited, setEdited] = useState<Partial<ExifFields>>({})
   const [busy, setBusy] = useState(false)
   const [imgUrl, setImgUrl] = useState('')
   const imgUrlRef = useRef('')
@@ -70,7 +60,6 @@ export default function ImageExifEditor() {
     imgUrlRef.current = ''
     setFile(null)
     setMetadata(null)
-    setEdited({})
     setImgUrl('')
     setDims({ w: 0, h: 0 })
   }, [])
@@ -94,14 +83,6 @@ export default function ImageExifEditor() {
         }
       }
       setMetadata(exif)
-      setEdited({
-        DateTimeOriginal: (exif.DateTimeOriginal as string) || '',
-        Make: (exif.Make as string) || '',
-        Model: (exif.Model as string) || '',
-        GPSLatitude: exif.GPSLatitude as number | undefined,
-        GPSLongitude: exif.GPSLongitude as number | undefined,
-        ImageDescription: (exif.ImageDescription as string) || '',
-      })
       trackUsage({ toolId: 'image-exif-editor', toolName: 'Image EXIF Editor', action: 'Read EXIF', fileName: f.name, inputSize: f.size })
     } catch {
       toast.error('Could not read metadata.')
@@ -221,23 +202,6 @@ export default function ImageExifEditor() {
           {metadata && metaCount === 0 && (
             <div className="text-center py-6 text-sm text-ink-500">No EXIF metadata found.</div>
           )}
-
-          <div>
-            <h3 className="text-sm font-medium mb-2">Edit Fields</h3>
-            <div className="grid gap-3">
-              {EDITABLE_FIELDS.map(({ key, label, type }) => (
-                <div key={key} className="flex flex-col gap-1">
-                  <label className="text-xs font-medium text-ink-600 dark:text-ink-300">{label}</label>
-                  <input
-                    type={type}
-                    value={edited[key] != null ? String(edited[key]) : ''}
-                    onChange={(e) => setEdited((prev) => ({ ...prev, [key]: e.target.value }))}
-                    className="input text-sm"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
 
           <div className="flex gap-2 flex-wrap">
             <button onClick={downloadClean} className="btn-secondary btn-sm">

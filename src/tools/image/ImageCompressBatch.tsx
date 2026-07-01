@@ -41,7 +41,9 @@ export default function ImageCompressBatch() {
   const compressImage = useCallback((file: File): Promise<FileResult> => {
     return new Promise((resolve, reject) => {
       const img = new Image()
+      const objectUrl = URL.createObjectURL(file)
       img.onload = () => {
+        URL.revokeObjectURL(objectUrl)
         const canvas = document.createElement('canvas')
         canvas.width = img.naturalWidth
         canvas.height = img.naturalHeight
@@ -59,8 +61,8 @@ export default function ImageCompressBatch() {
           quality / 100
         )
       }
-      img.onerror = () => reject(new Error('Failed to load image'))
-      img.src = URL.createObjectURL(file)
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('Failed to load image')) }
+      img.src = objectUrl
     })
   }, [format, quality])
 
