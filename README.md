@@ -20,12 +20,12 @@
 - **Misc**: Fuse.js (command palette fuzzy search), react-markdown + remark-gfm, JSZip, Web Crypto API, Tesseract.js (OCR)
 
 ## Completed Features
-### 95 Tools across 5 categories
-- **PDF (25)**: Merge, Split, Extract Pages, Delete Pages, Rotate, Organize (reorder/rotate/remove), PDF→Image, Compress, PDF→Text, Extract Images, Watermark, Page Numbers, Edit Metadata, Page-Size Converter, Unlock (known password), Protect (AES-GCM container), Compare, Sign (draw/type/upload), Markdown→PDF, Image→PDF, Crop, Bookmarks, Annotate, PDF→Word, Advanced Compression.
-- **Image (25)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background (chroma-key), Watermark, Color Picker, Image Metadata (EXIF), Passport Photo, Collage Maker, HEIC Converter, Color Palette, Photo to Sketch, Image Border, AI Background Remover, Image Upscaler, Meme Generator, Batch Compressor, EXIF Editor, Signature Maker, Social Media Resizer, Face Blur, Resize to 3.5×4.5cm, Increase Image Size.
-- **QR (9)**: Generator (text/URL/wifi/vcard/etc.), Scanner (camera/file), Batch generator, Customizer (styled), Barcode Generator, WiFi QR, vCard QR, QR to PDF, Enhanced Scanner.
-- **Dev (21)**: Base64 Encode/Decode, Hash Generator (SHA-1/256/384/512), JSON Formatter, Timestamp Converter, Number Base Converter, Lorem Ipsum, Markdown Preview, **Color Converter** (HEX/RGB/HSL/HSV/CMYK with live sliders, color schemes, EyeDropper API, Tailwind class, history), Regex Tester, UUID Generator, Scientific Calculator, Text Diff Checker, CSV Viewer, CSS Gradient Generator, Box Shadow Generator, SVG to PNG, Favicon Generator, JSON↔CSV Converter, Cron Generator, Color Blindness Simulator, Heatmap Generator.
-- **Utility (15)**: File-size inspector, Document-size inspector, Text Counter, Age Calculator, Text to Speech (3 engines), Currency Converter (170+ currencies), Unit Converter (100+ units), Password Generator, Dice Roller, Random Generator, Tip Calculator, BMI Calculator, Loan/EMI Calculator, Roman Numeral Converter, Image to Text OCR.
+### 98 Tools across 5 categories
+- **PDF (25)**: Merge, Split, Extract Pages, Delete Pages, Rotate, Organize, PDF→Image, Compress, PDF→Text, Extract Images, Watermark, Page Numbers, Edit Metadata, Page-Size Converter, Unlock, Protect, Compare, Sign, Markdown→PDF, Image→PDF, Crop, Bookmarks, Annotate, PDF→Word, Advanced Compression.
+- **Image (25)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background, Watermark, Color Picker, Image Metadata, Passport Photo, Collage Maker, HEIC Converter, Color Palette, Photo to Sketch, Image Border, AI Background Remover, Image Upscaler, Meme Generator, Batch Compressor, EXIF Editor, Signature Maker, Social Media Resizer, Face Blur, Resize to 3.5×4.5cm, Increase Image Size.
+- **QR (9)**: Generator, Scanner, Batch generator, Customizer, Barcode Generator, WiFi QR, vCard QR, QR to PDF, Enhanced Scanner.
+- **Dev (21)**: Base64 Encode/Decode, Hash Generator (SHA-1/256/384/512), JSON Formatter, Timestamp Converter, Number Base Converter, Lorem Ipsum, Markdown Preview, **Color Converter** (HEX/RGB/HSL/HSV/CMYK with live sliders, 6 color schemes, EyeDropper API, Tailwind class match, color history), Regex Tester, UUID Generator, Scientific Calculator, Text Diff Checker, CSV Viewer, CSS Gradient Generator, Box Shadow Generator, SVG to PNG, Favicon Generator, JSON↔CSV Converter, Cron Generator, Color Blindness Simulator, Heatmap Generator.
+- **Utility (18)**: File-size inspector, Document-size inspector, Text Counter, Age Calculator, Text to Speech (3 engines: Browser Native, Kokoro AI, Edge Neural), Currency Converter (170+ currencies), Unit Converter (100+ units), Password Generator, Dice Roller, Random Generator, Tip Calculator, BMI Calculator, Loan/EMI Calculator, Roman Numeral Converter, Image to Text OCR (Tesseract.js, 11 languages), Stopwatch & Timer, Currency Chart, Text to Handwriting.
 
 ### Platform
 - **Premium landing page** — animated hero, category grid, popular tools, features, comparison table, testimonials, open-source/PWA sections, FAQ teaser, footer.
@@ -76,7 +76,7 @@ npm run format         # Prettier format
 - **Platform**: Cloudflare Pages (static SPA + PWA)
 - **Build output**: `./dist`
 - **Deploy**: `npm run build && npx wrangler pages deploy dist --project-name <project>`
-- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 95 tools code-split and lazy-loaded.
+- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 98 tools code-split and lazy-loaded.
 
 ## Not Yet Implemented / Known Limitations
 - **Compress PDF** re-rasterizes pages (flattens selectable text into images) — no text-preserving optimization yet.
@@ -105,9 +105,9 @@ This reads the approved flat logo file (`/public/snappdf_logo_flat_1782547779742
 4. ~~Add Vitest unit tests for utility functions and tool logic~~ — Done (56 tests passing).
 5. ~~Implement privacy-respecting localStorage analytics via `trackUsage()`~~ — Done.
 6. ~~Add ESLint + Prettier for code quality~~ — Done (44 warnings, 0 errors).
-7. Add keyboard shortcuts for common operations.
-8. Add i18n support for multi-language UI.
-9. Improve Color Converter with export palette as image/PDF.
+7. ~~Add Dev Tools category (21 tools)~~ — Done (JSON, Base64, Hash, Regex, Color Converter, etc.).
+8. ~~Enhance Color Converter with HSV, schemes, EyeDropper, Tailwind~~ — Done.
+9. Add i18n support for multi-language UI.
 10. Add batch processing for more image tools.
 
 ## GitHub Repository
