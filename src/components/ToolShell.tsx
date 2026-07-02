@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ChevronRight, Shield, Keyboard } from 'lucide-react'
+import { ChevronRight, Shield, Keyboard, WifiOff } from 'lucide-react'
 import type { ToolDef } from '@/lib/types'
 import { CATEGORY_META } from '@/lib/tools'
 
@@ -23,8 +23,15 @@ export function ToolShell({ tool, children }: { tool: ToolDef; children: React.R
           </div>
           <h1 className="font-display text-lg sm:text-xl font-extrabold tracking-tight">{tool.name}</h1>
         </div>
-        <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 rounded-full px-2 py-0.5 shrink-0">
-          <Shield className="h-3 w-3" /> 100% Private
+        <div className="flex items-center gap-1.5">
+          {tool.offline === false && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/15 rounded-full px-2 py-0.5 shrink-0">
+              <WifiOff className="h-3 w-3" /> Needs Internet
+            </span>
+          )}
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 rounded-full px-2 py-0.5 shrink-0">
+            <Shield className="h-3 w-3" /> 100% Private
+          </span>
         </div>
       </div>
 

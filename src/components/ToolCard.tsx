@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, WifiOff } from 'lucide-react'
 import type { ToolDef } from '@/lib/types'
 import { CATEGORY_META } from '@/lib/tools'
 
@@ -27,6 +27,7 @@ export function ToolCard({ tool, index = 0 }: { tool: ToolDef; index?: number })
           {tool.name}
           {tool.isNew && <span className="badge-green animate-pulse">New</span>}
           {tool.popular && <span className="badge-gold">Live</span>}
+          {tool.offline === false && <span className="badge-offline"><WifiOff className="h-3 w-3" /> Internet</span>}
         </h3>
         <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 flex-1 leading-relaxed">{tool.short}</p>
         <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-500" aria-hidden="true">

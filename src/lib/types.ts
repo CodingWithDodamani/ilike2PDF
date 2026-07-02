@@ -15,6 +15,7 @@ export interface ToolDef {
   multiple?: boolean
   popular?: boolean
   isNew?: boolean
+  offline?: boolean
   keywords?: string[]
 }
 

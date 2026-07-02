@@ -37,11 +37,6 @@ test.describe('Image Tools', () => {
     await expectToolPageReady(page, 'Remove Background')
   })
 
-  test('Blur Image - page loads', async ({ page }) => {
-    await navigateToTool(page, 'blur-background')
-    await expectToolPageReady(page, 'Blur Image')
-  })
-
   test('Watermark Image - page loads', async ({ page }) => {
     await navigateToTool(page, 'watermark-image')
     await expectToolPageReady(page, 'Watermark Image')

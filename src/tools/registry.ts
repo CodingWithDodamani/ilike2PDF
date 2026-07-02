@@ -32,7 +32,6 @@ export const TOOL_COMPONENTS: Record<string, ToolComp> = {
   'passport-photo': lazy(() => import('./image/PassportPhoto')),
   'image-to-base64': lazy(() => import('./image/ImageToBase64')),
   'remove-background': lazy(() => import('./image/RemoveBackground')),
-  'blur-background': lazy(() => import('./image/BlurImage')),
   'watermark-image': lazy(() => import('./image/WatermarkImage')),
   'color-picker': lazy(() => import('./image/ColorPicker')),
   'image-metadata': lazy(() => import('./image/ImageMetadata')),

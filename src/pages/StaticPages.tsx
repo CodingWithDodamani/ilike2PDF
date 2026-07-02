@@ -6,8 +6,11 @@ import {
   Shield, Lock, FileText, Mail, HelpCircle, History as HistoryIcon, Keyboard,
   Accessibility as AccessibilityIcon, WifiOff, Download, Scale, ChevronDown,
   Heart, CheckCircle2, Globe, Copy, Check,
-  ExternalLink, Star, Code2, Sparkles,
+  ExternalLink, Star, Code2, Sparkles, MapPin,
 } from 'lucide-react'
+import {
+  FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaYoutube, FaPinterest, FaSlack,
+} from 'react-icons/fa'
 
 type PageKey =
   | 'about' | 'privacy' | 'terms' | 'contact' | 'faq' | 'changelog'
@@ -24,7 +27,7 @@ const TITLES: Record<PageKey, { title: string; sub: string; description: string;
   changelog: { title: 'Changelog', sub: 'What’s new and what’s coming.', description: 'iLike2PDF changelog — track new features, improvements, and releases for the privacy-first document toolkit.', icon: HistoryIcon },
   shortcuts: { title: 'Keyboard Shortcuts', sub: 'Work faster with the keyboard.', description: 'iLike2PDF keyboard shortcuts — Ctrl/Cmd+K for command palette, Esc to close dialogs, arrow keys to navigate.', icon: Keyboard },
   accessibility: { title: 'Accessibility', sub: 'Our commitment to WCAG 2.2 AA.', description: 'iLike2PDF accessibility statement — WCAG 2.2 AA compliant, keyboard operable, sufficient contrast, screen reader support.', icon: AccessibilityIcon },
-  offline: { title: 'Offline Guide', sub: 'Use every tool with no connection.', description: 'iLike2PDF offline guide — install the PWA and use all 94 document tools without an internet connection.', icon: WifiOff },
+  offline: { title: 'Offline Guide', sub: 'Use every tool with no connection.', description: 'iLike2PDF offline guide — install the PWA and use 100+ document tools without an internet connection.', icon: WifiOff },
   pwa: { title: 'Install iLike2PDF', sub: 'Add iLike2PDF to your device like a native app.', description: 'Install iLike2PDF as a Progressive Web App on desktop, iOS, or Android for offline access to all tools.', icon: Download },
   licenses: { title: 'Open-Source Licenses', sub: 'The libraries that power iLike2PDF.', description: 'iLike2PDF open-source licenses — MIT, Apache-2.0, ISC licenses for React, pdf-lib, PDF.js, qrcode, and more.', icon: Scale },
 }
@@ -78,7 +81,7 @@ function About() {
           <Star className="w-5 h-5 text-white animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }} />
         </div>
         <div className="absolute bottom-12 right-20 opacity-20">
-          <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="w-7 h-7 invert brightness-0 animate-bounce" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }} />
+          <FaGithub className="w-7 h-7 text-white animate-bounce" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }} />
         </div>
 
         <div className="relative px-8 py-14 text-center text-white">
@@ -96,6 +99,7 @@ function About() {
               src="https://codingwithdodamani.github.io/TableSync/hallu-dodamani.png"
               alt="Hallu Dodamani"
               className="relative w-36 h-36 rounded-full border-4 border-white/30 shadow-2xl object-cover"
+              onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144"><rect width="144" height="144" rx="72" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><text x="72" y="88" text-anchor="middle" font-size="56" font-weight="bold" fill="white" font-family="sans-serif">HD</text></svg>') }}
             />
             {/* Verified badge */}
             <motion.div
@@ -150,27 +154,27 @@ function About() {
           >
             <a href="https://github.com/CodingWithDodamani" target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm hover:bg-white/25 transition-all duration-300 font-medium text-sm border border-white/20 hover:scale-105 hover:shadow-lg hover:shadow-white/10">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="w-4 h-4 invert brightness-0" /> GitHub
+              <FaGithub className="w-4 h-4" /> GitHub
             </a>
             <a href="https://www.linkedin.com/in/halludodamani/" target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0A66C2] hover:bg-[#0958a8] transition-all duration-300 font-medium text-sm hover:scale-105 hover:shadow-lg hover:shadow-[#0A66C2]/30">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/linkedin.svg" alt="" className="w-4 h-4" /> LinkedIn
+              <FaLinkedin className="w-4 h-4" /> LinkedIn
             </a>
             <a href="https://www.instagram.com/royal_hudga_hallu777/" target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 hover:opacity-90 transition-all duration-300 font-medium text-sm hover:scale-105 hover:shadow-lg hover:shadow-pink-500/30">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/instagram.svg" alt="" className="w-4 h-4" /> Instagram
+              <FaInstagram className="w-4 h-4" /> Instagram
             </a>
             <a href="mailto:halludodamani@gmail.com"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm hover:bg-white/25 transition-all duration-300 font-medium text-sm border border-white/20 hover:scale-105 hover:shadow-lg hover:shadow-white/10">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/gmail.svg" alt="" className="w-4 h-4" /> Email
+              <FaEnvelope className="w-4 h-4" /> Email
             </a>
             <a href="https://www.youtube.com/@Dodamanicraftschannel" target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FF0000] hover:bg-[#cc0000] transition-all duration-300 font-medium text-sm hover:scale-105 hover:shadow-lg hover:shadow-[#FF0000]/30">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/youtube.svg" alt="" className="w-4 h-4 invert brightness-0" /> YouTube
+              <FaYoutube className="w-4 h-4" /> YouTube
             </a>
             <a href="https://www.pinterest.com/dodamanihallu75/" target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E60023] hover:bg-[#bd001f] transition-all duration-300 font-medium text-sm hover:scale-105 hover:shadow-lg hover:shadow-[#E60023]/30">
-              <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/pinterest.svg" alt="" className="w-4 h-4 invert brightness-0" /> Pinterest
+              <FaPinterest className="w-4 h-4" /> Pinterest
             </a>
           </motion.div>
 
@@ -293,7 +297,7 @@ function About() {
           <div className="animate-border-rotate w-full max-w-md overflow-hidden">
             <div className="relative z-10 rounded-2xl bg-white dark:bg-ink-900 p-5 text-center m-[2px]">
               <p className="text-sm font-bold bg-gradient-to-r from-brand-500 via-accent-500 to-purple-500 bg-clip-text text-transparent">
-                94+ Browser-First Tools
+                100+ Browser-First Tools
               </p>
               <p className="text-xs text-ink-400 mt-1">Privacy-first. Zero uploads. Everything runs locally.</p>
             </div>
@@ -309,10 +313,10 @@ function About() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6"
         >
           {[
-            { icon: <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/google-maps.svg" alt="Location" className="w-5 h-5" />, label: 'Location', value: 'Bangalore', color: 'text-brand-500' },
-            { icon: <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/visual-studio-code.svg" alt="Focus" className="w-5 h-5" />, label: 'Focus', value: 'Frontend & Tools', color: 'text-purple-500' },
-            { icon: <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/typescript.svg" alt="Languages" className="w-5 h-5" />, label: 'Languages', value: '6+ Tech Stack', color: 'text-accent-500' },
-            { icon: <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/slack.svg" alt="Collaborations" className="w-5 h-5" />, label: 'Open to', value: 'Collaborations', color: 'text-emerald-500' },
+            { icon: <MapPin className="w-5 h-5" />, label: 'Location', value: 'Bangalore', color: 'text-brand-500' },
+            { icon: <Code2 className="w-5 h-5" />, label: 'Focus', value: 'Frontend & Tools', color: 'text-purple-500' },
+            { icon: <Globe className="w-5 h-5" />, label: 'Languages', value: '6+ Tech Stack', color: 'text-accent-500' },
+            { icon: <FaSlack className="w-5 h-5" />, label: 'Open to', value: 'Collaborations', color: 'text-emerald-500' },
           ].map((f, i) => (
             <motion.div
               key={f.label}
@@ -379,7 +383,8 @@ function About() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-white/10 to-transparent" />
 
               <div className={`relative w-14 h-14 rounded-2xl ${s.iconBg} flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300 p-2`}>
-                <img src={s.logo} alt={s.name} className="w-full h-full object-contain" loading="lazy" />
+                <img src={s.logo} alt={s.name} className="w-full h-full object-contain" loading="lazy"
+                  onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#e2e8f0"/><text x="28" y="36" text-anchor="middle" font-size="24" font-weight="bold" fill="#64748b" font-family="sans-serif">' + s.name[0] + '</text></svg>') }} />
               </div>
               <p className="font-bold text-sm mb-1">{s.name}</p>
               <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide uppercase
@@ -427,7 +432,8 @@ function About() {
                 whileHover={{ scale: 1.08, y: -2 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink-100 dark:bg-ink-800 text-xs font-medium hover:bg-brand-500/10 hover:text-brand-500 transition-colors cursor-default border border-transparent hover:border-brand-500/20"
               >
-                {skill.logo && <img src={skill.logo} alt="" className="w-3.5 h-3.5 object-contain" loading="lazy" />}
+                {skill.logo && <img src={skill.logo} alt="" className="w-3.5 h-3.5 object-contain" loading="lazy"
+                  onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.outerHTML = '<span class="w-3.5 h-3.5 inline-flex items-center justify-center text-[9px] font-bold bg-ink-200 dark:bg-ink-700 rounded">' + skill.name[0] + '</span>' }} />}
                 {skill.name}
               </motion.span>
             ))}
@@ -501,7 +507,9 @@ function About() {
                 <a href={p.href} target="_blank" rel="noreferrer"
                   className="block card p-5 hover:border-brand-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-brand-500/10 h-full">
                   <div className="flex items-center gap-3 mb-3">
-                    <img src={p.img} alt={p.name} className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20 shadow-md" />
+                    <img src={p.img} alt={p.name} className="w-10 h-10 rounded-full object-cover ring-2 ring-white/20 shadow-md"
+                      onError={(e) => { const t = e.target as HTMLImageElement; t.onerror = null; t.style.display = 'none'; const sib = t.nextElementSibling; if (sib) sib.classList.remove('hidden') }} />
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold hidden">{p.name[0]}</div>
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold">{p.name}</p>
                       <span className="text-xs text-ink-400 flex items-center gap-1">
@@ -660,7 +668,7 @@ function Contact() {
       </P>
       <div className="grid sm:grid-cols-2 gap-3 not-prose my-6">
         <a href="https://github.com/CodingWithDodamani/ilike2PDF" target="_blank" rel="noreferrer" className="card p-5 hover:border-brand-500/50 transition group">
-          <img src="https://raw.githubusercontent.com/ln-dev7/logos-apps/master/logos/github.svg" alt="" className="h-7 w-7 mb-2" />
+          <FaGithub className="h-7 w-7 mb-2" />
           <p className="font-semibold group-hover:text-brand-500 transition">Open an issue</p>
           <p className="text-sm text-ink-500">Report bugs or request features on GitHub.</p>
         </a>
