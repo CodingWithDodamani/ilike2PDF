@@ -12,19 +12,20 @@
 ## Tech Stack
 - **Build**: Vite 5 + React 18 + TypeScript (strict)
 - **Styling**: Tailwind CSS 3 + custom design system (`brand` / `accent` / `ink` palettes, glassmorphism, gradient borders)
-- **Animation**: Framer Motion · **Icons**: Lucide
+- **Animation**: Framer Motion · **Icons**: Lucide + React Icons (Font Awesome 6)
 - **PWA**: vite-plugin-pwa (Workbox service worker, offline precache, install prompt, app shortcuts)
 - **PDF**: pdf-lib (edit/create) + pdf.js (render/extract)
 - **Image**: browser-image-compression, exifr, native Canvas APIs
 - **QR**: qrcode (generate) + jsQR (scan)
-- **Misc**: Fuse.js (command palette fuzzy search), react-markdown + remark-gfm, JSZip, Web Crypto API
+- **Misc**: Fuse.js (command palette fuzzy search), react-markdown + remark-gfm, JSZip, Web Crypto API, Tesseract.js (OCR)
 
 ## Completed Features
-### 94 Tools across 4 categories
+### 95 Tools across 5 categories
 - **PDF (25)**: Merge, Split, Extract Pages, Delete Pages, Rotate, Organize (reorder/rotate/remove), PDF→Image, Compress, PDF→Text, Extract Images, Watermark, Page Numbers, Edit Metadata, Page-Size Converter, Unlock (known password), Protect (AES-GCM container), Compare, Sign (draw/type/upload), Markdown→PDF, Image→PDF, Crop, Bookmarks, Annotate, PDF→Word, Advanced Compression.
-- **Image (17)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background (chroma-key), Blur, Watermark, Color Picker, Image Metadata (EXIF), Passport Photo, Collage Maker, HEIC Converter, Color Palette, Photo to Sketch, Image Border, AI Background Remover, Image Upscaler, Meme Generator, Batch Compressor, EXIF Editor.
-- **QR (8)**: Generator (text/URL/wifi/vcard/etc.), Scanner (camera/file), Batch generator, Customizer (styled), Barcode Generator, WiFi QR, vCard QR, QR to PDF, Enhanced Scanner.
-- **Utility (44)**: File-size inspector, Document-size inspector, Base64 encode/decode, Text Counter, Hash Generator (SHA-1/256/384/512 via Web Crypto), Age Calculator, Text to Speech (3 engines), Currency Converter (170+ currencies), Unit Converter (100+ units), JSON Formatter, Password Generator, Timestamp Converter, Number Base Converter, Lorem Ipsum, Markdown Preview, Color Converter, Regex Tester, UUID Generator, Dice Roller, Random Generator, Tip Calculator, BMI Calculator, Loan/EMI Calculator, Roman Numeral Converter, Scientific Calculator, Text Diff Checker, CSV Viewer, JSON↔CSV Converter, Stopwatch & Timer, Cron Generator, CSS Gradient Generator, Box Shadow Generator, SVG to PNG, Image to Text OCR, Favicon Generator, Currency Chart, Color Blindness Simulator, Text to Handwriting, Heatmap Generator.
+- **Image (25)**: Resize, Compress, Convert format, Crop, Image→Base64, Remove Background (chroma-key), Watermark, Color Picker, Image Metadata (EXIF), Passport Photo, Collage Maker, HEIC Converter, Color Palette, Photo to Sketch, Image Border, AI Background Remover, Image Upscaler, Meme Generator, Batch Compressor, EXIF Editor, Signature Maker, Social Media Resizer, Face Blur, Resize to 3.5×4.5cm, Increase Image Size.
+- **QR (9)**: Generator (text/URL/wifi/vcard/etc.), Scanner (camera/file), Batch generator, Customizer (styled), Barcode Generator, WiFi QR, vCard QR, QR to PDF, Enhanced Scanner.
+- **Dev (21)**: Base64 Encode/Decode, Hash Generator (SHA-1/256/384/512), JSON Formatter, Timestamp Converter, Number Base Converter, Lorem Ipsum, Markdown Preview, **Color Converter** (HEX/RGB/HSL/HSV/CMYK with live sliders, color schemes, EyeDropper API, Tailwind class, history), Regex Tester, UUID Generator, Scientific Calculator, Text Diff Checker, CSV Viewer, CSS Gradient Generator, Box Shadow Generator, SVG to PNG, Favicon Generator, JSON↔CSV Converter, Cron Generator, Color Blindness Simulator, Heatmap Generator.
+- **Utility (15)**: File-size inspector, Document-size inspector, Text Counter, Age Calculator, Text to Speech (3 engines), Currency Converter (170+ currencies), Unit Converter (100+ units), Password Generator, Dice Roller, Random Generator, Tip Calculator, BMI Calculator, Loan/EMI Calculator, Roman Numeral Converter, Image to Text OCR.
 
 ### Platform
 - **Premium landing page** — animated hero, category grid, popular tools, features, comparison table, testimonials, open-source/PWA sections, FAQ teaser, footer.
@@ -38,9 +39,8 @@
 | Path | Description |
 |------|-------------|
 | `/` | Landing page |
-| `/category/:cat` | Tool grid for a category (`pdf`, `image`, `qr`, `utility`) with search |
+| `/category/:cat` | Tool grid for a category (`pdf`, `image`, `qr`, `dev`, `utility`) with search |
 | `/tool/:slug` | A specific tool (e.g. `/tool/merge-pdf`, `/tool/qr-generator`) — invalid slugs render 404 |
-
 | `/about` `/privacy` `/terms` `/contact` | Company / legal pages |
 | `/faq` `/changelog` `/shortcuts` `/accessibility` | Help & info pages |
 | `/offline-guide` `/pwa-install` `/licenses` | Offline & open-source info |
@@ -50,7 +50,7 @@ All processing routes accept input via drag-and-drop or file picker. No query pa
 
 ## Data Architecture
 - **Data models**: `ToolDef` (tool registry), `HistoryEntry` (per-action record), `AnalyticsState` (`filesProcessed`, `bytesSaved`, `bytesProcessed`, `toolUsage`, `daily`).
-- **Storage services**: **Browser `localStorage` only** — keys `snappdf.history`, `snappdf.analytics`, `snappdf.recentTools`, `ilike2pdf.theme`. No server, no database, no cloud storage.
+- **Storage services**: **Browser `localStorage` only** — keys `snappdf.history`, `snappdf.analytics`, `snappdf.recentTools`, `snappdf.colorHistory`, `ilike2pdf.theme`. No server, no database, no cloud storage.
 - **Data flow**: File → read in-memory (FileReader / ArrayBuffer) → processed via WASM/JS libraries → result downloaded via Blob URL. Usage metadata (not file contents) is recorded to localStorage via `trackUsage()`.
 
 ## User Guide
@@ -65,17 +65,18 @@ All processing routes accept input via drag-and-drop or file picker. No query pa
 npm install            # install dependencies
 npm run dev            # start Vite dev server on :5173
 npm run build          # type-check + production build to dist/
-npm run test           # run Vitest unit tests
-npm run test:e2e       # run Playwright E2E tests
-pm2 start ecosystem.config.cjs   # serve dist via wrangler pages dev on :5173
-curl http://localhost:5173       # smoke test
+npm run test           # run Vitest unit tests (56 tests)
+npm run test:e2e       # run Playwright E2E tests (100 tests)
+npm run lint           # ESLint check
+npm run lint:fix       # ESLint auto-fix
+npm run format         # Prettier format
 ```
 
 ## Deployment (Cloudflare Pages)
 - **Platform**: Cloudflare Pages (static SPA + PWA)
 - **Build output**: `./dist`
 - **Deploy**: `npm run build && npx wrangler pages deploy dist --project-name <project>`
-- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 94 tools code-split and lazy-loaded.
+- **Status**: ✅ Builds clean (TypeScript strict, 0 errors), service worker generated, all 95 tools code-split and lazy-loaded.
 
 ## Not Yet Implemented / Known Limitations
 - **Compress PDF** re-rasterizes pages (flattens selectable text into images) — no text-preserving optimization yet.
@@ -101,13 +102,16 @@ This reads the approved flat logo file (`/public/snappdf_logo_flat_1782547779742
 1. ~~Add a Tesseract.js-based OCR tool for image-only PDFs~~ — Done (Image to Text OCR).
 2. ~~Replace chroma-key Remove Background with a WASM ML model~~ — Done (Background Remover AI uses @imgly/background-removal).
 3. ~~Add E2E smoke tests (Playwright) per tool category~~ — Done (100 tests passing).
-4. Add Vitest unit tests for utility functions and tool logic (56 tests passing).
-5. Implement privacy-respecting localStorage analytics via `trackUsage()`.
-6. Add ESLint + Prettier for code quality.
+4. ~~Add Vitest unit tests for utility functions and tool logic~~ — Done (56 tests passing).
+5. ~~Implement privacy-respecting localStorage analytics via `trackUsage()`~~ — Done.
+6. ~~Add ESLint + Prettier for code quality~~ — Done (44 warnings, 0 errors).
 7. Add keyboard shortcuts for common operations.
+8. Add i18n support for multi-language UI.
+9. Improve Color Converter with export palette as image/PDF.
+10. Add batch processing for more image tools.
 
 ## GitHub Repository
-- **Remote**: [CodingWithDodamani/SnapPDF](https://github.com/CodingWithDodamani/SnapPDF.git)
+- **Remote**: [CodingWithDodamani/ilike2PDF](https://github.com/CodingWithDodamani/ilike2PDF)
 
 ## Last Updated
-June 2026
+July 2026
