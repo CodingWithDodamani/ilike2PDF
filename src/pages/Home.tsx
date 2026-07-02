@@ -136,11 +136,14 @@ export default function Home() {
 
       {/* ============ CATEGORIES ============ */}
       <section id="tools" className="section py-10 sm:py-14">
-        <SectionHeading eyebrow="Browse by category" title="Find the right tool, fast" subtitle="Four focused toolkits covering every everyday document task." />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-          {(['pdf', 'image', 'qr', 'utility'] as const).map((cat, i) => {
+        <SectionHeading eyebrow="Browse by category" title="Find the right tool, fast" subtitle="Five focused toolkits covering every everyday document task." />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 mt-8">
+          {(['pdf', 'image', 'qr', 'dev', 'utility'] as const).map((cat, i) => {
             const meta = CATEGORY_META[cat]
-            const count = toolsByCategory(cat).length
+            const catTools = toolsByCategory(cat)
+            const count = catTools.length
+            const liveCount = catTools.filter(t => t.popular).length
+            const newCount = catTools.filter(t => t.isNew).length
             return (
               <motion.div key={cat} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
                 <Link to={`/category/${cat}`} className="group card card-hover p-5 block relative overflow-hidden h-full">
@@ -151,9 +154,11 @@ export default function Home() {
                   </span>
                   <h3 className="font-display font-bold text-sm mt-3">{meta.label}</h3>
                   <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 leading-relaxed">{meta.description}</p>
-                  <p className="text-xs font-semibold text-brand-500 mt-3 inline-flex items-center gap-1.5">
-                    {count} tools <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                  </p>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-3 text-xs font-semibold">
+                    <span className="text-brand-500 inline-flex items-center gap-1">{count} tools <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" /></span>
+                    {liveCount > 0 && <span className="text-gold-500">{liveCount} Live</span>}
+                    {newCount > 0 && <span className="text-emerald-500">{newCount} New</span>}
+                  </div>
                 </Link>
               </motion.div>
             )
@@ -224,7 +229,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-5 mt-8 relative">
           <div aria-hidden className="hidden md:block absolute top-10 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-brand-400/40 to-transparent" />
           {[
-            { n: '01', icon: MousePointerClick, t: 'Pick a tool', d: 'Choose from 94 tools or press Ctrl+K to search instantly.' },
+            { n: '01', icon: MousePointerClick, t: 'Pick a tool', d: 'Choose from 100+ tools or press Ctrl+K to search instantly.' },
             { n: '02', icon: UploadCloud, t: 'Drop your file', d: 'Drag & drop — your file is read locally, never uploaded.' },
             { n: '03', icon: Check, t: 'Download result', d: 'Process and download in seconds. Done, privately.' },
           ].map((s, i) => (

@@ -95,6 +95,12 @@ export const TOOL_COMPONENTS: Record<string, ToolComp> = {
   'image-compress-batch': lazy(() => import('./image/ImageCompressBatch')),
   'background-remover': lazy(() => import('./image/BackgroundRemover')),
   'image-upscaler': lazy(() => import('./image/ImageUpscaler')),
+  'reduce-image-size': lazy(() => import('./image/ReduceImageSize')),
+  'signature-maker': lazy(() => import('./image/SignatureMaker')),
+  'increase-image-size': lazy(() => import('./image/IncreaseImageSize')),
+  'social-media-resizer': lazy(() => import('./image/SocialMediaResizer')),
+  'face-blur': lazy(() => import('./image/FaceBlur')),
+  'resize-to-specific': lazy(() => import('./image/ResizeToSpecific')),
   // Phase 3 - PDF
   'pdf-crop': lazy(() => import('./pdf/PdfCrop')),
   'pdf-bookmarks': lazy(() => import('./pdf/PdfBookmarks')),

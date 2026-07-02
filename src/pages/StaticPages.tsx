@@ -16,7 +16,7 @@ type PageKey =
 const HOSTNAME = 'https://ilike2pdf.pages.dev'
 
 const TITLES: Record<PageKey, { title: string; sub: string; description: string; icon: typeof Shield }> = {
-  about: { title: 'About iLike2PDF', sub: 'A free, private, browser-first document toolkit.', description: 'Learn about iLike2PDF — a free, private, browser-first document toolkit with 94 tools that run entirely in your browser. No uploads, no tracking, works offline.', icon: Shield },
+  about: { title: 'About iLike2PDF', sub: 'A free, private, browser-first document toolkit.', description: 'Learn about iLike2PDF — a free, private, browser-first document toolkit with 100+ tools that run entirely in your browser. No uploads, no tracking, works offline.', icon: Shield },
   privacy: { title: 'Privacy Policy', sub: 'How iLike2PDF handles (and doesn’t handle) your data.', description: 'iLike2PDF privacy policy — we collect no data, no files are uploaded, no tracking. Your files never leave your device.', icon: Lock },
   terms: { title: 'Terms of Use', sub: 'The simple rules for using iLike2PDF.', description: 'Terms of use for iLike2PDF — free, open-source document tools provided as-is without warranty.', icon: FileText },
   contact: { title: 'Contact', sub: 'Questions, feedback or bug reports — reach out.', description: 'Contact the iLike2PDF team — report bugs, request features, or ask questions via GitHub or email.', icon: Mail },
@@ -272,7 +272,7 @@ function About() {
             <div className="pl-4">
               <p className="text-ink-600 dark:text-ink-300 leading-relaxed text-base">
                 I'm the creator of <span className="font-semibold text-brand-500">iLike2PDF</span> — a privacy-first
-                document toolkit with <span className="font-semibold">94 tools</span> that run entirely in the browser.
+                document toolkit with <span className="font-semibold">100+ tools</span> that run entirely in the browser.
                 I believe in <span className="font-semibold text-accent-500">building in public</span>,
                 <span className="font-semibold text-accent-500"> shipping fast</span>, and
                 <span className="font-semibold text-accent-500"> open-source everything</span>.
@@ -716,7 +716,7 @@ const RELEASES: { v: string; date: string; tag: string; items: string[] }[] = [
   {
     v: '1.0.0', date: 'June 2026', tag: 'Launch',
     items: [
-      '94 tools across PDF, Image, QR and Utility categories.',
+      '100+ tools across PDF, Image, QR, Developer and Utility categories.',
       'Installable PWA with full offline support.',
       'Command Palette (Ctrl K) with fuzzy search.',
       'Smart File Router that suggests the best tool for a dropped file.',
@@ -904,6 +904,7 @@ function Licenses() {
         </button>
       </div>
       <div className="card overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="bg-ink-50 dark:bg-ink-900 text-left">
             <tr>
@@ -922,6 +923,7 @@ function Licenses() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
       <p className="text-sm text-ink-500 mt-4 flex items-center gap-2">
         <Heart className="h-4 w-4 text-rose-500" /> Made with open source.

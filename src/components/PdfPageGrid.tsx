@@ -70,7 +70,7 @@ export function PdfPageGrid({ data, pageCount, selected, onToggle, rotations, on
             <span className="absolute bottom-1 left-1 text-[11px] font-bold px-1.5 py-0.5 rounded bg-ink-900/70 text-white">{i + 1}</span>
             {isSel && <span className="absolute top-1 right-1 grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-white"><Check className="h-3 w-3" /></span>}
             {onRotate && (
-              <button onClick={() => onRotate(i)} className="absolute top-1.5 left-1.5 grid h-10 w-10 place-items-center rounded-full bg-ink-900/70 text-white sm:invisible sm:group-hover:visible transition focus-ring" aria-label={`Rotate page ${i + 1}`}>
+              <button onClick={() => onRotate(i)} className="absolute top-1.5 left-1.5 grid h-11 w-11 place-items-center rounded-full bg-ink-900/70 text-white sm:invisible sm:group-hover:visible transition focus-ring" aria-label={`Rotate page ${i + 1}`}>
                 <RotateCw className="h-4 w-4" />
               </button>
             )}

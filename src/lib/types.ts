@@ -1,6 +1,6 @@
 import type { IconType } from 'react-icons'
 
-export type ToolCategory = 'pdf' | 'image' | 'qr' | 'utility'
+export type ToolCategory = 'pdf' | 'image' | 'qr' | 'utility' | 'dev'
 
 export interface ToolDef {
   id: string
@@ -9,10 +9,12 @@ export interface ToolDef {
   short: string
   description: string
   category: ToolCategory
+  sub?: string
   icon: IconType
   accept?: string[] // file extensions / mime hints
   multiple?: boolean
   popular?: boolean
+  isNew?: boolean
   keywords?: string[]
 }
 

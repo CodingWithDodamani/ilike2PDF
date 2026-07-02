@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Command, Sun, Moon, Monitor, Menu, X, Home, FileText, Image as ImageIcon,
-  QrCode, Wrench, Shield, WifiOff, User,
+  QrCode, Wrench, Terminal, Shield, WifiOff, User,
 } from 'lucide-react'
 import { CommandPalette } from './CommandPalette'
 import { getTheme, setTheme, type ThemeMode } from '@/lib/storage'
@@ -15,6 +15,7 @@ const NAV = [
   { to: '/category/pdf', label: 'PDF', icon: FileText },
   { to: '/category/image', label: 'Image', icon: ImageIcon },
   { to: '/category/qr', label: 'QR', icon: QrCode },
+  { to: '/category/dev', label: 'Dev', icon: Terminal },
   { to: '/category/utility', label: 'Tools', icon: Wrench },
   { to: '/about', label: 'About', icon: User },
 ]
@@ -138,10 +139,10 @@ export function Layout() {
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 glass-strong border-t border-ink-200/60 dark:border-white/10 pb-[env(safe-area-inset-bottom)]" aria-label="Mobile navigation">
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-6">
           {NAV.filter((n) => n.to !== '/about').map((n) => (
             <NavLink key={n.to} to={n.to} end={n.end}
-              className={({ isActive }) => cn('flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition focus-ring rounded-lg', isActive ? 'text-brand-500' : 'text-ink-500 dark:text-ink-400')}>
+              className={({ isActive }) => cn('flex flex-col items-center gap-0.5 py-3 text-xs font-medium transition focus-ring rounded-lg min-h-[44px] justify-center', isActive ? 'text-brand-500' : 'text-ink-500 dark:text-ink-400')}>
               {({ isActive }) => (<><n.icon className={cn('h-5 w-5', isActive && 'scale-110')} />{n.label}</>)}
             </NavLink>
           ))}
@@ -172,9 +173,9 @@ function Footer() {
               <img src="/ilike2pdf-logo.png" className="h-10 w-10 rounded-xl object-contain shadow" alt="iLike2PDF Logo" />
               iLike<span className="gradient-text">2PDF</span>
             </Link>
-            <p className="text-sm text-ink-500 dark:text-ink-400 mt-4 max-w-xs leading-relaxed">
-              94 free document tools that run entirely in your browser. Zero uploads. Zero tracking. Works offline.
-            </p>
+              <p className="text-sm text-ink-500 dark:text-ink-400 mt-4 max-w-xs leading-relaxed">
+               Free document tools that run entirely in your browser. Zero uploads. Zero tracking. Works offline.
+              </p>
             <div className="flex items-center gap-2 mt-5">
               <span className="badge"><Shield className="h-3 w-3" /> 100% private</span>
               <span className="badge"><WifiOff className="h-3 w-3" /> Installable</span>

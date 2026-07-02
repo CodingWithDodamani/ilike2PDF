@@ -23,7 +23,7 @@ export function ToolShell({ tool, children }: { tool: ToolDef; children: React.R
           </div>
           <h1 className="font-display text-lg sm:text-xl font-extrabold tracking-tight">{tool.name}</h1>
         </div>
-        <div className="hidden sm:inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 rounded-full px-2.5 py-0.5 shrink-0">
+        <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 rounded-full px-2 py-0.5 shrink-0">
           <Shield className="h-3 w-3" /> 100% Private
         </div>
       </div>

@@ -25,7 +25,8 @@ export function ToolCard({ tool, index = 0 }: { tool: ToolDef; index?: number })
         </div>
         <h3 className="font-display font-bold text-sm text-ink-900 dark:text-ink-50 flex items-center gap-2">
           {tool.name}
-          {tool.popular && <span className="badge-gold">Hot</span>}
+          {tool.isNew && <span className="badge-green animate-pulse">New</span>}
+          {tool.popular && <span className="badge-gold">Live</span>}
         </h3>
         <p className="text-xs text-ink-500 dark:text-ink-400 mt-1 flex-1 leading-relaxed">{tool.short}</p>
         <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-500" aria-hidden="true">

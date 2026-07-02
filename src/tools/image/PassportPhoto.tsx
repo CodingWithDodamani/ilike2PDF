@@ -6,13 +6,18 @@ import { useToast } from '@/components/Toaster'
 import { fileToImage, canvasToBlob, downloadBlob, baseName } from '@/lib/utils'
 import { trackUsage } from '@/lib/storage'
 
-type Preset = 'passport' | 'visa' | 'aadhaar' | 'pan'
+type Preset = 'passport' | 'visa' | 'aadhaar' | 'pan' | 'canada' | 'indian-passport' | 'indian-passport-child' | 'indian-voter-id' | 'indian-driving-license'
 // width, height in mm, DPI 300
 const PRESETS: Record<Preset, { label: string; w: number; h: number; note: string }> = {
   passport: { label: 'Passport (35×45mm)', w: 35, h: 45, note: 'Head 32-36mm, neutral expression, plain light background.' },
   visa: { label: 'US Visa (51×51mm)', w: 51, h: 51, note: 'Head 25-35mm (50-69%), white background.' },
   aadhaar: { label: 'Aadhaar (35×45mm)', w: 35, h: 45, note: 'Front-facing, light background.' },
   pan: { label: 'PAN (25×35mm)', w: 25, h: 35, note: 'Clear front-facing photo.' },
+  canada: { label: 'Canada (50×70mm)', w: 50, h: 70, note: 'Front-facing, white or light grey background, taken within last 6 months.' },
+  'indian-passport': { label: 'Indian Passport (35×45mm)', w: 35, h: 45, note: 'Head 31-36mm from chin to crown, ears visible, white background, neutral expression, no glasses.' },
+  'indian-passport-child': { label: 'Indian Passport – Child (35×45mm)', w: 35, h: 45, note: 'Child must be alone, no parent in frame, eyes open, mouth closed, white background.' },
+  'indian-voter-id': { label: 'Indian Voter ID (35×45mm)', w: 35, h: 45, note: 'Front-facing, plain white background, recent photo, full face visible.' },
+  'indian-driving-license': { label: 'Indian Driving License (35×45mm)', w: 35, h: 45, note: 'Front-facing, white background, clear face, no sunglasses.' },
 }
 const DPI = 300
 const mmToPx = (mm: number) => Math.round((mm / 25.4) * DPI)
