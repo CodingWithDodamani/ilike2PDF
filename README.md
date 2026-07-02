@@ -1,7 +1,7 @@
-# SnapPDF — Private, Browser-First Document Tools
+# iLike2PDF — Private, Browser-First Document Tools
 
 ## Project Overview
-- **Name**: SnapPDF
+- **Name**: iLike2PDF
 - **Goal**: A free, enterprise-grade document utility platform that performs **100% of its work in the browser** — zero uploads, zero tracking, zero accounts. A privacy-first alternative to iLovePDF / SmallPDF / PDF24.
 - **Core principles**: Client-side processing · Offline-first · Installable PWA · WCAG 2.2 AA accessibility · Mobile-first · Open source.
 
@@ -50,7 +50,7 @@ All processing routes accept input via drag-and-drop or file picker. No query pa
 
 ## Data Architecture
 - **Data models**: `ToolDef` (tool registry), `HistoryEntry` (per-action record), `AnalyticsState` (`filesProcessed`, `bytesSaved`, `bytesProcessed`, `toolUsage`, `daily`).
-- **Storage services**: **Browser `localStorage` only** — keys `snappdf.history`, `snappdf.analytics`, `snappdf.recentTools`, `snappdf.colorHistory`, `ilike2pdf.theme`. No server, no database, no cloud storage.
+- **Storage services**: **Browser `localStorage` only** — keys `ilike2pdf.history`, `ilike2pdf.analytics`, `ilike2pdf.recentTools`, `ilike2pdf.colorHistory`, `ilike2pdf.theme`. No server, no database, no cloud storage.
 - **Data flow**: File → read in-memory (FileReader / ArrayBuffer) → processed via WASM/JS libraries → result downloaded via Blob URL. Usage metadata (not file contents) is recorded to localStorage via `trackUsage()`.
 
 ## User Guide
@@ -86,7 +86,7 @@ npm run format         # Prettier format
 - No multi-language UI (English only at launch).
 
 ## Branding & Identity
-SnapPDF utilizes a custom-designed **Flat Minimalist Aperture** brand logo. The icon represents a PDF document sheet integrated with a camera lens aperture to highlight the "instant snap" capability of client-side offline processing. 
+iLike2PDF utilizes a custom-designed **Flat Minimalist Aperture** brand logo. The icon represents a PDF document sheet integrated with a camera lens aperture to highlight the "instant snap" capability of client-side offline processing. 
 
 Brand assets are generated programmatically using:
 ```bash
